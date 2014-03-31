@@ -1,7 +1,5 @@
 package solution;
 
-import java.util.Random;
-
 /**
  * Sort a linked list in O(n log n) time using constant space complexity.
  * 
@@ -35,7 +33,7 @@ public class SortList {
              * delete to accept
              */
             System.out.println("After interval " + interval + ":");
-            show(fakeHead.next);
+            LinkedList.show(fakeHead.next);
         }
         return fakeHead.next;
     }
@@ -85,35 +83,10 @@ public class SortList {
         }
     }
     
-    public ListNode createList(int n) {
-        ListNode fakeHead = new ListNode(-1);
-        ListNode walker = fakeHead;
-        Random rand = new Random();
-        for (int i = 0; i < n; i++) {
-            walker.next = new ListNode(rand.nextInt(n * n));
-            walker = walker.next;
-        }
-        ListNode head = fakeHead.next;
-        fakeHead = null;
-        return head;
-    }
-
-    public void show(ListNode head) {
-        ListNode walker = head;
-        while (walker != null) {
-            System.out.print(walker.val);
-            if (walker.next != null)
-                System.out.print("->");
-            walker = walker.next;
-        }
-        System.out.println();
-    }
-    
     public static void main(String[] args) {
-        SortList solution = new SortList();
-        ListNode fakeHead = solution.createList(10);
-        solution.show(fakeHead);
-        fakeHead = solution.sortList(fakeHead);
-        solution.show(fakeHead);
+        ListNode head = LinkedList.createRandomValueList(10);
+        LinkedList.show(head);
+        head = new SortList().sortList(head);
+        LinkedList.show(head);
     }
 }
