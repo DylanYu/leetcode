@@ -21,10 +21,17 @@ public class LinkedList {
      * Create a linked list which starts from 0 ends with n with step 1.
      */
     public static ListNode createIncreasingList(int n) {
+        return createIncreasingList(0, n, 1);
+    }
+    
+    /**
+     * Create a linked list with start and steps.
+     */
+    public static ListNode createIncreasingList(int start, int n, int step) {
         ListNode fakeHead = new ListNode(-1);
         ListNode walker = fakeHead;
         for (int i = 0; i < n; i++) {
-            walker.next = new ListNode(i);
+            walker.next = new ListNode(start + i * step);
             walker = walker.next;
         }
         ListNode head = fakeHead.next;
