@@ -4,6 +4,18 @@ import java.util.Random;
 
 public class LinkedList {
     
+    public static ListNode createCertainList(int[] list) {
+        ListNode dummyNode = new ListNode(-1);
+        ListNode walker = dummyNode;
+        for (int i = 0; i < list.length; i++) {
+            walker.next = new ListNode(list[i]);
+            walker = walker.next;
+        }
+        ListNode head = dummyNode.next;
+        dummyNode = null;
+        return head;
+    }
+    
     public static ListNode createRandomValueList(int n) {
         ListNode dummyNode = new ListNode(-1);
         ListNode walker = dummyNode;
