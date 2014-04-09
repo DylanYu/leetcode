@@ -8,7 +8,7 @@ public class BinaryTree {
         root.left.left = new TreeNode(4);
         root.left.right = new TreeNode(9);
         root.right.left = new TreeNode(11);
-//        root.right.right = new TreeNode(18);
+        root.right.right = new TreeNode(18);
         return root;
     }
 }
