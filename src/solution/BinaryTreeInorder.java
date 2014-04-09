@@ -7,6 +7,8 @@ import java.util.Stack;
  * Binary Tree Inorder Traversal
  * 
  * A non-recursive solution.
+ * <p>Reference: http://leetcode.com/2010/04/binary-search-tree
+ * -in-order-traversal.html
  * 
  * @author Dongliang Yu
  *
