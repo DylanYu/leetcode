@@ -17,17 +17,18 @@ public class BinaryTreePreorder {
         if (root == null)
             return queue;
         Stack<TreeNode> stack = new Stack<TreeNode>();
-        stack.add(root);
-        TreeNode node = null;
-        while (!stack.isEmpty() ||
-                node != null) { // ensure last no sibling left node
-            if (node == null)                      
+        TreeNode node = root;
+        do {
+            if (node != null) {                      
+                queue.add(node.val);
+                if (node.right != null)
+                    stack.push(node.right);
+                node = node.left;
+            } else {
                 node = stack.pop();
-            queue.add(node.val);
-            if (node.right != null)
-                stack.push(node.right);
-            node = node.left;
-        }
+            }
+        } while (!stack.isEmpty() ||
+                node != null); // avoid early stop
         return queue;
     }
     
