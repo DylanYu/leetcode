@@ -3,6 +3,20 @@ package solution;
 import java.util.ArrayList;
 import java.util.Stack;
 
+/**
+ * Binary Tree Postorder Traversal
+ * <p>
+ * 3 non-recursive solutions including:
+ * <ol>
+ * <li>Most straight forward way with one stack
+ * <li>Magic solution with two stacks
+ * <li>Use a counter for each node
+ * </ol>
+ * <p>Reference: http://leetcode.com/2010/10/binary-tree-post-order-traversal.html
+ * 
+ * @author Dongliang Yu
+ *
+ */
 public class BinaryTreePostorder {
     public static ArrayList<Integer> postorderTraversal(TreeNode root) {
         ArrayList<Integer> queue = new ArrayList<Integer>();
@@ -40,6 +54,29 @@ public class BinaryTreePostorder {
         return queue;
     }
     
+    
+    /* Magic solution with two stacks */
+    public static ArrayList<Integer> postorderTraversalWithTwoStacks(TreeNode root) {
+        ArrayList<Integer> queue = new ArrayList<Integer>();
+        if (root == null)
+            return queue;
+        Stack<TreeNode> s = new Stack<TreeNode>();
+        Stack<Integer> output = new Stack<Integer>();
+        s.push(root);
+        while (!s.empty()) {
+            TreeNode from1 = s.pop();
+            output.push(from1.val);
+            if (from1.left != null)
+                s.push(from1.left);
+            if (from1.right != null)
+                s.push(from1.right);
+        }
+        while (!output.empty())
+            queue.add(output.pop());
+        return queue;
+    }
+    
+
     /* The version below requires a counter in each node, which is 
      * less recommended 
      */
@@ -100,7 +137,8 @@ public class BinaryTreePostorder {
     public static void main(String[] args) {
         TreeNode root = BinaryTree.createTree();
         ArrayList<Integer> queue = postorderTraversal(root);
-        // ArrayList<Integer> queue = postorderTraversalWithCounter(root);
+        //ArrayList<Integer> queue = postorderTraversalWithTwoStacks(root);
+        //ArrayList<Integer> queue = postorderTraversalWithCounter(root);
         for (Integer e : queue)
             System.out.println(e);
     }
