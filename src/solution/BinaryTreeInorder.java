@@ -19,21 +19,18 @@ public class BinaryTreeInorder {
         if (root == null)
             return queue;
         Stack<TreeNode> stack = new Stack<TreeNode>();
-        stack.push(root);
         TreeNode node = root;
-        while (!stack.isEmpty()) {
-            if (node.left != null) {
-                stack.push(node.left);
+        do {
+            if (node != null) {
+                stack.push(node);
                 node = node.left;
             } else {
                 node = stack.pop();
                 queue.add(node.val);
-                if (node.right != null) {
-                    stack.push(node.right);
-                    node = node.right;
-                }
+                node = node.right;
             }
-        }
+        } while (!stack.isEmpty() || 
+                node != null); // avoid early stop
         return queue;
     }
     
