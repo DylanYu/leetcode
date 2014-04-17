@@ -3,6 +3,17 @@ package solution;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Given a collection of numbers that might contain duplicates, return all possible unique 
+ * permutations.
+ * <p>
+ * <p>For example,
+ * <p>[1,1,2] have the following unique permutations:
+ * <p>[1,1,2], [1,2,1], and [2,1,1].
+ * 
+ * @author Dongliang Yu
+ *
+ */
 public class PermutationsII {
     public static ArrayList<ArrayList<Integer>> permuteUnique(int[] num) {
         int length = num.length;
