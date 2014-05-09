@@ -26,14 +26,14 @@ public class Atoi {
             char c = a[i];
             if (c >= '0' && c <= '9') {
                 int digit = c - '0';
-                long carried = (long) num * 10; // overflow is possible here
-                long diff = Integer.MAX_VALUE - carried;
+                long shifted = (long) num * 10; // overflow is possible here
+                long diff = Integer.MAX_VALUE - shifted;
                 if (positive) {
                     if (diff <= digit) return Integer.MAX_VALUE;
                 } else {
                     if (diff <= digit - 1) return Integer.MIN_VALUE;
                 }
-                num = (int) carried + digit; // carried is not overflowed thanks for previous check
+                num = (int) shifted + digit; // shifted is not overflowed thanks for previous check
             } else
                 break;
             i++;
