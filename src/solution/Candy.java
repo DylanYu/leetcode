@@ -17,6 +17,41 @@ import java.util.ArrayList;
  * 
  */
 public class Candy {
+    public static int candy(int[] ratings) {
+        int len = ratings.length;
+        int number = 1;
+        int i = 1;
+        int lastTop = 1;
+        while (i < len) {
+            if (ratings[i] > ratings[i-1]) {
+                int top = 1;
+                while (i < len && ratings[i] > ratings[i-1]) {
+                    top++;
+                    i++;
+                }
+                number -= 1; // delete start node's rating, which is always 1
+                number += top * (top + 1) / 2;
+                lastTop = top;
+            } else if (ratings[i] < ratings[i-1]) {
+                int top = 1;
+                while (i < len && ratings[i] < ratings[i-1]) {
+                    top++;
+                    i++;
+                }
+                if (top > lastTop)  number -= lastTop;
+                else                top--;
+                number += top * (top + 1) / 2;
+                lastTop = top;
+            } else if (ratings[i] == ratings[i-1]) {
+                number += 1;
+                i++;
+                lastTop = 1;
+            }
+        }
+        return number;
+    }
+    
+    /*****************************************************/
     static class Node {
         int rating;
         int candy;
@@ -35,7 +70,7 @@ public class Candy {
         }
     }
 
-    public static int candy(int[] ratings) {
+    public static int candyWithNode(int[] ratings) {
         Node dummyhd = new Node(Integer.MAX_VALUE);
         Node walker = dummyhd;
         for (int e : ratings) {
@@ -96,7 +131,8 @@ public class Candy {
         return number;
     }
 
-    public static int candy_bf(int[] ratings) {
+    /*****************************************************/
+    public static int candyBF(int[] ratings) {
         int len = ratings.length;
         int[] candy = new int[len];
         for (int i = 0; i < len; i++)
@@ -124,6 +160,7 @@ public class Candy {
     public static void main(String[] args) {
         int[] ratings = { 0, 1, 1, 1, 5, 4, 4, 4, 3, 2, 1, 7, 2, 3, 6, 6, 6, 7 };
         System.out.println(candy(ratings));
-        System.out.println(candy_bf(ratings));
+        System.out.println(candyWithNode(ratings));
+        System.out.println(candyBF(ratings));
     }
 }
