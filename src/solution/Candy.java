@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * What is the minimum candies you must give?
  * 
  * @author Dongliang Yu
- *
+ * 
  */
 public class Candy {
     static class Node {
@@ -24,6 +24,7 @@ public class Candy {
         int l; // -1, 0, 1 : less, equal, greater
         Node right;
         int r; // -1, 0, 1 : less, equal, greater
+
         public Node(int r) {
             rating = r;
             candy = 1;
@@ -33,7 +34,7 @@ public class Candy {
             r = -1;
         }
     }
-    
+
     public static int candy(int[] ratings) {
         Node dummyhd = new Node(Integer.MAX_VALUE);
         Node walker = dummyhd;
@@ -57,37 +58,36 @@ public class Candy {
         ArrayList<Node> valleys = new ArrayList<Node>();
         walker = dummyhd.right;
         while (walker != null) {
-            if (walker.l == -1 && walker.r == -1 ||
-                    walker.l == 0 && walker.r == -1)
-                // TODO
+            if (walker.l == -1 && walker.r == -1 ||    // 90°
+                    walker.l == 0 && walker.r == -1 || // 135°
+                    walker.l == -1 && walker.r == 0)   // 135°
                 valleys.add(walker);
             walker = walker.right;
         }
         // for each valley, scan its left and right part
+        Node head = dummyhd.right;
+        head.left = null; // delete dummy head
+        dummyhd = null;
         for (Node v : valleys) {
             walker = v.left;
-            while (walker != dummyhd) {
-                // TODO
+            while (walker != null) {
                 if (walker.r == 1)
                     walker.candy = Math.max(walker.candy, walker.right.candy + 1);
-                else if (walker.r == 0)
-                    walker.candy = walker.right.candy;
-                else // break at turn down point
-                    break;
+                else
+                    break; // stop at turn point (less or equal)
                 walker = walker.left;
             }
             walker = v.right;
             while (walker != null) {
-                // TODO
                 if (walker.l == 1)
-                    walker.candy = Math.max(walker.candy, walker.left.candy + 1);
-                else // break at turn point and equal case (no need to deal with equal cases twice)
-                    break;
+                    walker.candy = walker.left.candy + 1; // not possible to lower the value
+                else
+                    break; // stop at turn point (less or equal)
                 walker = walker.right;
             }
         }
         // collect result
-        walker = dummyhd.right;
+        walker = head;
         int number = 0;
         while (walker != null) {
             number += walker.candy;
@@ -95,9 +95,35 @@ public class Candy {
         }
         return number;
     }
-    
+
+    public static int candy_bf(int[] ratings) {
+        int len = ratings.length;
+        int[] candy = new int[len];
+        for (int i = 0; i < len; i++)
+            candy[i] = 1;
+        boolean change = true;
+        while (change) {
+            change = false;
+            for (int i = 0; i < len; i++) {
+                if (i - 1 >= 0 && ratings[i - 1] < ratings[i] && candy[i - 1] >= candy[i]) {
+                    candy[i] = candy[i - 1] + 1;
+                    change = true;
+                }
+                if (i + 1 < len && ratings[i + 1] < ratings[i] && candy[i + 1] >= candy[i]) {
+                    candy[i] = candy[i + 1] + 1;
+                    change = true;
+                }
+            }
+        }
+        int number = 0;
+        for (int e : candy)
+            number += e;
+        return number;
+    }
+
     public static void main(String[] args) {
-        int[] ratings = {1, 5, 4, 3, 7, 2, 6};
+        int[] ratings = { 0, 1, 1, 1, 5, 4, 4, 4, 3, 2, 1, 7, 2, 3, 6, 6, 6, 7 };
         System.out.println(candy(ratings));
+        System.out.println(candy_bf(ratings));
     }
 }
