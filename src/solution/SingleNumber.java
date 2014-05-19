@@ -24,7 +24,7 @@ public class SingleNumber {
         return single;
     }
     
-    public static int singleNumberWithExtraSpace(int[] A) {
+    public static int singleNumberUseExtraSpace(int[] A) {
         HashSet<Integer> set = new HashSet<Integer>();
         for (int e : A) {
             if (set.contains(e)) set.remove(e);
