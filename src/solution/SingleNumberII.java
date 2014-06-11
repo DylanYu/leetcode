@@ -10,6 +10,8 @@ import java.util.Set;
  * <p>
  * Your algorithm should have a linear runtime complexity. Could you implement it 
  * without using extra memory?
+ * <p>
+ * Reference: http://oj.leetcode.com/discuss/857/constant-space-solution
  * 
  * @author Dongliang Yu
  *
