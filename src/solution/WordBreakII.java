@@ -14,6 +14,8 @@ import java.util.Set;
  *
  * A solution is ["cats and dog", "cat sand dog"].
  * 
+ * TODO: Use DP
+ * 
  * @author Dongliang Yu
  *
  */
