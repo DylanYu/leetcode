@@ -15,6 +15,31 @@ import java.util.Arrays;
  *
  */
 public class PermutationsII {
+    /*
+     * This solution does not depend on NextPermutation, but use a direct recursive way.
+    public List<List<Integer>> permuteUnique(int[] num) {
+        ArrayList<List<Integer>> result = new ArrayList<List<Integer>>();
+        ArrayList<Integer> cur = new ArrayList<Integer>();
+        ArrayList<Integer> left = new ArrayList<Integer>();
+        Arrays.sort(num);
+        for (int e : num) left.add(e);
+        generate(cur, left, result);
+        return result;
+    }
+    
+    private void generate(ArrayList<Integer> cur, ArrayList<Integer> left, ArrayList<List<Integer>> result) {
+        if (left.size() == 0) result.add(cur);
+        for (int i = 0; i < left.size(); i++) {
+            if (i > 0 && left.get(i) == left.get(i-1)) continue;
+            ArrayList<Integer> curCopy = (ArrayList<Integer>) cur.clone();
+            ArrayList<Integer> leftCopy = (ArrayList<Integer>) left.clone();
+            int e = leftCopy.get(i);
+            curCopy.add(e);
+            leftCopy.remove(i);
+            generate(curCopy, leftCopy, result);
+        }
+    }
+    */
     public static ArrayList<ArrayList<Integer>> permuteUnique(int[] num) {
         int length = num.length;
         ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
