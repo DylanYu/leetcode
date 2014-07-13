@@ -1,7 +1,6 @@
 package solution;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Permutations {
     /*
@@ -16,14 +15,17 @@ public class Permutations {
     }
     
     private void generate(ArrayList<Integer> cur, ArrayList<Integer> left, ArrayList<List<Integer>> result) {
-        if (left.size() == 0) result.add(cur);
+        if (left.size() == 0) {
+            result.add(cur);
+            return;
+        }
         for (int i = 0; i < left.size(); i++) {
             ArrayList<Integer> curCopy = (ArrayList<Integer>) cur.clone();
-            ArrayList<Integer> leftCopy = (ArrayList<Integer>) left.clone();
-            int e = leftCopy.get(i);
+            int e = left.get(i);
             curCopy.add(e);
-            leftCopy.remove(i);
-            generate(curCopy, leftCopy, result);
+            left.remove(i);
+            generate(curCopy, left, result);
+            left.add(i, e); // add back to left, so we do not need to copy it.
         }
     }
     */
