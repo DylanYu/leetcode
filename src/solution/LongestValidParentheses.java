@@ -1,124 +1,77 @@
 package solution;
 
-import java.util.Iterator;
 import java.util.Stack;
 
 public class LongestValidParentheses {
     public static int longestValidParentheses(String s) {
         Stack<Integer> stack = new Stack<Integer>();
-        int len = s.length();
-        int i = 0;
-        stack.push(0);
-        stack.push(0);
-        while (i < len) {
-            int c = s.charAt(i);
-            int b = stack.pop();
-            int a;
-            if (stack.empty()) a = 0;
-            else a = stack.pop();
-            if (isN(b)) { // number
-                if (isC(a)) {
-                    if (match(a, c)) {
-                        b += -2;
-                        if (!stack.empty() && isN(stack.peek()))
-                            stack.push(b + stack.pop());
-                        else
-                            stack.push(b);
-                    } else {
-                       stack.push(a);
-                       stack.push(b);
-                       stack.push(c);
-                    }
+        // use negative value to store '(' and ')', we will use 
+        // positive value to store length of valid parentheses 
+        for (int i = 0; i < s.length(); i++)
+            add(stack, -s.charAt(i));
+        int maxLen = 0;
+        while (!stack.empty()) {
+            int a = stack.pop();
+            if (a > maxLen) maxLen = a;
+        }
+        return maxLen;
+    }
+    
+    private static void add(Stack<Integer> stack, int now) {
+        if (stack.empty()) {
+            stack.push(now);
+        } else if (isParenthese(now)) {
+            int last = stack.peek();
+            if (isParenthese(last)) { // [stack, char, char]
+                if (match(last, now)) {
+                    stack.pop();
+                    add(stack, 2);
                 } else {
-                    if (a != 0) stack.push(a);
-                    stack.push(b);
-                    stack.push(c);
+                    stack.push(now);
                 }
-            } else {
-                if (match(b, c)) {
-                    if (isC(a)) {
-                        stack.push(a);
-                        stack.push(-2);
-                    } else {
-                        a += -2;
-                        if (!stack.empty() && isN(stack.peek()))
-                            stack.push(a + stack.pop());
-                        else
-                            stack.push(a);
-                    }
+            } else { // [stack, number, char]
+                stack.pop();
+                if (stack.empty()) { // [number, char]
+                    stack.push(last);
+                    stack.push(now);
                 } else {
-                    stack.push(a);
-                    stack.push(b);
-                    stack.push(c);
+                    int llast = stack.peek();
+                    if (isParenthese(llast)) { // [stack, char, number, char]
+                        if (match(llast, now)) {
+                            stack.pop();
+                            add(stack, 2 + last);
+                        } else {
+                            stack.push(last);
+                            stack.push(now);
+                        }
+                    } else { // [stack, number, number, char]
+                        // Not possible. All the consecutive numbers will be merged before this case happens
+                        //add(stack, llast + last);
+                        //add(stack, now);
+                    }
                 }
             }
-            i++;
+        } else { // now is a number
+            int last = stack.peek();
+            if (!isParenthese(last)) { // [stack, number, number]
+                stack.pop();
+                // no need to use recursion because previous consecutive numbers are already merged
+                //add(stack, last + now);
+                stack.push(last + now);
+            } else { // [stack, char, number]
+                stack.push(now);
+            }
         }
-        show(stack);
-        int maxLen = 0;
-        int a = stack.pop();
-        if (isN(a)) {
-            if (!stack.empty()) {
-                int b = stack.pop();
-                if (isN(b)) {
-                if (isN(a) && isN(b))
-                    stack.push(a+b);
-                else {
-                    if (!stack.empty()) {
-                        int c = stack.pop();
-                        if (match(c, a) && isN(b)) {
-                            b += -2;
-                            stack.push(b);
-                        } else {
-                            stack.push(b);
-                            stack.push(a);
-                        }
-                    } else {
-                        stack.push(b);
-                        stack.push(a);
-                    }
-                }
-                } else {
-                    stack.push(b);
-                    stack.push(a);
-                }
-            } else
-                stack.push(a);
-        } else
-            stack.push(a);
-        show(stack);
-        while (!stack.empty()) {
-            int c = stack.pop();
-            if (isN(c) && c < maxLen)
-                maxLen = c;
-        }
-        return -maxLen;
     }
     
-    private static boolean isN(int c) {
-        return c != '(' && c != ')';
-    }
-    
-    private static boolean isC(int c) {
-        return c == '(' || c == ')';
+    private static boolean isParenthese(int c) {
+        return -c == '(' || -c == ')';
     }
     
     private static boolean match(int a, int b) {
-        return a == '(' && b == ')';
+        return -a == '(' && -b == ')';
     }
-    
-    private static void show(Stack<Integer> s) {
-        Iterator<Integer> it = s.iterator();
-        while (it.hasNext()) {
-            int a = (int) it.next();
-            if (isN(a))
-                System.out.print(a + " ");
-            else
-                System.out.print((char) a + " ");
-        }
-        System.out.println();
-    }
-    
+
     public static void main(String[] args) {
         //String s = "()(())";
         //String s = "(()";
@@ -129,7 +82,8 @@ public class LongestValidParentheses {
         //String s = "()(())";
         //String s = ")(((((()())()()))()(()))(";
         //String s = "))))((()((";
-        String s = "))))())()()(()";
+        //String s = "))))())()()(()";
+        String s = ")(())(()()))(";
         System.out.println(longestValidParentheses(s));
     }
 }
