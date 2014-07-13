@@ -1,8 +1,33 @@
 package solution;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Permutations {
+    /*
+     * This solution does not depend on NextPermutation, but use a direct recursive way.
+    public List<List<Integer>> permute(int[] num) {
+        ArrayList<List<Integer>> result = new ArrayList<List<Integer>>();
+        ArrayList<Integer> cur = new ArrayList<Integer>();
+        ArrayList<Integer> left = new ArrayList<Integer>();
+        for (int e : num) left.add(e);
+        generate(cur, left, result);
+        return result;
+    }
+    
+    private void generate(ArrayList<Integer> cur, ArrayList<Integer> left, ArrayList<List<Integer>> result) {
+        if (left.size() == 0) result.add(cur);
+        for (int i = 0; i < left.size(); i++) {
+            ArrayList<Integer> curCopy = (ArrayList<Integer>) cur.clone();
+            ArrayList<Integer> leftCopy = (ArrayList<Integer>) left.clone();
+            int e = leftCopy.get(i);
+            curCopy.add(e);
+            leftCopy.remove(i);
+            generate(curCopy, leftCopy, result);
+        }
+    }
+    */
+    
     public static ArrayList<ArrayList<Integer>> permute(int[] num) {
         int length = num.length;
         ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
