@@ -1,21 +1,93 @@
 package solution;
 
+import java.util.Stack;
+
 public class WildcardMatching {
     public static boolean isMatch(String s, String p) {
         StringBuffer sb = new StringBuffer(p);
         int len = sb.length();
-        int i = 0;
-        while (i < len) {
-            if (sb.charAt(i) == '*' && i < len-1 && sb.charAt(i+1) == '*') {
+        for (int i = 1; i < len; i++)
+            if (sb.charAt(i) == '*' && sb.charAt(i-1) == '*') {
                 sb.deleteCharAt(i);
                 len--;
             }
-            else
-                i++;
-        }
         return match(s, sb.toString());
     }
     
+    private static boolean noMatch(String s, String p, int i, int j, Stack<Integer> starIndex) {
+        int len1 = s.length();
+        int len2 = p.length();
+        if (i >= len1 || j >= len2) {
+            return true;
+        } else {
+            int len1Left = len1 - i;
+            int len2Left = p.substring(j).replace("*", "").length();
+            if (len1Left < len2Left)
+                return true;
+            char chp =p.charAt(j);
+            if (chp == '*' || chp == '?') {
+                return false;
+            } else {
+                char chs = s.charAt(i);
+                if (chs != chp) return true;
+                else return false;
+            }
+        }
+    }
+
+    private static boolean match(String s, String p) {
+        int len1 = s.length();
+        int len2 = p.length();
+        // tail not match
+        if (len1 > 0 && len2 > 0 && p.charAt(len2-1) != '*') {
+            for (int i = len1-1, j = len2-1; i > 0 && j > 0; i--, j--) {
+                char chs = s.charAt(i);
+                char chp = p.charAt(j);
+                if (chs == chp || chp == '?') continue;
+                else if (chp == '*') break;
+                else return false;
+            }
+        }
+        int i = 0;
+        int j = 0;
+        Stack<Integer> starMatchIndex = new Stack<Integer>();
+        Stack<Integer> starIndex = new Stack<Integer>();
+        while (true) {
+            if (i == len1 && j == len2)
+                return true;
+            boolean noMatch = noMatch(s, p, i, j, starIndex);
+            if (noMatch && starIndex.empty())
+                return false;
+            
+            if (noMatch) {
+                i = starMatchIndex.pop() + 1;
+                j = starIndex.pop();
+                continue;
+            }
+            // else
+            char chs = s.charAt(i);
+            char chp = p.charAt(j);
+            if (chp == '*') {
+                starMatchIndex.push(i);
+                starIndex.push(j);
+                i++;
+                j++;
+                continue;
+            } else if (chs == chp || chp == '?') {
+                i++;
+                j++;
+                continue;
+            } else { // back
+                System.out.println("Not Possible");
+                i = starMatchIndex.pop() + 1;
+                j = starIndex.pop();
+                continue;
+            }
+        }
+    }
+    
+    /*
+     * recursive way, not efficient for large input
     private static boolean match(String s, String p) {
         int lenS = s.length();
         int lenP = p.length();
@@ -55,11 +127,19 @@ public class WildcardMatching {
             return match(s.substring(1), p.substring(1)) 
                     || match(s.substring(1), p);
         }
-    }
+    }*/
 
     public static void main(String[] args) {
-        String s = "abbbaaaaaaaabbbabaaabbabbbaabaabbbbaabaabbabaabbabbaabbbaabaabbabaabaabbbbaabbbaabaaababbbbabaaababbaaa";
-        String p = "ab**b*bb*ab**ab***b*abaa**b*a*aaa**bba*aa*a*abb*a*a";
+        //String s = "";
+        //String p = "";
+        String s = "bbaaababaaabaaaababaabbabababbbaabaababbbaabababbb";
+        String p = "**b*aa*b***aa****b*aaaa*";
+        //String s = "bbbbbbbabbaabbabbbbaaabbabbabaaabbababbbabbbabaaabaab";
+        //String p = "b*b*ab**ba*b**b***bba";
+        //String s = "abbbaaaaaaaabbbabaaabbabbbaabaabbbbaabaabbabaabbabbaabbbaabaabbabaabaabbbbaabbbaabaaababbbbabaaababbaaa";
+        //String p = "ab**b*bb*ab**ab***b*abaa**b*a*aaa**bba*aa*a*abb*a*a";
+        //String s = "abcdeeeeecf";
+        //String p = "a*d?*ef";
         System.out.println(isMatch(s, p));
     }
 }
