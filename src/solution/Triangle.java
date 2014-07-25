@@ -21,6 +21,22 @@ import java.util.List;
  *
  */
 public class Triangle {
+    // DP with bottom-up way
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int len = triangle.get(triangle.size()-1).size();
+        int[] path = new int[len];
+        for (int i = 0; i < len; i++)
+            path[i] = triangle.get(triangle.size()-1).get(i);
+        for (int i = triangle.size()-2; i >= 0; i--) {
+            List<Integer> row = triangle.get(i);
+            for (int j = 0; j < row.size(); j++) {
+                path[j] = Math.min(path[j], path[j+1]) + row.get(j);
+            }
+        }
+        return path[0];
+    }
+    
+    /*
     // This solution uses a top-down way, but the bottom-up way will be more efficient
     // for no ArrayList recreation.
     public int minimumTotal(List<List<Integer>> triangle) {
@@ -55,4 +71,5 @@ public class Triangle {
             if (e < min) min = e;
         return min;
     }
+    */
 }
