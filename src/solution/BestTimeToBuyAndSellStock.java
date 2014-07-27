@@ -10,17 +10,33 @@ package solution;
  *
  */
 public class BestTimeToBuyAndSellStock {
+    // scan from front
     public int maxProfit(int[] prices) {
         int len = prices.length;
         if (len <= 1) return 0;
         int min = Integer.MAX_VALUE;
-        int profit = Integer.MIN_VALUE;
+        int profit = 0; // no need to use Integer.MIN_VALUE because profit >= 0
         for (int i = 0; i < len; i++) {
             min = Math.min(min, prices[i]);
             profit = Math.max(profit, prices[i] - min);
         }
         return profit;
     }
+
+    /* scan from back
+    public int maxProfit(int[] prices) {
+        int len = prices.length;
+        if (len <= 1) return 0;
+        int max = 0;
+        int profit = 0;
+        for (int i = len-1; i >= 0; i--) {
+            if (prices[i] > max) max = prices[i];
+            profit = Math.max(profit, max - prices[i]);
+        }
+        return profit;
+    }
+    */
+    
     /*
     public int maxProfit(int[] prices) {
         if (prices.length <= 1) return 0;
