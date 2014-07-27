@@ -16,6 +16,33 @@ import java.util.List;
  *
  */
 public class BestTimeToBuyAndSellStockIII {
+    // O(N) DP solution
+    public int maxProfit(int[] prices) {
+        int len = prices.length;
+        if (len <= 1) return 0;
+        int[] A = new int[len]; // A[i] - max profit of one transaction during [0,i]
+        int[] B = new int[len]; // B[i] - max profit of one transaction during [i, len-1]
+        A[0] = 0;
+        int min = prices[0];
+        for (int i = 1; i < len; i++) {
+            A[i] = Math.max(A[i-1], prices[i] - min);
+            if (prices[i] < min) min = prices[i];
+        }
+        B[len-1] = 0;
+        int max = prices[len-1];
+        for (int i = len-2; i >= 0; i--) {
+            B[i] = Math.max(B[i+1], max - prices[i]);
+            if (prices[i] > max) max = prices[i];
+        }
+        int maxProfit = 0;
+        for (int i = 0; i < len; i++) {
+            int profit = A[i] + B[i];
+            if (profit > maxProfit) maxProfit = profit;
+        }
+        return maxProfit;
+    }
+    
+    /* O(N^2) solution
     public int maxProfit(int[] prices) {
         int len = prices.length;
         if (len <= 1) return 0;
@@ -49,4 +76,5 @@ public class BestTimeToBuyAndSellStockIII {
         }
         return profit;
     }
+    */
 }
