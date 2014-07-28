@@ -12,13 +12,13 @@ public class ConvertSortedArrayToBST {
         return convert(num, 0, num.length-1);
     }
     
-    // [hi, lo]
-    private TreeNode convert(int[] num, int hi, int lo) {
-        if (hi > lo) return null;
-        int mid = hi + (lo - hi) / 2;
+    // [lo, hi]
+    private TreeNode convert(int[] num, int lo, int hi) {
+        if (lo > hi) return null;
+        int mid = lo + (hi - lo) / 2;
         TreeNode node = new TreeNode(num[mid]);
-        node.left = convert(num, hi, mid-1);
-        node.right = convert(num, mid+1, lo);
+        node.left = convert(num, lo, mid-1);
+        node.right = convert(num, mid+1, hi);
         return node;
     }
 }
