@@ -18,7 +18,8 @@ package solution;
 public class UniqueBinarySearchTrees {
     // recursive DP
     public int numTrees(int n) {
-        int[] T = new int[n]; // use values 0..n-1 (same as 1..n)
+        int[] T = new int[n];   // use values 0..n-1 (same as 1..n)
+                                // T[i] means number of trees derived by keys range [0, i-1]
         return numTreesHelper(T, n-1);
     }
     
