@@ -8,6 +8,29 @@ package solution;
  *
  */
 public class ConvertSortedListToBST {
+    // awesome recursive solution
+    private ListNode listNode;
+    
+    public TreeNode sortedListToBST(ListNode head) {
+        this.listNode = head;
+        int n = 0;
+        for (ListNode walker = head; walker != null; walker = walker.next) n++;
+        return sortedListToBST(0, n-1);
+    }
+    
+    // [lo, hi]
+    private TreeNode sortedListToBST(int lo, int hi) {
+        if (lo > hi) return null;
+        int mid = lo + (hi - lo) / 2;
+        TreeNode left = sortedListToBST(lo, mid-1);
+        TreeNode root = new TreeNode(listNode.val);
+        listNode = listNode.next;
+        root.left = left;
+        root.right = sortedListToBST(mid+1, hi);
+        return root;
+    }
+    
+    /* naive way uses an extra array
     public TreeNode sortedListToBST(ListNode head) {
         int n = 0;
         for (ListNode walker = head; walker != null; walker = walker.next) n++;
@@ -29,4 +52,5 @@ public class ConvertSortedListToBST {
         root.right = sortedArrayToBST(A, mid+1, hi);
         return root;
     }
+    */
 }
