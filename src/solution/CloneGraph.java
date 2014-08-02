@@ -39,4 +39,27 @@ public class CloneGraph {
         }
         return newMap.get(node.label);
     }
+    
+    /* use a queue
+    public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+        if (node == null) return null;
+        Map<Integer, UndirectedGraphNode> map = new HashMap<Integer, UndirectedGraphNode>();
+        Queue<UndirectedGraphNode> queue = new LinkedList<UndirectedGraphNode>();
+        queue.add(node);
+        while (queue.size() > 0) {
+            UndirectedGraphNode cur = queue.poll();
+            if (!map.containsKey(cur.label))
+                map.put(cur.label, new UndirectedGraphNode(cur.label));
+            for (UndirectedGraphNode e : cur.neighbors) {
+                if (!map.containsKey(e.label)) {
+                    queue.offer(e);
+                    map.put(e.label, new UndirectedGraphNode(e.label));
+                }
+                map.get(cur.label).neighbors.add(map.get(e.label));
+                
+            }
+        }
+        return map.get(node.label);
+    }
+    */
 }
