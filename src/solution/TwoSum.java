@@ -1,7 +1,11 @@
 package solution;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * Given an array of integers, find two numbers such that they add up to a specific target number.
@@ -19,6 +23,51 @@ import java.util.HashSet;
  *
  */
 public class TwoSum {
+    // O(N) using HashMap with only one pass
+    public static int[] twoSum(int[] numbers, int target) {
+        int[] rst = new int[2];
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        for (int i = 0; i < numbers.length; i++) {
+            if (map.containsKey(target - numbers[i])) {
+                rst[0] = map.get(target - numbers[i]);
+                rst[1] = i+1;
+                return rst;
+            } else
+                map.put(numbers[i], i+1);
+        }
+        return null;
+    }
+    
+    /* O(N) using HashMap with two pass of the Array
+    public static int[] twoSum(int[] numbers, int target) {
+        HashMap<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
+        for (int i = 0; i < numbers.length; i++) {
+            if (map.containsKey(numbers[i])) map.get(numbers[i]).add(i+1);
+            else {
+                map.put(numbers[i], new LinkedList<Integer>());
+                map.get(numbers[i]).add(i+1);
+            }
+        }
+        for (int e : numbers) {
+            if (map.containsKey(target-e)) {
+                int index1 = map.get(e).get(0);
+                int index2 = map.get(target-e).get(0);
+                if (index1 == index2) { //caveat
+                    if (map.get(e).size() > 1)
+                        index1 = map.get(e).get(1);
+                    else continue;
+                }
+                int[] rst = new int[2];
+                rst[0] = Math.min(index1, index2);
+                rst[1] = Math.max(index1, index2);
+                return rst;
+            }
+        }
+        return null;
+    }
+    */
+    
+    /* O(nlog(n)) with sorting
     public static int[] twoSum(int[] numbers, int target) {
         int[] num2 = numbers.clone();
         Arrays.sort(num2); // O(n) if use LSD
@@ -41,6 +90,7 @@ public class TwoSum {
         }
         return result;
     }
+    */
 
     public static int[] twoSumWithHash(int[] numbers, int target) {
         int[] results = new int[2];
