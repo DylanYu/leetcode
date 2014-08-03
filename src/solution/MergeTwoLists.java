@@ -15,20 +15,17 @@ public class MergeTwoLists {
         if (l2 == null) return l1;
         ListNode pre1 = new ListNode(-1);
         pre1.next = l1;
-        ListNode pre2 = new ListNode(-1);
-        pre2.next = l2;
         ListNode dummyHead = pre1;
         while (l1 != null && l2 != null) {
             if (l1.val <= l2.val) {
                 pre1 = pre1.next;
                 l1 = l1.next;
             } else {
-                pre2.next = l2.next;
-                l2.next = l1;
-                pre1.next = l2;
-                
+                ListNode tmp = l2;
+                l2 = l2.next;
+                tmp.next = l1;
+                pre1.next = tmp;
                 pre1 = pre1.next;
-                l2 = pre2.next;
             }
         }
         // join with l2
