@@ -11,7 +11,7 @@ package solution;
 public class ClimbStairs {
     /**
      * for A[n], we take a look at all possibilities end with 1 step, it happens to be A[n-1].
-     * We then take a look at all possibilities end with 2 steps, it happends to be A]n-2].
+     * We then take a look at all possibilities end with 2 steps, it happens to be A]n-2].
      * So we have A[n] = A[n-1] + A[n-2], which is actually Fibonacci. 
      */
     public int climbStairs(int n) {
