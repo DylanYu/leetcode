@@ -13,7 +13,6 @@ public class BestTimeToBuyAndSellStock {
     // scan from front
     public int maxProfit(int[] prices) {
         int len = prices.length;
-        if (len <= 1) return 0;
         int min = Integer.MAX_VALUE;
         int profit = 0; // no need to use Integer.MIN_VALUE because profit >= 0
         for (int i = 0; i < len; i++) {
