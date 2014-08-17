@@ -3,6 +3,45 @@ package solution;
 import java.util.Stack;
 
 public class WildcardMatching {
+    // when not match, if there's previous star, try to use it to suck more characters
+    public boolean isMatch(String s, String p) {
+        int i = 0;
+        int j = 0;
+        int stari = -1;
+        int starj = -1;
+        char[] S = s.toCharArray();
+        char[] P = p.toCharArray();
+        int len1 = S.length;
+        int len2 = P.length;
+        boolean star = false;
+        while (i < len1) {
+            if (j < len2 && (S[i] == P[j] || P[j] == '?')) {
+                i++;
+                j++;
+            } else if (j < len2 && P[j] == '*') {
+                star = true;
+                while (j < len2) {
+                    if (P[j] != '*') break;
+                    j++;
+                }
+                if (j == len2) return true; // ends with *, match everything
+                stari = i+1; // suck this character in matched items
+                starj = j-1;
+            } else  { // no match or regex is exhausted (j >= len2 && i < len1) , try to restore from previous *
+                if (!star) {
+                    return false; // no previous star to try
+                } else {
+                    i = stari;
+                    j = starj;
+                    //star = false; // not necessary
+                }
+            }
+        }
+        while (j < len2 && P[j] == '*') j++;
+        return j == len2;
+    }
+    
+    /*
     public static boolean isMatch(String s, String p) {
         StringBuffer sb = new StringBuffer(p);
         int len = sb.length();
@@ -85,6 +124,7 @@ public class WildcardMatching {
             }
         }
     }
+    */
     
     /*
      * recursive way, not efficient for large input
@@ -132,14 +172,16 @@ public class WildcardMatching {
     public static void main(String[] args) {
         //String s = "";
         //String p = "";
+        //String s = "hi";
+        //String p = "*?"; //true
         String s = "bbaaababaaabaaaababaabbabababbbaabaababbbaabababbb";
-        String p = "**b*aa*b***aa****b*aaaa*";
+        String p = "**b*aa*b***aa****b*aaaa*"; // true
         //String s = "bbbbbbbabbaabbabbbbaaabbabbabaaabbababbbabbbabaaabaab";
-        //String p = "b*b*ab**ba*b**b***bba";
+        //String p = "b*b*ab**ba*b**b***bba"; // false
         //String s = "abbbaaaaaaaabbbabaaabbabbbaabaabbbbaabaabbabaabbabbaabbbaabaabbabaabaabbbbaabbbaabaaababbbbabaaababbaaa";
-        //String p = "ab**b*bb*ab**ab***b*abaa**b*a*aaa**bba*aa*a*abb*a*a";
+        //String p = "ab**b*bb*ab**ab***b*abaa**b*a*aaa**bba*aa*a*abb*a*a"; // true
         //String s = "abcdeeeeecf";
-        //String p = "a*d?*ef";
-        System.out.println(isMatch(s, p));
+        //String p = "a*d?*ecf"; // true
+        System.out.println(new WildcardMatching().isMatch(s, p));
     }
 }
