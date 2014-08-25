@@ -1,7 +1,5 @@
 package solution;
 
-import java.util.LinkedList;
-
 /**
  * Populate each next pointer to point to its next right node. If there is no next right node, 
  * the next pointer should be set to NULL.
@@ -31,6 +29,37 @@ import java.util.LinkedList;
  *
  */
 public class PopulateNextRightPointers {
+    // non-recursive solution. Note: it's a perfect binary tree
+    public void connect(TreeLinkNode root) {
+        if (root == null) return;
+        TreeLinkNode curr = root;
+        while (curr.left != null) {
+            TreeLinkNode nextLevel = curr.left;
+            while (curr != null) {
+                curr.left.next = curr.right;
+                if (curr.next != null) curr.right.next = curr.next.left;
+                curr = curr.next;
+            }
+            curr = nextLevel;
+        }
+    }
+    
+    /*
+     * recursive solution. Note: it's a perfect binary tree
+     * 
+    public void connect(TreeLinkNode root) {
+        if (root == null || root.left == null) return;
+        root.left.next = root.right;
+        if (root.next != null) root.right.next = root.next.left;
+        
+        connect(root.left);
+        connect(root.right);
+    }
+    */
+    
+    /* 
+     * use extra queue
+     * 
     public void connect(TreeLinkNode root) {
         if (root == null) return;
         LinkedList<TreeLinkNode> queue = new LinkedList<TreeLinkNode>();
@@ -47,4 +76,5 @@ public class PopulateNextRightPointers {
             } while (cur != tail);
         }
     }
+    */
 }

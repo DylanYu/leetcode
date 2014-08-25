@@ -1,56 +1,52 @@
 package solution;
 
-import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
+ * 
+ * @author Dongliang Yu
+ *
+ */
 public class MergeKLists {
-    public ListNode mergeKLists(ArrayList<ListNode> lists) {
-        if (lists == null)
-            return null;
-        int size = lists.size();
-        if (size == 0)
-            return null;
-        while (size > 1) {
+    // O(nklog(k)) time complexity, n is the size of every single original list 
+    public ListNode mergeKLists(List<ListNode> lists) {
+        if (lists == null || lists.size() == 0) return null;
+        int len = lists.size();
+        int step = 1;
+        while (step < len) {
             int i = 0;
-            while (i < size) {
+            while (i < len) {
                 ListNode l1 = lists.get(i);
-                ListNode l2 = (i + 1 < size) ? lists.get(i + 1) : null;
+                ListNode l2 = i+step < len ? lists.get(i+step) : null;
                 lists.set(i, merge(l1, l2));
-                i++;
-                if (i < size) {
-                    lists.remove(i);
-                    size--;
-                }
+                if (i+step < len) lists.set(i+step, null);
+                i += step*2;
             }
+            step *= 2;
         }
         return lists.get(0);
     }
     
     private ListNode merge(ListNode l1, ListNode l2) {
-        if (l1 == null)
-            return l2;
-        if (l2 == null)
-            return l1;
-        ListNode dummyHead1 = new ListNode(-1);
-        dummyHead1.next = l1;
-        ListNode dummyHead2 = new ListNode(-1);
-        dummyHead2.next = l2;
-        ListNode walker1 = dummyHead1;
-        // walker1 keeps walking while dummyHead2 stays
-        while (walker1.next != null && dummyHead2.next != null) {
-            if (walker1.next.val <= dummyHead2.next.val) {
-                walker1 = walker1.next;
+        if (l1 == null) return l2;
+        if (l2 == null) return l1;
+        ListNode h1 = new ListNode(-1);
+        h1.next = l1;
+        ListNode p1 = h1;
+        while (l1 != null && l2 != null) {
+            if (l1.val > l2.val) {
+                ListNode tmp = l2;
+                l2 = l2.next;
+                p1.next = tmp;
+                tmp.next = l1;
+                p1 = p1.next;
             } else {
-                ListNode p = dummyHead2.next;
-                dummyHead2.next = p.next;
-                
-                p.next = walker1.next;
-                walker1.next = p;
-                
-                walker1 = walker1.next;
+                p1 = p1.next;
+                l1 = l1.next;
             }
         }
-        if (walker1.next == null)
-            walker1.next = dummyHead2.next;
-        return dummyHead1.next;
+        if (l1 == null) p1.next = l2;
+        return h1.next;
     }
 }

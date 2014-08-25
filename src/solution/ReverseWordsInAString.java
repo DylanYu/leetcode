@@ -11,28 +11,20 @@ package solution;
  * @author Dongliang Yu
  *
  */
-public class ReverseWords {
+public class ReverseWordsInAString {
     public static String reverseWords(String s) {
         String[] a = s.trim().split("\\s+");
-        int half = a.length / 2;
-        for (int i = 0; i < half; i++)
-            swap(a, i, a.length - 1 - i);
         StringBuilder sb = new StringBuilder();
-        for (String e : a) {
-            sb.append(e);
+        for (int i = a.length-1; i >= 0; i--) {
+            sb.append(a[i]);
             sb.append(" ");
         }
         sb.deleteCharAt(sb.length() - 1);
         return sb.toString();
     }
     
-    public static void swap(String[] arr, int a, int b) {
-        String tmp = arr[a];
-        arr[a] = arr[b];
-        arr[b] = tmp;
-    }
-    
     public static void main(String[] args) {
+        System.out.println(reverseWords(""));
         System.out.println(reverseWords("  "));
         System.out.println(reverseWords("  a "));
         System.out.println(reverseWords("  a  b "));

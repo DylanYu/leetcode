@@ -11,15 +11,17 @@ package solution;
  */
 public class StrStr {
     public String strStr(String haystack, String needle) {
-        if (needle.equals("")) return haystack;
-        int lenN = haystack.length();
-        int lenM = needle.length();
-        for (int i = 0; i <= lenN-lenM; i++) {
+        if (haystack == null || needle == null) return null;
+        //if (needle.equals("")) return haystack; // later logic could handle this case
+        int lenM = haystack.length();
+        int lenN = needle.length();
+        for (int i = 0; i <= lenM-lenN; i++) {
             int j = 0;
-            for (; j < lenM; j++)
-                if (haystack.charAt(i+j) != needle.charAt(j))
-                    break;
-            if (j == lenM)
+            while (j < lenN) {
+                if (haystack.charAt(i+j) != needle.charAt(j)) break;
+                j++;
+            }
+            if (j == lenN) // if lenN == 0, return entire haystack at i = 0
                 return haystack.substring(i);
         }
         return null;

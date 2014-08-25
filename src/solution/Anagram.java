@@ -2,15 +2,41 @@ package solution;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * Given an array of strings, return all groups of strings that are anagrams.
  * <p>Note: All inputs will be in lower-case.
+ * <P>Note: Sequence of output doesn't matter
  * 
  * @author Dongliang Yu
  *
  */
 public class Anagram {
+    // Time complexity: O(m * log(m) * n), extra space: m * n,
+    // where n is number of strings, and m is average length of string
+    public List<String> anagrams(String[] strs) {
+        Map<String, List<String>> map = new HashMap<String, List<String>>();
+        for (String s : strs) {
+            char[] arr = s.toCharArray();
+            Arrays.sort(arr);
+            String sorted = new String(arr);
+            if (!map.containsKey(sorted))
+                map.put(sorted, new LinkedList<String>());
+            map.get(sorted).add(s);
+        }
+        List<String> ret = new LinkedList<String>();
+        for (List<String> list : map.values())
+            if (list.size() > 1) ret.addAll(list); // single word doesn't count as anagrams
+        return ret;
+    }
+    
+    /* Time complexity: O(m*log(m)*n + n*log(n) + n*m) = O(n * (m*log(m) + log(n) + m)),
+     * Extra space: m * n, 
+     * where n is number of strings, and m is average length of string
     public static ArrayList<String> anagrams(String[] strs) {
         int len = strs.length;
         ArrayList<String> result = new ArrayList<String>();
@@ -26,6 +52,7 @@ public class Anagram {
         }
         return result;
     }
+    */
     
     /**
      * This is the version I wrote at Microsoft onsite interview.
