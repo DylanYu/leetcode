@@ -21,6 +21,28 @@ package solution;
  *
  */
 public class UniquePathsII {
+    // iterative DP, can reduce memory usage to O(m)
+    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        int m = obstacleGrid.length;
+        int n = obstacleGrid[0].length;
+        int[][] A = new int[m+1][n+1];
+        for (int i = 0; i < m; i++)
+            A[i][n] = 0;
+        for (int i = 0; i < n; i++)
+            A[m][i] = 0;
+        if (obstacleGrid[m-1][n-1] == 1) return 0;
+        A[m-1][n-1] = 1;
+        for (int j = n-1; j >= 0; j--) {
+            for (int i = m-1; i >= 0; i--) {
+                if (j == n-1 && i == m-1) continue;
+                if (obstacleGrid[i][j] == 1) A[i][j] = 0;
+                else A[i][j] = A[i+1][j] + A[i][j+1];
+            }
+        }
+        return A[0][0];
+    }
+    
+    /*
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
         int m = obstacleGrid.length;
         int n = obstacleGrid[0].length;
@@ -40,4 +62,5 @@ public class UniquePathsII {
         A[x][y] = getPath(A, x+1, y) + getPath(A, x, y+1);
         return A[x][y];
     }
+    */
 }

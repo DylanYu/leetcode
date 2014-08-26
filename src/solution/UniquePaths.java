@@ -12,6 +12,21 @@ package solution;
  *
  */
 public class UniquePaths {
+    // iterative DP, memory usage O(m)
+    public int uniquePaths(int m, int n) {
+        int[] A = new int[m+1];
+        A[m] = 0;
+        A[m-1] = 1;
+        for (int i = 0; i < n; i++) {
+            for (int j = m-1; j >= 0; j--) {
+                A[j] = A[j] + A[j+1];
+            }
+        }
+        return A[0];
+    }
+    
+    /* recursive DP
+     * 
     public int uniquePaths(int m, int n) {
         int[][] matrix = new int[m][n];
         matrix[m-1][n-1] = 1;
@@ -25,4 +40,5 @@ public class UniquePaths {
         matrix[m][n] = getPaths(matrix, m+1, n) + getPaths(matrix, m, n+1);
         return matrix[m][n];
     }
+    */
 }
