@@ -26,11 +26,11 @@ public class PermutationSequence {
             A[i] = i+1;
         
         // reduce unnecessary calculations
+        --k;
         int cycle = factorial(n);
         k = k % cycle;
-        if (k == 0) k = cycle;
         
-        for (int i = 1; i < k; i++) // iterate k-1 times
+        for (int i = 0; i < k; i++)
             nextPermutation(A);
         StringBuffer sb = new StringBuffer();
         for (int e : A)
@@ -59,8 +59,7 @@ public class PermutationSequence {
     }
     
     private void reverse(int[] A, int lo, int hi) {
-        for (int i = lo; i <= lo+(hi-lo)/2; i++) // '=' is necessary here for even number of elements case
-            swap(A, i, hi+lo-i);
+        while (lo < hi) swap(A, lo++, hi--);
     }
     
     private void swap(int[] A, int i, int j) {
