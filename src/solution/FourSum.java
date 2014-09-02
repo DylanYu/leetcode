@@ -2,9 +2,11 @@ package solution;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Given an array S of n integers, are there elements a, b, c, and d in S such that 
@@ -24,6 +26,72 @@ import java.util.Map;
  *
  */
 public class FourSum {
+    class Pair {
+        int a;
+        int b;
+        Pair(int a, int b) { this.a = a; this.b = b; }
+    }
+    
+    class FourPair {
+        int a; int b; int c; int d;
+        FourPair(int a, int b, int c, int d) { this.a=a; this.b=b; this.c=c; this.d=d; }
+        @Override
+        public int hashCode() {
+            int ret = 17;
+            ret += ret * 31 + a;
+            ret += ret * 31 + b;
+            ret += ret * 31 + c;
+            ret += ret * 31 + d;
+            return ret;
+        }
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+            if (!(obj instanceof FourPair)) return false;
+            FourPair that = (FourPair) obj;
+            return this.a == that.a && this.b == that.b && this.c == that.c && this.d == that.d;
+        }
+    }
+    
+    public List<List<Integer>> fourSum(int[] num, int target) {
+        List<List<Integer>> ret = new LinkedList<List<Integer>>();
+        //if (num.length < 4) return ret;
+        int len = num.length;
+        Arrays.sort(num);
+        Map<Integer, List<Pair>> map = new HashMap<Integer, List<Pair>>();
+        Set<FourPair> set = new HashSet<FourPair>();
+        for (int i = 0; i < len; i++) {
+            for (int j = i+1; j < len; j++) {
+                int sum = num[i] + num[j];
+                if (map.containsKey(target-sum)) {
+                    for (Pair pair : map.get(target-sum)) {
+                        FourPair four = new FourPair(pair.a, pair.b, num[i], num[j]);
+                        set.add(four);
+                    }
+                }
+            }
+            for (int j = 0; j < i; j++) {
+                // make pair of [j, i] where 0<=j<i
+                int sum = num[j] + num[i];
+                if (!map.containsKey(sum))
+                    map.put(sum, new LinkedList<Pair>());
+                map.get(sum).add(new Pair(num[j], num[i]));
+            }
+        }
+        for (FourPair e : set) {
+            List<Integer> list = new LinkedList<Integer>();
+            list.add(e.a);
+            list.add(e.b);
+            list.add(e.c);
+            list.add(e.d);
+            ret.add(list);
+        }
+        return ret;
+    }
+    
+    /*
+     * O(N^3)
+     * 
     public List<List<Integer>> fourSum(int[] num, int target) {
         List<List<Integer>> ret = new LinkedList<List<Integer>>();
         //if (num.length < 4) return ret; // later logic can handle this case
@@ -52,4 +120,5 @@ public class FourSum {
         }
         return ret;
     }
+    */
 }
