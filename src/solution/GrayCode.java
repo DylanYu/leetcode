@@ -21,7 +21,23 @@ import java.util.List;
  *
  */
 public class GrayCode {
-    // straight forward way
+    //  neat solution
+    public List<Integer> grayCode(int n) {
+        List<Integer> ret = new ArrayList<Integer>();
+        ret.add(0);
+        int idx = 0;
+        while (idx < n) {
+            int inc = 1 << idx;
+            for (int i = ret.size()-1; i >= 0; i--)
+                ret.add(ret.get(i) + inc);
+            idx++;
+        }
+        return ret;
+    }
+    
+    /* 
+     * straight forward way
+     * 
     public List<Integer> grayCode(int n) {
         List<Integer> rst = new ArrayList<Integer>();
         boolean[] arr = new boolean[n];
@@ -53,4 +69,5 @@ public class GrayCode {
         }
         return n;
     }
+    */
 }
