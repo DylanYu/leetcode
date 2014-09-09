@@ -8,40 +8,40 @@ package solution;
  */
 public class InsertionSortList {
     public ListNode insertionSortList(ListNode head) {
-        if (head == null || head.next == null)
-            return head;
+        if (head == null) return head;
+        //if (head.next == null) return head; // handled by later logic
         ListNode dummy = new ListNode(-1);
         dummy.next = head;
-        ListNode walker1 = dummy;
-        ListNode walker2 = dummy.next;
-        walker1.next = null;
-        while (walker2 != null) {
+        ListNode p1 = dummy;
+        ListNode p2 = dummy.next;
+        p1.next = null; // necessary
+        while (p2 != null) {
             // reverse a node
-            ListNode middle = walker2;
-            walker2 = walker2.next;
-            middle.next = walker1;
-            walker1 = middle;
+            ListNode middle = p2;
+            p2 = p2.next;
+            middle.next = p1;
+            p1 = middle;
             // insertion sort subroutine
-            ListNode reverseWalker = walker1;
-            while (reverseWalker.next != dummy && 
-                    reverseWalker.next.val > walker1.val)
-                reverseWalker = reverseWalker.next;
-            if (reverseWalker != walker1) {
-                ListNode tmp = walker1.next;
-                walker1.next = reverseWalker.next;
-                reverseWalker.next = walker1;
-                walker1 = tmp;
+            ListNode q = p1;
+            while (q.next != dummy && 
+                    q.next.val > p1.val)
+                q = q.next;
+            if (q != p1) {
+                ListNode newP1 = p1.next;
+                p1.next = q.next;
+                q.next = p1;
+                p1 = newP1;
             }
         }
         // reverse the list
-        walker2 = walker1.next;
-        walker1.next = null;
-        while (walker2 != null) {
-            ListNode middle = walker2;
-            walker2 = walker2.next;
-            middle.next = walker1;
-            walker1 = middle;
+        p2 = p1.next;
+        p1.next = null;
+        while (p2 != null) {
+            ListNode middle = p2;
+            p2 = p2.next;
+            middle.next = p1;
+            p1 = middle;
         }
-        return walker1.next;
+        return p1.next;
     }
 }
