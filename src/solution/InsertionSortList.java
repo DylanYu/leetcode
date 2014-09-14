@@ -8,6 +8,31 @@ package solution;
  */
 public class InsertionSortList {
     public ListNode insertionSortList(ListNode head) {
+        if (head == null) return null;
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode p = head;
+        while (p.next != null) {
+            ListNode q = dummy;
+            while (q.next != p.next) {
+                if (q.next.val > p.next.val) {
+                    ListNode tmp = p.next;
+                    p.next = p.next.next;
+                    
+                    tmp.next = q.next;
+                    q.next = tmp;
+                    break;
+                }
+                q = q.next;
+            }
+            if (q.next == p.next) //
+                p = p.next;
+        }
+        return dummy.next;
+    }
+    
+    /*
+    public ListNode insertionSortList(ListNode head) {
         if (head == null) return head;
         //if (head.next == null) return head; // handled by later logic
         ListNode dummy = new ListNode(-1);
@@ -44,4 +69,5 @@ public class InsertionSortList {
         }
         return p1.next;
     }
+    */
 }
