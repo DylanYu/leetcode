@@ -17,11 +17,10 @@ public class ReorderList {
             return;
         ListNode walker = head;
         int size = 0;
-        while (walker.next != null) {
+        while (walker != null) {
             size++;
             walker = walker.next;
         }
-        size++;
         ListNode tail = walker;
         
         //reverse the second half
