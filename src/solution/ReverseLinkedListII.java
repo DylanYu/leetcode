@@ -20,20 +20,20 @@ public class ReverseLinkedListII {
         //if (head == null || head.next == null) return head; // not necessary anymore
         ListNode dummyHead = new ListNode(-1);
         dummyHead.next = head;
-        ListNode walker = dummyHead;
-        for (int i = 1; i < m; i++) walker = walker.next;
-        ListNode beforeStart = walker;
-        walker = walker.next;
-        ListNode start = walker; // start
-        ListNode walker2 = walker.next;
+        ListNode p = dummyHead;
+        for (int i = 1; i < m; i++) p = p.next;
+        ListNode firstTail = p;
+        p = p.next;
+        ListNode secondTail = p;
+        ListNode p2 = p.next;
         for (int i = m; i < n; i++) {
-            ListNode tmp = walker2.next;
-            walker2.next = walker;
-            walker = walker2;
-            walker2 = tmp;
+            ListNode tmp = p2.next;
+            p2.next = p;
+            p = p2;
+            p2 = tmp;
         }
-        beforeStart.next = walker;
-        start.next = walker2;
+        firstTail.next = p;
+        secondTail.next = p2;
         return dummyHead.next;
     }
 }
