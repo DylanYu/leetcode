@@ -12,31 +12,30 @@ package solution;
 public class CopyListWithRandomPointer {
     public RandomListNode copyRandomList(RandomListNode head) {
         if (head == null) return null;
-        RandomListNode walker = head;
-        // add a new node after every original node
-        while (walker != null) {
-            RandomListNode next = walker.next;
-            RandomListNode newNode = new RandomListNode(walker.label);
-            walker.next = newNode;
-            newNode.next = next;
-            walker = newNode.next;
+        RandomListNode p = head;
+        while (p != null) {
+            RandomListNode copy = p.next;
+            RandomListNode newNode = new RandomListNode(p.label);
+            newNode.next = copy;
+            p.next = newNode;
+            p = newNode.next;
         }
-        walker = head;
-        // link 'random' relation for added node
-        while (walker != null) {
-            RandomListNode copy = walker.next;
-            if (walker.random != null) copy.random = walker.random.next;
-            walker = copy.next;
+        p = head;
+        while (p != null) {
+            RandomListNode copy = p.next;
+            if (p.random != null) //
+                copy.random = p.random.next;
+            p = copy.next;
         }
-        walker = head;
-        // link 'next' relation for added node, and restore original input list
+        // restore original list and get copied list
         RandomListNode copyHead = head.next;
-        while (walker != null) {
-            RandomListNode copy = walker.next;
-            walker.next = copy.next;
-            if (walker.next != null) copy.next = walker.next.next;
-            
-            walker = walker.next;
+        p = head;
+        while (p != null) { // p != null then p.next != null
+            RandomListNode copy = p.next;
+            p.next = copy.next;
+            if (copy.next == null) break; //
+            copy.next = copy.next.next;
+            p = p.next;
             copy = copy.next;
         }
         return copyHead;
