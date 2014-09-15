@@ -14,21 +14,11 @@ package solution;
  */
 public class RemoveListDuplicates {
     public static ListNode deleteDuplicates(ListNode head) {
-        if (head == null)
-            return null;
-        ListNode walker1 = head;
-        ListNode walker2 = walker1.next;
-        while (walker2 != null) {
-            if (walker1.val == walker2.val) {
-                do {
-                    walker2 = walker2.next;
-                } while (walker2 != null && walker1.val == walker2.val);
-                walker1.next = walker2;
-            }
-            if (walker2 != null) {
-                walker1 = walker2;
-                walker2 = walker1.next;
-            }
+        if (head == null) return null;
+        ListNode p = head;
+        while (p.next != null) {
+            if (p.val == p.next.val) p.next = p.next.next;
+            else p = p.next;
         }
         return head;
     }
