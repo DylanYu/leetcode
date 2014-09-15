@@ -13,12 +13,12 @@ public class MergeTwoLists {
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         if (l1 == null) return l2;
         if (l2 == null) return l1;
-        ListNode pre1 = new ListNode(-1);
+        ListNode pre1 = new ListNode(Integer.MIN_VALUE);
         pre1.next = l1;
         ListNode dummyHead = pre1;
         while (l1 != null && l2 != null) {
             if (l1.val <= l2.val) {
-                pre1 = pre1.next;
+                pre1 = l1;
                 l1 = l1.next;
             } else {
                 ListNode tmp = l2;
