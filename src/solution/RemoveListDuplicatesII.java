@@ -14,29 +14,22 @@ package solution;
  */
 public class RemoveListDuplicatesII {
     public ListNode deleteDuplicates(ListNode head) {
-        if (head == null)
-            return null;
-        ListNode dummyHead = new ListNode(-1);
-        dummyHead.next = head;
-        ListNode walker1 = dummyHead;
-        ListNode walker2 = dummyHead.next;
-        ListNode walker3 = walker2.next;
-        while (walker3 != null) {
-            if (walker2.val == walker3.val) {
-                do {
-                    walker2 = walker3;
-                    walker3 = walker3.next;
-                } while (walker3 != null && walker2.val == walker3.val);
-                walker1.next = walker3;
-                walker2 = walker3;
-                if (walker3 != null)
-                    walker3 = walker3.next;
+        if (head == null) return head;
+        ListNode dummy = new ListNode(Integer.MIN_VALUE);
+        dummy.next = head;
+        ListNode prev = dummy;
+        ListNode p = head;
+        while (p != null && p.next != null) {
+            if (p.val == p.next.val) {
+                ListNode dup = p.next;
+                while (dup != null && dup.val == p.val) dup = dup.next;
+                prev.next = dup;
+                p = dup;
             } else {
-                walker1 = walker1.next;
-                walker2 = walker2.next;
-                walker3 = walker3.next;
+                prev = prev.next;
+                p = p.next;
             }
         }
-        return dummyHead.next;
+        return dummy.next;
     }
 }
