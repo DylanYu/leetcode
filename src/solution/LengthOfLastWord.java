@@ -18,16 +18,17 @@ package solution;
 public class LengthOfLastWord {
     public int lengthOfLastWord(String s) {
         if (s == null) return 0;
-        s = s.trim();
-        int len = s.length();
-        if (len == 0) return 0;
-        int i = len-1;
+        int j = s.length()-1;
+        while (j >= 0) {
+            if (s.charAt(j) != ' ') break;
+            j--;
+        }
+        if (j < 0) return 0;
+        int i = j-1;
         while (i >= 0) {
-            char c = s.charAt(i);
-            if (Character.isSpaceChar(c)) break;
+            if (s.charAt(i) == ' ') break;
             i--;
         }
-        if (i >= len) return 0;
-        else return len-i-1;
+        return j-i;
     }
 }
