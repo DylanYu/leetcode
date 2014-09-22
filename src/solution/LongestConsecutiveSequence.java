@@ -20,28 +20,24 @@ public class LongestConsecutiveSequence {
         HashSet<Integer> set = new HashSet<Integer>();
         for (Integer e : num)
             set.add(e);
-        int max = 0;
-        int i = 0;
-        while (i < num.length) {
-            int cur = num[i];
-            set.remove(cur);
-            int len = 1;
-            int left = cur - 1;
-            int right = cur + 1;
+        int maxLen = 0;
+        for (int i = 0; i < num.length; i++) {
+            int curr = num[i];
+            if (!set.contains(curr)) continue;
+            set.remove(curr); // set.remove(e) just returns false when element is not contained, 
+                              // without exception throwed, so above line is actually not necessary
+            int left = curr - 1;
             while (set.contains(left)) {
-                len++;
                 set.remove(left);
                 left--;
             }
+            int right = curr + 1;
             while (set.contains(right)) {
-                len++;
                 set.remove(right);
                 right++;
             }
-            if (len > max)
-                max = len;
-            i++;
+            maxLen = Math.max(maxLen, right-left-1);
         }
-        return max;
+        return maxLen;
     }
 }
