@@ -38,4 +38,38 @@ public class DecodeWays {
         }
         return A[A.length-1];
     }
+    
+    /*
+     * naive way, too slow
+     *
+    private int count;
+    
+    public int numDecodings(String s) {
+        if (s.length() == 0) return 0;
+        count = 0;
+        decode(s.toCharArray(), 0);
+        return count;
+    }
+    
+    private void decode(char[] c, int idx) {
+        if (idx >= c.length) {
+            count++;
+            return;
+        }
+        char curr = c[idx];
+        if ('1' <= curr && curr <= '9')
+            decode(c, idx+1);
+        if (idx+1 < c.length) {
+            char next = c[idx+1];
+            if (curr == '1' && '0' <= next && next <= '9'
+                || curr == '2' && '0' <= next && next <= '6')
+                decode(c, idx+2);
+        }
+    }
+    */
+    
+    public static void main(String[] args) {
+        int num = new DecodeWays().numDecodings("1787897759966261825913315262377298132516969578441236833255596967132573482281598412163216914566534565");
+        System.out.println(num);
+    }
 }
