@@ -27,39 +27,32 @@ import java.util.Set;
  */
 public class WordSearch {
     public boolean exist(char[][] board, String word) {
-        if (board == null) return false;
-        if (word == null || word.length() == 0) return false;
-        boolean[][] visited = new boolean[board.length][board[0].length];
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[0].length; j++) {
-                if (exist(board, i, j, word, 0, visited))
+        if (board.length == 0) return false;
+        char[] c = word.toCharArray();
+        int m = board.length;
+        int n = board[0].length;
+        boolean[][] visited = new boolean[m][n];
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
+                if (search(board, i, j, c, 0, visited))
                     return true;
-            }
-        }
         return false;
     }
     
     // DFS
-    private boolean exist(char[][] board, int i, int j, String word, int index, boolean[][] visited) {
-        if (i < 0 || i >= board.length || j < 0 || j >= board[0].length)
-            return false;
-        if (index >= word.length()) return false;
-        if (visited[i][j] == true) return false;
-        char curBoard = board[i][j];
-        char curWord = word.charAt(index);
-        if (curBoard != curWord) return false;
-        if (index == word.length()-1) return true;
-        visited[i][j] = true;
-        boolean exist = exist(board, i-1, j, word, index+1, visited)
-                        || exist(board, i+1, j, word, index+1, visited)
-                        || exist(board, i, j-1, word, index+1, visited)
-                        || exist(board, i, j+1, word, index+1, visited);
-        if (exist) return true;
-        else {
-            // go back to try another way and mark current position as unvisited
-            visited[i][j] = false;
-            return false;
-        }
+    private boolean search(char[][] board, int x, int y, char[] c, int idx, boolean[][] visited) {
+        if (x < 0 || x >= board.length || y < 0 || y >= board[0].length) return false;
+        if (visited[x][y]) return false;
+        if (board[x][y] != c[idx]) return false;
+        if (idx == c.length-1) return true;
+        visited[x][y] = true;
+        boolean found = search(board, x-1, y, c, idx+1, visited)
+                        || search(board, x+1, y, c, idx+1, visited)
+                        || search(board, x, y-1, c, idx+1, visited)
+                        || search(board, x, y+1, c, idx+1, visited);
+        // go back to try another way and mark current position as unvisited
+        visited[x][y] = false;
+        return found;
     }
     
     /*
