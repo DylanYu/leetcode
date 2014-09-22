@@ -16,21 +16,22 @@ public class LongestSubstringWithoutRepeatingCharacters {
     public int lengthOfLongestSubstring(String s) {
         if (s == null || s.length() == 0) return 0;
         // assume we have only ACSII characters
-        int[] table = new int[256];
-        for (int i = 0; i < table.length; i++)
-            table[i] = -1;
-        char[] A = s.toCharArray();
+        boolean[] table = new boolean[256];
+        char[] c = s.toCharArray();
         int maxLen = 0;
         int start = 0;
-        for (int i = 0; i < A.length; i++) {
-            if (table[A[i]] != -1) {   
-                int newStart = table[A[i]] + 1;
-                for (int j = start; j < newStart; j++)
-                    table[A[j]] = -1;
-                start = newStart;
+        int i = 0;
+        while (i < c.length) {
+            if (!table[c[i]]) {   
+                table[c[i]] = true;
+                i++;
+            } else {
+                while (c[start] != c[i])
+                    table[c[start++]] = false;
+                start++;
+                i++;
             }
-            table[A[i]] = i;
-            maxLen = Math.max(maxLen, i-start+1);
+            maxLen = Math.max(maxLen, i-start);
         }
         return maxLen;
     }
