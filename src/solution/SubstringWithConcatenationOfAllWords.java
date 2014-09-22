@@ -26,6 +26,7 @@ public class SubstringWithConcatenationOfAllWords {
         List<Integer> ret = new LinkedList<Integer>();
         if (L.length == 0) return ret;
         
+        // use Map rather than Set because a certain string may occur many times in L
         Map<String, Integer> limitMap = new HashMap<String, Integer>();
         for (String e : L) mapInc(limitMap, e);
         
@@ -34,7 +35,7 @@ public class SubstringWithConcatenationOfAllWords {
             int count = 0;
             int start = i;
             Map<String, Integer> countMap = new HashMap<String, Integer>();
-            for (int j = i; j <= S.length()-step; j+= step) {
+            for (int j = i; j <= S.length()-step; j+= step) { //
                 String curr = S.substring(j, j+step);
                 if (!limitMap.containsKey(curr)) {
                     // current word is invalid, restart the scan
@@ -61,14 +62,8 @@ public class SubstringWithConcatenationOfAllWords {
                     }
                 }
                 
-                if (count == L.length) {
-                    // record start index, remove the first word and continue, avoid rescan
+                if (count == L.length)
                     ret.add(start);
-                    String t = S.substring(start, start+step);
-                    mapDec(countMap, t);
-                    count--;
-                    start += step;
-                }
             }
         }
         
