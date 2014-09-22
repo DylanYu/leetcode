@@ -14,19 +14,27 @@ import java.util.Stack;
  */
 public class ValidParentheses {
     public boolean isValid(String s) {
+        if (s == null || s.length() == 0) return false;
+        char[] l = {'(', '{', '['};
+        char[] r = {')', '}', ']'};
+        char[] c = s.toCharArray();
         Stack<Character> stk = new Stack<Character>();
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (c == '(' || c == '{' || c == '[') {
-                stk.push(c);
+        for (int i = 0; i < c.length; i++) {
+            char curr = c[i];
+            if (curr == l[0] || curr == l[1] || curr == l[2]) {
+                stk.push(curr);
             } else {
-                if (stk.isEmpty()) return false;
-                char last = stk.pop();
-                if (c == ')' && last != '(') return false;
-                else if (c == '}' && last != '{') return false;
-                else if (c == ']' && last != '[') return false;
+                if (stk.isEmpty()) {
+                        return false;
+                } else {
+                    char last = stk.pop();
+                    if (!(last == l[0] && curr == r[0] 
+                            || last == l[1] && curr == r[1] 
+                            || last == l[2] && curr == r[2]))
+                        return false;
+                }
             }
         }
-        return stk.isEmpty();
+        return stk.isEmpty(); //
     }
 }
