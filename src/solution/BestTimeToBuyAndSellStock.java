@@ -12,10 +12,9 @@ package solution;
 public class BestTimeToBuyAndSellStock {
     // scan from front
     public int maxProfit(int[] prices) {
-        int len = prices.length;
         int min = Integer.MAX_VALUE;
         int profit = 0; // no need to use Integer.MIN_VALUE because profit >= 0
-        for (int i = 0; i < len; i++) {
+        for (int i = 0; i < prices.length; i++) {
             min = Math.min(min, prices[i]);
             profit = Math.max(profit, prices[i] - min);
         }
@@ -24,13 +23,11 @@ public class BestTimeToBuyAndSellStock {
 
     /* scan from back
     public int maxProfit(int[] prices) {
-        int len = prices.length;
-        if (len <= 1) return 0;
-        int max = 0;
+        int max = 0; // no need to use Integer.MIN_VALUE
         int profit = 0;
-        for (int i = len-1; i >= 0; i--) {
-            if (prices[i] > max) max = prices[i];
-            profit = Math.max(profit, max - prices[i]);
+        for (int i = prices.length-1; i >= 0; i--) {
+            max = Math.max(max, prices[i]);
+            profit = Math.max(profit, max-prices[i]);
         }
         return profit;
     }
