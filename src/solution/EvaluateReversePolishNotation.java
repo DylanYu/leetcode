@@ -16,18 +16,19 @@ import java.util.Stack;
  */
 public class EvaluateReversePolishNotation {
     // solution using a stack
+    // in real projects we should worry about invalid expressions and throw corresponding exceptions
     public int evalRPN(String[] tokens) {
         Stack<String> stk = new Stack<String>();
         for (String cur : tokens) {
             if (!isOp(cur)) {
                 stk.push(cur);
             } else {
-                String b = stk.pop();
+                String b = stk.pop(); // if stack empty
                 String a = stk.pop();
                 stk.push(calculate(a, cur, b) + "");
             }
         }
-        return Integer.parseInt(stk.pop());
+        return Integer.parseInt(stk.pop()); // if stack.size()>1
     }
     
     /* solution does not apply a explicit stack (which in fact is stack like)
