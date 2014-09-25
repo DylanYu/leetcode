@@ -8,12 +8,11 @@ package solution;
  */
 public class LongestCommonPrefix {
     public String longestCommonPrefix(String[] strs) {
-        if (strs.length == 0)
-            return "";
+        if (strs.length == 0) return "";
+        if (strs.length == 1) return strs[0];
         int minLen = Integer.MAX_VALUE;
         for (String e : strs)
-            if (e.length() < minLen)
-                minLen = e.length();
+            minLen = Math.min(minLen, e.length());
         int index = 0;
         boolean flag = true;
         while (index < minLen) {
