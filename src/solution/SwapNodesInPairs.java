@@ -17,17 +17,18 @@ public class SwapNodesInPairs {
         if (head == null) return null;
         ListNode dummy = new ListNode(-1);
         dummy.next = head;
-        ListNode walker1 = dummy;
-        ListNode walker2 = head;
-        ListNode walker3 = head.next;
-        while (walker3 != null) {
-            walker1.next = walker3;
-            walker2.next = walker3.next;
-            walker3.next = walker2;
-            walker1 = walker2;
-            walker2 = walker1.next;
-            if (walker2 == null) break;
-            walker3 = walker2.next;
+        ListNode p1 = dummy;
+        ListNode p2 = p1.next;
+        ListNode p3 = p2.next;
+        while (p3 != null) {
+            p1.next = p3;
+            p2.next = p3.next;
+            p3.next = p2;
+            // caution
+            p1 = p2;
+            p2 = p1.next;
+            if (p2 == null) break;
+            p3 = p2.next;
         }
         return dummy.next;
     }
