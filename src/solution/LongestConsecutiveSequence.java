@@ -17,6 +17,7 @@ import java.util.HashSet;
  */
 public class LongestConsecutiveSequence {
     public static int longestConsecutive(int[] num) {
+        // TODO: if duplicate elements are allowed we should use HashMap to store frequency
         HashSet<Integer> set = new HashSet<Integer>();
         for (Integer e : num)
             set.add(e);
