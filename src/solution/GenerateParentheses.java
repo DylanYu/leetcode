@@ -14,6 +14,44 @@ import java.util.List;
  *
  */
 public class GenerateParentheses {
+	// recursive solution
+	public List<String> generateParenthesis(int n) {
+        List<String> ret = new LinkedList<String>();
+        if (n <= 0) return ret;
+        generate(new StringBuffer(), 0, 0, n, ret);
+        return ret;
+    }
+    
+    private void generate(StringBuffer sb, int left, int right, int n, List<String> ret) {
+        //if (left > n || right > n) return;
+        if (left == n && right == n) {
+            ret.add(sb.toString());
+            return;
+        }
+        if (left == right) {
+        	// add '(' is the only option
+            StringBuffer s = new StringBuffer(sb);
+            s.append('(');
+            generate(s, left+1, right, n, ret);
+        } else if (left > right) {
+            // try to add '('
+            if (left < n) {
+                StringBuffer s = new StringBuffer(sb);
+                s.append('(');
+                generate(s, left+1, right, n, ret);
+            }
+            // try to add ')'
+            if (right < n) {
+                StringBuffer s = new StringBuffer(sb);
+                s.append(')');
+                generate(s, left, right+1, n, ret);
+            }
+        } else {
+            // error, not possible
+        }
+    }
+	
+	/*
     class Node {
         int l;
          int r;
@@ -49,4 +87,5 @@ public class GenerateParentheses {
          }
          return rst;
      }
+     */
 }
