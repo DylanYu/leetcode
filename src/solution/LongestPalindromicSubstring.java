@@ -10,7 +10,7 @@ public class LongestPalindromicSubstring {
         int max_len = 0;
         int i = 0;
         while (i < length) {
-            int left = i;
+            int left = i; // [left, right] is the center part of a palindrome
             int right = i;
             int side_len = 1;
             // [left-side_len, left)[left, right][right+1, right+side_len]
@@ -32,6 +32,44 @@ public class LongestPalindromicSubstring {
         }
         return s.substring(max_left - max_side_len, max_right + max_side_len + 1);
     }
+	
+	/*
+	 * less efficient solution
+	 *
+	public String longestPalindrome(String s) {
+        if (s == null) return null;
+        char[] c = s.toCharArray();
+        int len = c.length;
+        if (len == 0) return "";
+        int maxLen = 0;
+        String maxStr = "";
+        for (int i = 0; i < len; i++) {
+            // odd length case;
+            int left = i-1;
+            int right = i+1;
+            while (left >= 0 && right < len && c[left] == c[right]) {
+                left--;
+                right++;
+            }
+            int l = right-left-1;
+            maxLen = Math.max(maxLen, l);
+            if (maxLen == l) maxStr = s.substring(left+1, right);
+            // even length case
+            if (i+1 < len && c[i+1] == c[i]) {
+                left = i-1;
+                right = i+2;
+                while (left >= 0 && right < len && c[left] == c[right]) {
+                    left--;
+                    right++;
+                }
+                l = right-left-1;
+                maxLen = Math.max(maxLen, l);
+                if (maxLen == l) maxStr = s.substring(left+1, right);
+            }
+        }
+        return maxStr;
+    }
+	*/
     
     public static void main(String[] args) {
         String s = "aaaaccbcaaaaaaaaaaaaaacaaaaaaaaaaaaaa";
