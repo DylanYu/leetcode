@@ -25,7 +25,7 @@ public class LongestValidParentheses {
     }
     
     /*
-     * wwo passed O(N) solution, almost the same as above one
+     * two passed O(N) solution, almost the same as above one
      * 
     public static int longestValidParentheses(String s) {
         char[] c = s.toCharArray();
