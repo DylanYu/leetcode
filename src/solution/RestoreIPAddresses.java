@@ -59,48 +59,33 @@ public class RestoreIPAddresses {
     public List<String> restoreIpAddresses(String s) {
         List<String> ret = new LinkedList<String>();
         if (s == null || s.length() > 12 || s.length() < 4) return ret;
-        ArrayList<String> list = new ArrayList<String>();
-        list.add(s);
-        restore(list, ret);
+        restore(new ArrayList<String>(), s, ret);
         return ret;
     }
     
-    private void restore(ArrayList<String> list, List<String> ret) {
-        if (list.size() >= 5) return;
-        String cur = list.get(list.size()-1);
-        if (list.size() == 4 && Integer.parseInt(cur) <= 255) {
-            if (cur.charAt(0) == '0' && cur.length() >= 2) return; // special case described below
-            StringBuffer sb = new StringBuffer();
-            for (String s : list) {
-                sb.append(s);
-                sb.append(".");
+    private void restore(ArrayList<String> list, String s, List<String> ret) {
+        if (list.size() == 4) {
+            if (s.length() == 0) {
+                StringBuffer sb = new StringBuffer();
+                for (String segment : list) {
+                    sb.append(segment);
+                    sb.append(".");
+                }
+                sb.deleteCharAt(sb.length()-1);
+                ret.add(sb.toString());
             }
-            sb.deleteCharAt(sb.length()-1);
-            ret.add(sb.toString());
             return;
         }
-        int strLen = cur.length();
-        int prevIpSegNo = list.size()-1;
-        if (strLen > (4-prevIpSegNo)*3) return;
-        if (strLen < (4-prevIpSegNo)) return;
-        
-        // special case of "0XXX", each segment of output can be just "0", but can't start with '0'
-        if (cur.charAt(0) == '0') {
-            if (cur.length() <= 1) return; // for "0" as the last valid segment, already handled before
-            list.set(list.size()-1, "0"); // remove last and add;
-            list.add(cur.substring(1));
-            restore(list, ret);
-            return;
-        }
-        // general case
-        for (int i = 0; i < 3 && i < cur.length()-1; i++) {
-            String l = cur.substring(0, i+1);
-            int ipSeg = Integer.parseInt(l);
-            if (ipSeg <= 255) {
+        int maxSize = (4 - list.size()) * 3;
+        if (s.length() > maxSize) return;
+        int num = 0;
+        for (int i = 0; i < Math.min(3, s.length()); i++) {
+            num = num * 10 + (s.charAt(i)-'0');
+            if (num <= 255) {
                 ArrayList<String> copy = new ArrayList<String>(list);
-                copy.set(copy.size()-1, l); // remove last and add;
-                copy.add(cur.substring(i+1));
-                restore(copy, ret);
+                copy.add(s.substring(0, i+1));
+                restore(copy, s.substring(i+1), ret);
+                if (num == 0) break; // no consecutive 0s in a segment
             }
         }
     }
