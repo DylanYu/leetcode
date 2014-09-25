@@ -20,33 +20,34 @@ package solution;
  */
 public class ReverseNodesInKGroup {
     public ListNode reverseKGroup(ListNode head, int k) {
-        if (k <= 1 || head == null) return head;
-        ListNode dummyHead = new ListNode(-1);
-        dummyHead.next = head;
-        ListNode walker = dummyHead;
-        while (walker != null) {
-            // test whether we need another group reverse
-            ListNode tester = walker;
-            int n = k;
-            while (n-- > 0 && tester != null) tester = tester.next;
-            if (tester == null) break;
-            // reverse nodes in k-group
-            ListNode reversedTail = walker.next;
-            ListNode p1 = walker.next;
-            ListNode p2 = p1.next;
-            ListNode p3 = p2.next;
-            n = k-1; // k-1 times of reverse operation
-            while (n-- > 0) {
-                p2.next = p1;
-                p1 = p2;
-                p2 = p3;
-                if (p3 != null) p3 = p3.next; // TODO
+        if (head == null || k <= 0) return null;
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode p1 = dummy;
+        while (p1.next != null) {
+            ListNode p2 = p1;
+            int i = 0;
+            while (p2 != null && i++ < k) p2 = p2.next;
+            if (p2 == null) break;
+            ListNode p2Next = p2.next;
+            p2.next = null; // necessary for later q2!=null
+            
+            //reverse
+            ListNode q1 = p1.next; // won't be null
+            ListNode q2 = q1.next;
+            ListNode tail = q1;
+            q1.next = null;
+            while (q2 != null) {
+                ListNode q2Next = q2.next;
+                q2.next = q1;
+                q1 = q2;
+                q2 = q2Next;
             }
-            // link new head and tail
-            walker.next = p1;
-            reversedTail.next = p2;
-            walker = reversedTail;
+            p1.next = q1;
+            tail.next = p2Next;
+            
+            p1 = tail;
         }
-        return dummyHead.next;
+        return dummy.next;
     }
 }
