@@ -11,7 +11,32 @@ package solution;
  *
  */
 public class TrappingRainWater {
-    // awesome one pass solution
+    // O(N) solution
+    public int trap(int[] A) {
+        int len = A.length;
+        //if (len <= 2) return 0;
+        int lo = 0;
+        int hi = len-1;
+        int lastLevel = 0;
+        int all = 0;
+        int block = 0;
+        
+        while (lo <= hi) {
+            while (lo <= hi && A[lo] <= lastLevel) lo++;
+            while (hi >= lo && A[hi] <= lastLevel) hi--;
+            if (lo > hi) break;
+            int currentLevel = Math.min(A[lo], A[hi]);
+            all += (currentLevel - lastLevel) * (hi - lo + 1);
+            lastLevel = currentLevel;
+        }
+        
+        for (int i = 0; i < len; i++)
+            block += A[i];
+        
+        return all - block;
+    }
+    
+    /* one pass solution
     public int trap(int[] A) {
         int lo = 0;
         int hi = A.length-1;
@@ -31,6 +56,7 @@ public class TrappingRainWater {
         }
         return all - block;
     }
+    */
     
     /* 
      * O(n * height) solution, not efficient
