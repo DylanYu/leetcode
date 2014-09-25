@@ -43,7 +43,8 @@ public class CombinationSum {
                 List<Integer> copy = new ArrayList<Integer>(list);
                 copy.add(candidates[i]);
                 recurse(copy, newTarget, candidates, i, ret);
-            }
+            } else
+            	break; // minor optimization
         }
     }
 }
