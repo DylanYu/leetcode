@@ -30,6 +30,37 @@ import java.util.Set;
  *
  */
 public class CombinationSumII {
+	// tricky case: for {1, 1}, output only {{1}}
+	// solution without using Set
+	public List<List<Integer>> combinationSum2(int[] num, int target) {
+        List<List<Integer>> ret = new LinkedList<List<Integer>>();
+        Arrays.sort(num);
+        recurse(new ArrayList<Integer>(), num, target, 0, ret);
+        return ret;
+    }
+    
+    private void recurse(ArrayList<Integer> list, int[] num, int target, int idx, List<List<Integer>> ret) {
+        if (target == 0) {
+            ret.add(list);
+            return;
+        }
+        int i = idx;
+        while (i < num.length) {
+            int newTarget = target - num[i];
+            if (newTarget >= 0) {
+                ArrayList<Integer> copy = new ArrayList<Integer>(list);
+                copy.add(num[i]);
+                recurse(copy, num, newTarget, i+1, ret);
+                i++;
+                while (i < num.length && num[i] == num[i-1]) i++; // eliminate duplicates
+            } else
+                break;
+        }
+    }
+	
+	/*
+	 * solution using Set to eliminate duplicates
+	 * 
     public List<List<Integer>> combinationSum2(int[] num, int target) {
         // hashCode for List is defined by the following calculation:
         //  int hashCode = 1;
@@ -61,4 +92,5 @@ public class CombinationSumII {
             }
         }
     }
+    */
 }
