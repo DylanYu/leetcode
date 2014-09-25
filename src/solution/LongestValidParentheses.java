@@ -3,6 +3,57 @@ package solution;
 import java.util.Stack;
 
 public class LongestValidParentheses {
+    // one pass O(N) solution
+	public int longestValidParentheses(String s) {
+        char[] c = s.toCharArray();
+        if (c.length <= 1) return 0;
+        Stack<Integer> stk = new Stack<Integer>();
+        int max = 0;
+        for (int i = 0; i < c.length; i++) {
+            if (c[i] == '(') stk.push(i);
+            else {
+                if (stk.isEmpty()) stk.push(i);
+                if (c[stk.peek()] == '(') {
+                    stk.pop();
+                    int lastPos = stk.isEmpty() ? -1 : stk.peek();
+                    max = Math.max(max, i-lastPos);
+                } else
+                    stk.push(i);
+            }
+        }
+        return max;
+    }
+    
+    /*
+     * wwo passed O(N) solution, almost the same as above one
+     * 
+    public static int longestValidParentheses(String s) {
+        char[] c = s.toCharArray();
+        if (c.length <= 1) return 0;
+        Stack<Integer> stk = new Stack<Integer>();
+        for (int i = 0; i < c.length; i++) {
+            if (c[i] == '(') stk.push(i);
+            else {
+                if (stk.isEmpty()) continue;
+                c[stk.pop()] = '0'; // mark matched pair to '0'
+                c[i] = '0';
+            }
+        }
+        int max = 0;
+        int tmp = 0;
+        // find the maximum length of consecutive '0'
+        for (int i = 0; i < c.length; i++) {
+            if (c[i] == '0') tmp++;
+            else tmp = 0;
+            max = Math.max(max, tmp);
+        }
+        return max;
+    }
+    */
+    
+    /*
+     * Direct solution, too complex
+     * 
     public static int longestValidParentheses(String s) {
         Stack<Integer> stack = new Stack<Integer>();
         // use negative value to store '(' and ')', we will use 
@@ -71,6 +122,7 @@ public class LongestValidParentheses {
     private static boolean match(int a, int b) {
         return -a == '(' && -b == ')';
     }
+    */
 
     public static void main(String[] args) {
         //String s = "()(())";
