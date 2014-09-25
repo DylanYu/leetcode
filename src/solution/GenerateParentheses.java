@@ -28,26 +28,15 @@ public class GenerateParentheses {
             ret.add(sb.toString());
             return;
         }
-        if (left == right) {
-        	// add '(' is the only option
+        if (left < n) {
             StringBuffer s = new StringBuffer(sb);
             s.append('(');
             generate(s, left+1, right, n, ret);
-        } else if (left > right) {
-            // try to add '('
-            if (left < n) {
-                StringBuffer s = new StringBuffer(sb);
-                s.append('(');
-                generate(s, left+1, right, n, ret);
-            }
-            // try to add ')'
-            if (right < n) {
-                StringBuffer s = new StringBuffer(sb);
-                s.append(')');
-                generate(s, left, right+1, n, ret);
-            }
-        } else {
-            // error, not possible
+        }
+        if (right < left) {
+            StringBuffer s = new StringBuffer(sb);
+            s.append(')');
+            generate(s, left, right+1, n, ret);
         }
     }
 	
