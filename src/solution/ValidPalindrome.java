@@ -18,14 +18,15 @@ package solution;
 public class ValidPalindrome {
     public boolean isPalindrome(String s) {
         if (s == null) return false;
-        if (s.length() == 0) return true;
+        //if (s.length() == 0) return true; //
+        char[] c = s.toLowerCase().toCharArray();
         int i = 0;
-        int j = s.length() - 1;
+        int j = c.length-1;
         while (i < j) {
-            while (!Character.isLetterOrDigit(s.charAt(i)) && i < j) i++;
-            while (!Character.isLetterOrDigit(s.charAt(j)) && i < j) j--;
-            if (Character.toLowerCase(s.charAt(i)) != Character.toLowerCase(s.charAt(j))) //i < j check not necessary
-                return false;
+            while (i < j && !Character.isLetterOrDigit(c[i])) i++;
+            while (j > i && !Character.isLetterOrDigit(c[j])) j--;
+            if (i >= j) break;
+            if (c[i] != c[j]) return false;
             i++;
             j--;
         }
