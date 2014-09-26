@@ -12,10 +12,36 @@ package solution;
  *
  */
 public class PalindromePartitioningII {
+    // DP, O(N^2), no recursion in main DP
+    public int minCut(String s) {
+        if (s == null) return -1;
+        int len = s.length();
+        int[][] pal = new int[len][len];
+        for (int i = 0; i < len; i++)
+            for (int j = 0; j <= i; j++)
+                isPalindrome(s, pal, j, i); //
+        
+        int[] A = new int[len+1];
+        A[0] = -1; // special meaning
+        for (int i = 1; i < len+1; i++) {
+            int min = Integer.MAX_VALUE;
+            for (int j = 1; j <= i; j++) {
+                //if (isPalindrome(s, pal, j-1, i-1) == 1) {
+                if (pal[j-1][i-1] == 1) { //
+                    int cut = A[j-1] + 1;
+                    min = Math.min(min, cut);
+                    if (min == 0) break;
+                }
+            }
+            A[i] = min;
+        }
+        return A[len];
+    }
+    
     /* DP, O(N^2)
      * A[i] - min cut of [0, i];
      * pal[i][j] - if s.substring(i, j+1) is palindrome, use DP to avoid brute force search
-     */
+     *
     public int minCut(String s) {
         if (s == null) return 0;
         int len = s.length();
@@ -43,17 +69,18 @@ public class PalindromePartitioningII {
         A[curr] = min;
         return A[curr];
     }
+    */
     
-    // 0 - init; 1 - true; 2 - false
-    private int isPalindrome(String s, int[][] pal, int lo, int hi) {
-        if (pal[lo][hi] != 0) return pal[lo][hi]; 
-        if (lo == hi 
-            || (s.charAt(lo) == s.charAt(hi) 
-                && (hi-lo == 1 || isPalindrome(s, pal,lo+1,hi-1)==1))) // deal with hi=lo+1 case
-            pal[lo][hi] = 1;
+    // 0 - init; 1 - true; -1 - false
+    private int isPalindrome(String s, int[][] pal, int i, int j) {
+        if (pal[i][j] != 0) return pal[i][j]; 
+        if (i == j 
+            || (s.charAt(i) == s.charAt(j) 
+                && (j-i == 1 || isPalindrome(s, pal,i+1,j-1)==1))) // deal with hi=lo+1 case
+            pal[i][j] = 1;
         else
-            pal[lo][hi] = 2;
-        return pal[lo][hi];
+            pal[i][j] = -1;
+        return pal[i][j];
     }
     
     /* BFS, O(N^3), not efficient
