@@ -29,6 +29,45 @@ import java.util.Set;
  *
  */
 public class WordLadder {
+    // avoid using HashMap
+    public int ladderLength(String start, String end, Set<String> dict) {
+        if (start == null || end == null || dict.size() == 0) return 0;
+        //if (start.equals(end)) return 0;
+        LinkedList<String> queue = new LinkedList<String>();
+        queue.add(start);
+        queue.add(null);
+        Set<String> visited = new HashSet<String>();
+        visited.add(start);
+        int len = 1;
+        while (!queue.isEmpty()) {
+            String curr = queue.removeFirst();
+            boolean flag = false;
+            while (curr != null) {
+                if (curr.equals(end)) return len;
+                StringBuffer sb = new StringBuffer(curr);
+                for (int i = 0; i < sb.length(); i++) {
+                    char currChar = sb.charAt(i);
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        if (c == currChar) continue;
+                        sb.setCharAt(i, c);
+                        String s = sb.toString();
+                        if (dict.contains(s) && !visited.contains(s)) {
+                            flag = true;
+                            queue.offer(sb.toString());
+                            visited.add(s);
+                        }
+                    }
+                    sb.setCharAt(i, currChar);
+                }
+                curr = queue.removeFirst();
+            }
+            if (flag) queue.add(null);
+            len++;
+        }
+        return 0;
+    }
+    
+    /*
     // we can use this class to trace back and construct path
     // currently it's not used for this problem
     class Path {
@@ -92,6 +131,7 @@ public class WordLadder {
         }
         return true;
     }
+    */
     
     public static void main(String[] args) {
         String start = "hot";
