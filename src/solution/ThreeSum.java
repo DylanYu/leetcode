@@ -3,6 +3,8 @@ package solution;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.LinkedList;
 
 /**
  * 3Sum
@@ -24,6 +26,41 @@ import java.util.HashMap;
  *
  */
 public class ThreeSum {
+    // convert this problem to two-sum, no Set or Map is used
+    public List<List<Integer>> threeSum(int[] num) {
+        List<List<Integer>> ret = new LinkedList<List<Integer>>();
+        Arrays.sort(num);
+        int i = 0;
+        while (i < num.length-2) {
+            int target = -num[i];
+            int j = i+1;
+            int k = num.length-1;
+            while (j < k) {
+                int twoSum = num[j] + num[k];
+                if (twoSum > target)  {
+                    k--;
+                    while (k > j && num[k] == num[k+1]) k--;
+                } else if (twoSum < target) {
+                    j++;
+                    while (j < k && num[j] == num[j-1]) j++;
+                } else {
+                    List<Integer> subRet = new LinkedList<Integer>();
+                    subRet.add(num[i]);
+                    subRet.add(num[j]);
+                    subRet.add(num[k]);
+                    ret.add(subRet);
+                    // skip duplicates
+                    do { j++; } while (j < k && num[j] == num[j-1]); // DO NOT forget me
+                    do { k--; } while (k > j && num[k] == num[k+1]); // DO NOT forget me
+                }
+            }
+            i++;
+            while (i < num.length-2 && num[i-1] == num[i]) i++; // skip duplicates
+        }
+        return ret;
+    }
+    
+    /*
     public ArrayList<ArrayList<Integer>> threeSum(int[] num) {
         ArrayList<ArrayList<Integer>> results = new ArrayList<ArrayList<Integer>>();
         int length = num.length;
@@ -58,24 +95,24 @@ public class ThreeSum {
                         newResult.add(c);
                         results.add(newResult);
                     }
-                    /* straight forward way
-                    if (c == a){
-                        if (map.get(a) >= 3)
-                            addMoreResult(results, a, b, c); // a == b == c (0, 0, 0)
-                        else
-                            continue;
-                    } else if (c == b) {
-                        if (map.get(b) >= 2)
-                            addMoreResult(results, a, b, c); // a != b,  b = c
-                        else
-                            continue;
-                    } else {
-                        addMoreResult(results, a, b, c); // b != c
-                    }
-                    */
+                    // straight forward way
+                    //if (c == a){
+                    //    if (map.get(a) >= 3)
+                    //        addMoreResult(results, a, b, c); // a == b == c (0, 0, 0)
+                    //    else
+                    //        continue;
+                    //} else if (c == b) {
+                    //    if (map.get(b) >= 2)
+                    //        addMoreResult(results, a, b, c); // a != b,  b = c
+                    //    else
+                    //        continue;
+                    //} else {
+                    //    addMoreResult(results, a, b, c); // b != c
+                    //}
                 }
             }
         }
         return results;
     }
+    */
 }
