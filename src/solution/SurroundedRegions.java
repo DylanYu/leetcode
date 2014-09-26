@@ -36,36 +36,39 @@ public class SurroundedRegions {
         int m = board.length;
         if (m == 0) return;
         int n = board[0].length;
-        
         for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if ((i == 0 || j == 0 || i == m-1 || j == n-1)
-                    && board[i][j] == 'O') {
-                    // for positions in border which are 'O', exhaust all NON surrounded regions and mark them as 'N'
-                    Stack<Pair> stk = new Stack<Pair>();
-                    stk.push(new Pair(i, j));
-                    while (!stk.isEmpty()) {
-                        Pair curr = stk.pop();
-                        int x = curr.x;
-                        int y = curr.y;
-                        if (x < 0 || x >= m || y < 0 || y >= n || !(board[x][y] == 'O'))
-                            continue;
-                        board[x][y] = 'N';
-                        stk.push(new Pair(x-1, y));
-                        stk.push(new Pair(x, y-1));
-                        stk.push(new Pair(x, y+1));
-                        stk.push(new Pair(x+1, y));
-                    }
-                }
-            }
+            DFS(board, i, 0);
+            DFS(board, i, n-1);
         }
-        
+        for (int i = 0; i < n; i++) {
+            DFS(board, 0, i);
+            DFS(board, m-1, i);
+        }
         // mark all NON surrounded regions back to 'O' and render all surrounded regions
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 if (board[i][j] == 'O') board[i][j] = 'X';
-                else if (board[i][j] == 'N') board[i][j] = 'O';
+                if (board[i][j] == 'V') board[i][j] = 'O';
             }
+        }
+    }
+    
+    // use DFS to mark NON surrounded region as 'V'
+    private void DFS(char[][] board, int i, int j) {
+        //if (board[i][j] != 'O') return;
+        Stack<Pair> stk = new Stack<Pair>();
+        stk.push(new Pair(i, j));
+        while (!stk.isEmpty()) {
+            Pair curr = stk.pop();
+            int x = curr.x;
+            int y = curr.y;
+            if (x < 0 || x >= board.length || y < 0 || y >= board[0].length) continue;
+            if (board[x][y] != 'O') continue;
+            board[x][y] = 'V';
+            stk.push(new Pair(x-1, y));
+            stk.push(new Pair(x, y-1));
+            stk.push(new Pair(x, y+1));
+            stk.push(new Pair(x+1, y));
         }
     }
     
