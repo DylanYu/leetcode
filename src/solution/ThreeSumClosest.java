@@ -21,23 +21,23 @@ public class ThreeSumClosest {
     public int threeSumClosest(int[] num, int target) {
         Arrays.sort(num);
         int len = num.length;
-        int minDiff = Integer.MAX_VALUE;
-        int minSum = 0;
+        int minDistance = Integer.MAX_VALUE;
+        int closestSum = 0;
         for (int i = 0; i < len; i++) {
             int j = i+1;
             int k = len-1;
             while (j < k) {
                 int sum = num[i] + num[j] + num[k];
-                int diff = Math.abs(sum - target);
-                if (diff < minDiff) {
-                    minDiff = diff;
-                    minSum = sum;
+                int distance = Math.abs(sum - target);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestSum = sum;
                 }
                 if (sum < target) j++;      // search from both sides towards the middle
                 else if (sum > target) k--;
                 else return sum;            // match
             }
         }
-        return minSum;
+        return closestSum;
     }
 }
