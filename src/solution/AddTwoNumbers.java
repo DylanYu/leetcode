@@ -12,29 +12,25 @@ package solution;
  *
  */
 public class AddTwoNumbers {
-    public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        if (l1 == null && l2 == null) return new ListNode(0);
-        else if (l1 == null) return l2;
-        else if (l2 == null) return l1;
-        ListNode dummyHead = new ListNode(-1);
-        ListNode walker = dummyHead;
-        boolean carry = false;
+	public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        if (l1 == null || l2 == null) return null;
+        ListNode dummy = new ListNode(-1);
+        ListNode p = dummy;
+        int carry = 0;
         while (l1 != null || l2 != null) {
-            int sum = carry ? 1 : 0;
-            if (l1 != null) {
-                sum += l1.val;
-                l1 = l1.next;
-            }
-            if (l2 != null) {
-                sum += l2.val;
-                l2 = l2.next;
-            }
-            carry = sum <= 9 ? false : true; // sum / 10
+            int n1 = l1 == null ? 0 : l1.val;
+            int n2 = l2 == null ? 0 : l2.val;
+            int sum = n1 + n2 + carry;
+            if (sum >= 10) carry = 1;
+            else carry = 0;
             sum = sum % 10;
-            walker.next = new ListNode(sum);
-            walker = walker.next;
+            p.next = new ListNode(sum);
+            p = p.next;
+            
+            if (l1 != null) l1 = l1.next;
+            if (l2 != null) l2 = l2.next;
         }
-        if (carry) walker.next = new ListNode(1);
-        return dummyHead.next;
+        if (carry == 1) p.next = new ListNode(1);
+        return dummy.next;
     }
 }
