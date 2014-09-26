@@ -63,14 +63,16 @@ public class MergeIntervals {
             }
         });
         Interval prev = new Interval(Integer.MIN_VALUE, Integer.MIN_VALUE);
-        for (int i = 0; i < intervals.size(); i++) {
+        int i = 0;
+        while (i < intervals.size()) {
             Interval curr = intervals.get(i);
-            if (curr.start <= prev.end) {
+            if (prev.end >= curr.start) {
                 prev.end = Math.max(prev.end, curr.end);
                 intervals.remove(i);
-                i--;
-            } else
-                prev = curr; // upper case doesn't require changing prev explicitly
+            } else { // the above case do not need these steps
+                i++;
+                prev = curr; //
+            }
         }
         return intervals;
     }
