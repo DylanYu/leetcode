@@ -26,6 +26,41 @@ import java.util.Set;
  *
  */
 public class FourSum {
+	/* 
+	 * typical O(N^3) solution (convert to two-sum problem)
+	 * 
+	public List<List<Integer>> fourSum(int[] num, int target) {
+        List<List<Integer>> ret = new LinkedList<List<Integer>>();
+        int len = num.length;
+        if (len < 4) return ret;
+        Arrays.sort(num);
+        int i = 0;
+        while (i < len-3) {
+            int j = i+1;
+            while (j < len-2) {
+                int k = j+1;
+                int l = len-1;
+                while (k < l) {
+                    int sum = num[i] + num[j] + num[k] + num[l];
+                    // for the below 4 'do while's, we can use just x++ without while loop, but it will be slower
+                    if (sum < target)
+                        do { k++; } while (k < l && num[k-1] == num[k]);
+                    else if (sum > target)
+                        do { l--; } while (l > k && num[l] == num[l+1]);
+                    else {
+                        ret.add(Arrays.asList(num[i], num[j], num[k], num[l]));
+                        do { k++; } while (k < l && num[k-1] == num[k]);
+                        do { l--; } while (l > k && num[l] == num[l+1]);
+                    }
+                }
+                do { j++; } while (j < len-2 && num[j-1] == num[j]); // must use while loop to eliminate duplicates
+            }
+            do { i++; } while (i < len-3 && num[i-1] == num[i]); // must use while loop to eliminate duplicates
+        }
+        return ret;
+    }
+    */
+	
     class Pair {
         int a;
         int b;
@@ -53,6 +88,7 @@ public class FourSum {
         }
     }
     
+    // typical complexity is O(N^2), worst is O(N^3)
     public List<List<Integer>> fourSum(int[] num, int target) {
         List<List<Integer>> ret = new LinkedList<List<Integer>>();
         //if (num.length < 4) return ret;
@@ -71,7 +107,7 @@ public class FourSum {
                 }
             }
             for (int j = 0; j < i; j++) {
-                // make pair of [j, i] where 0<=j<i
+                // make pair of [j, i] for later search, 0<=j<i
                 int sum = num[j] + num[i];
                 if (!map.containsKey(sum))
                     map.put(sum, new LinkedList<Pair>());
