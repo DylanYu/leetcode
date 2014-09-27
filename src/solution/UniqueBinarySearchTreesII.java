@@ -28,7 +28,7 @@ public class UniqueBinarySearchTreesII {
         List<TreeNode> ret = new LinkedList<TreeNode>();
         
         if (start > end) { // no left or right sub tree case
-            ret.add(null);
+            ret.add(null); // add one null element, not empty, for later for-each loop
             //return ret;
         }
         
