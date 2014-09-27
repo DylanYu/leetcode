@@ -36,6 +36,7 @@ public class Atoi {
                 if (num > ((long) MAX + 1) / 10) return -MAX-1;
                 num *= 10;
                 if (num > (long) MAX + 1 - digit) return -MAX-1;
+                if (num-1+digit == MAX) return -MAX-1; //special case for Integer.MIN_VALUE
                 num += digit;
             }
             i++; //
@@ -44,6 +45,8 @@ public class Atoi {
     }
 
     public static void main(String[] args) {
-        System.out.println(atoi("      -11919730356x"));
+        //System.out.println(atoi("      -11919730356x"));
+        //System.out.println(Integer.MAX_VALUE+1);
+        System.out.println(atoi("      -2147483648"));
     }
 }
