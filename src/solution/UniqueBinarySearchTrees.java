@@ -45,17 +45,19 @@ public class UniqueBinarySearchTrees {
     
     /* straight forward way
     public int numTrees(int n) {
-        return numTrees(1, n);
+        int[][] A = new int[n][n];
+        return numTrees(A, 0, n-1);
     }
     
-    // [hi, lo]
-    private int numTrees(int lo, int hi) {
-        if (lo > hi) return 1; // should be zero, but for this problem we have to set it as 1 for the multiplication below
-        if (lo == hi) return 1;
-        int sum = 0;
-        for (int i = lo; i <= hi; i++)
-            sum += (numTrees(lo, i-1) * numTrees(i+1, hi));
-        return sum;
+    private int numTrees(int[][] A, int i, int j) {
+        if (i > j) return 1; // should be 0, but return 1 for the multiplication
+        if (A[i][j] != 0) return A[i][j];
+        if (i == j) A[i][j] = 1;
+        else {
+            for (int k = i; k <= j; k++)
+                A[i][j] += numTrees(A, i, k-1) * numTrees(A, k+1, j); // * not +
+        }
+        return A[i][j];
     }
     */
 }
