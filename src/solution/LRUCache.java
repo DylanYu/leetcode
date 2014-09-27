@@ -19,18 +19,18 @@ import java.util.Map;
  */
 public class LRUCache {
     class Node {
-        int key;
-        int value;
+        int key; // necessary when invalidating least recently used data in HashMap
+        int val;
         Node prev;
         Node next;
         
         Node (int key, int value) {
             this.key = key;
-            this.value = value;
+            this.val = value;
         }
     }
     
-    private Node head;
+    private Node head; // dummy head and tail
     private Node tail;
     private Map<Integer, Node> map;
     private int capacity;
@@ -48,31 +48,34 @@ public class LRUCache {
     
     public int get(int key) {
         if (map.containsKey(key)) {
-            Node cur = map.get(key);
-            MoveToHead(cur);
-            return cur.value;
+            Node curr = map.get(key);
+            moveToHead(curr);
+            return curr.val;
         } else {
             return -1;
         }
     }
     
     public void set(int key, int value) {
-        if (map.containsKey(key)) {
-            Node cur = map.get(key);
-            cur.value = value;
-            MoveToHead(cur);
+        Node curr = map.get(key);
+        if (curr != null) {
+            moveToHead(curr);
+            curr.val = value;
         } else {
             if (size >= capacity) {
-                if (head.next == tail) return; // capacity is 0, error
-                Node min = tail.prev;
-                delete(min);
-                map.remove(min.key);
-                size--;
+                Node least = tail.prev; // the real tail
+                if (least == head) return; // capacity is 0, error
+                moveToHead(least); // reuse
+                map.remove(least.key);
+                least.key = key;
+                least.val = value;
+                map.put(least.key, least);
+            } else {
+                Node newNode = new Node(key, value);
+                addAtHead(newNode);
+                map.put(key, newNode);
+                size++;
             }
-            Node cur = new Node(key, value);
-            addAtHead(cur);
-            map.put(key, cur);
-            size++;
         }
     }
     
@@ -88,7 +91,7 @@ public class LRUCache {
         node.prev = head;
     }
     
-    private void MoveToHead(Node node) {
+    private void moveToHead(Node node) {
         delete(node);
         addAtHead(node);
     }
