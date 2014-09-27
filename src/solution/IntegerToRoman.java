@@ -19,26 +19,28 @@ package solution;
 public class IntegerToRoman {
     public String intToRoman(int num) {
         StringBuffer sb = new StringBuffer();
-        char[] one = {'I', 'X', 'C', 'M'};
-        char[] five = {'V', 'L', 'D'};
+        char[][] C = {
+            {'I', 'V'},
+            {'X', 'L'},
+            {'C', 'D'},
+            {'M'}
+        };
+        int divisor = 1000;
         for (int i = 3; i >= 0; i--) {
-            int divisor = (int) Math.pow(10, i);
             int cur = num / divisor;
-            num = num - num / divisor * divisor;
+            num -= num / divisor * divisor;
+            divisor /= 10;
             if (cur > 0) {
                 if (cur == 4) {
-                    sb.append(one[i]);
-                    sb.append(five[i]);
+                    sb.append(C[i][0]);
+                    sb.append(C[i][1]);
                 } else if (cur == 9) {
-                    sb.append(one[i]);
-                    sb.append(one[i + 1]);
+                    sb.append(C[i][0]);
+                    sb.append(C[i+1][0]);
                 } else {
-                    if (cur >= 5) {
-                        sb.append(five[i]);
-                        cur -= 5;
-                    }
-                    for (int j = 0; j < cur; j++)
-                        sb.append(one[i]);
+                    if (cur >= 5) sb.append(C[i][1]);
+                    for (int x = 0; x < cur%5; x++)
+                        sb.append(C[i][0]);
                 }
             }
         }
