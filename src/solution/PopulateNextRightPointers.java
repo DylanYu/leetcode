@@ -48,10 +48,11 @@ public class PopulateNextRightPointers {
      * recursive solution. Note: it's a perfect binary tree
      * 
     public void connect(TreeLinkNode root) {
-        if (root == null || root.left == null) return;
-        root.left.next = root.right;
-        if (root.next != null) root.right.next = root.next.left;
-        
+        if (root == null) return;
+        if (root.left != null) { // has next level
+            root.left.next = root.right;
+            if (root.next != null) root.right.next = root.next.left;
+        }
         connect(root.left);
         connect(root.right);
     }
