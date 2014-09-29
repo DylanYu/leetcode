@@ -2,6 +2,7 @@ package solution;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedList;
 
 /**
  * Given numRows, generate the first numRows of Pascal's triangle.
@@ -22,19 +23,20 @@ import java.util.List;
  */
 public class PascalTriangle {
     public List<List<Integer>> generate(int numRows) {
-        // pay attention to generic problem
-        List<List<Integer>> result = new ArrayList<List<Integer>>();
-        for (int i = 0; i < numRows; i++) {
-            List<Integer> row = new ArrayList<Integer>();
-            row.add(1);
-            if (i >= 2) {
-                List<Integer> lastRow = result.get(i-1);
-                for (int j = 1; j < i; j++)
-                    row.add(lastRow.get(j-1) + lastRow.get(j));
-            }
-            if (i != 0) row.add(1);
-            result.add(row);
+        LinkedList<List<Integer>> ret = new LinkedList<List<Integer>>(); // use LinkedList to obtain method getlast()
+        if (numRows <= 0) return ret;
+        ArrayList<Integer> row = new ArrayList<Integer>();
+        row.add(1);
+        ret.add(row);
+        for (int i = 2; i <= numRows; i++) {
+            ArrayList<Integer> lastRow = (ArrayList<Integer>) ret.getLast();
+            ArrayList<Integer> currRow = new ArrayList<Integer>(lastRow.size()+1);
+            currRow.add(1); // do not use set here, index out of bounds
+            for (int j = 1; j < lastRow.size(); j++) // do not use currRow.size() here, size is not capacity
+                currRow.add(lastRow.get(j-1)+lastRow.get(j));
+            currRow.add(1);
+            ret.add(currRow);
         }
-        return result;
+        return ret;
     }
 }
