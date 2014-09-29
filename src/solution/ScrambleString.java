@@ -47,26 +47,23 @@ public class ScrambleString {
     public boolean isScramble(String s1, String s2) {
         if (s1 == null || s2 == null || s1.length() != s2.length()) return false;
         if (s1.equals(s2)) return true;
-        
-        // stop early if not anagram, crucial for reducing time complexity
         char[] c1 = s1.toCharArray();
         Arrays.sort(c1);
         char[] c2 = s2.toCharArray();
         Arrays.sort(c2);
         if (!Arrays.equals(c1, c2)) return false;
-        
-        for (int i = 1; i < s2.length(); i++) {
+        for (int i = 1; i < s1.length(); i++) {
             String s1left = s1.substring(0, i);
             String s1right = s1.substring(i);
             
             String s2left = s2.substring(0, i);
             String s2right = s2.substring(i);
-            if (s1.equals(s2right+s2left)) return true;
+            //if (s1.equals(s2right+s2left)) return true;
             if (isScramble(s1left, s2left) && isScramble(s1right, s2right)) return true;
             
             s2left = s2.substring(0, s2.length()-i);
             s2right = s2.substring(s2.length()-i);
-            if (s1.equals(s2right+s2left)) return true;
+            //if (s1.equals(s2right+s2left)) return true;
             if (isScramble(s1left, s2right) && isScramble(s1right, s2left)) return true;
         }
         return false;
