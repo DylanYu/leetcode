@@ -9,22 +9,23 @@ package solution;
  *
  */
 public class PlusOne {
-	public static int[] plusOne(int[] digits) {
+    public static int[] plusOne(int[] digits) {
         int len = digits.length;
+        if (len == 0) return digits;
         int carry = 1;
-        int i = len - 1;
-        do {
-            int sum = digits[i] + carry;
-            carry = (sum == 10) ? 1 : 0;
-            digits[i] = sum % 10;
-            i--;
-        } while (carry == 1 && i >= 0);
+        for (int i = len-1; i >= 0; i--) {
+            digits[i] += carry;
+            if (digits[i] >= 10) carry = 1;
+            else carry = 0;
+            digits[i] %= 10;
+            if (carry == 0) break;
+        }
         if (carry == 1) {
-            int[] tmp = new int[len+1];
-            tmp[0] = carry;
-            for (int ii = 1; ii < len+1; ii++)
-                tmp[ii] = digits[ii-1];
-            digits = tmp;
+            int[] arr = new int[len+1];
+            arr[0] = carry;
+            for (int i = 1; i < arr.length; i++)
+                arr[i] = digits[i-1];
+            digits = arr;
         }
         return digits;
     }
