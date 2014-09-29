@@ -20,4 +20,32 @@ public class MaximumSubarray {
         }
         return max;
     }
+    
+    /*
+     * O(nlgn) divide and conquer approach 
+     * 
+    public int maxSubArray(int[] A) {
+        return maxSubarray(A, 0, A.length-1);
+    }
+    
+    private int maxSubarray(int[] A, int start, int end) {
+        //if (start > end) return Integer.MIN_VALUE; // this case will not happen
+        if (start == end) return A[start];
+        int mid = start + (end-start)/2;
+        int leftMax = maxSubarray(A, start, mid);
+        int rightMax = maxSubarray(A, mid+1, end);
+        //int leftSuffixMax = A[mid];
+        int leftSuffixMax = Integer.MIN_VALUE;
+        int tmp = 0;
+        for (int i = mid; i >= start; i--)
+            leftSuffixMax = Math.max(leftSuffixMax, tmp += A[i]);
+        //int rightPrefixMax = A[mid+1];
+        int rightPrefixMax = Integer.MIN_VALUE;
+        tmp = 0;
+        for (int i = mid+1; i <= end; i++)
+            rightPrefixMax = Math.max(rightPrefixMax, tmp += A[i]);
+        int midIncludedMax = leftSuffixMax + rightPrefixMax;
+        return Math.max(midIncludedMax, Math.max(leftMax, rightMax));
+    }
+    */
 }
