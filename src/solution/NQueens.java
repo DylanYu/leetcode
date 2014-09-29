@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * The n-queens puzzle is the problem of placing n queens on an n×n chessboard 
+ * The n-queens puzzle is the problem of placing n queens on an nï¿½n chessboard 
  * such that no two queens attack each other.
  * 
  * Given an integer n, return all distinct solutions to the n-queens puzzle.
@@ -17,50 +17,49 @@ import java.util.List;
  */
 public class NQueens {
     public List<String[]> solveNQueens(int n) {
-        char[][] board = new char[n][n];
-        for (int i = 0; i < n; i++)
-            for (int j = 0; j < n; j++)
-                board[i][j] = '.';
         List<String[]> ret = new LinkedList<String[]>();
-        for (int i = 0; i < n; i++) // start from first level
-            solve(board, 0, i, 0, ret);
+        if (n <= 0) return ret;
+        boolean[][] board = new boolean[n][n];
+        solve(board, 0, n, ret);
         return ret;
     }
     
-    private void solve(char[][] board, int x, int y, int k, List<String[]> ret) {
-        if (x >= board.length || y >= board[0].length) return;
-        if (!isValid(board, x, y)) return;
-        // DFS, no need to copy entire board, just set back to '.' after this pass
-        board[x][y] = 'Q';
-        if (k+1 == board.length) {
-            String[] arr = new String[board.length];
-            for (int i = 0; i < arr.length; i++)
-                arr[i] = new String(board[i]);
-            ret.add(arr);
-        } else {
-            if (x == board.length-1) return;
-            for (int i = 0; i <= y-2; i++)
-                solve(board, x+1, i, k+1, ret);
-            for (int i = y+2; i < board.length; i++)
-                solve(board, x+1, i, k+1, ret);
+    // rowIdx starts from 0, n starts from 1
+    private void solve(boolean[][] board, int rowIdx, int n, List<String[]> ret) {
+        if (rowIdx == n) {
+            ret.add(boardToStr(board));
+            return;
         }
-        board[x][y] = '.';
+        for (int i = 0; i < n; i++) {
+            if (posValid(board, rowIdx, i)) {
+                board[rowIdx][i] = true;
+                solve(board, rowIdx+1, n, ret);
+                board[rowIdx][i] = false;
+            }
+        }
     }
     
-    // put a queen in (x, y) on board, just check the above part
-    private boolean isValid(char[][] board, int x, int y) {
-        for (int i = x-1; i >= 0; i--)
-            if (board[i][y] == 'Q') return false;
-        int i = 1;
-        while (x-i >= 0 && y-i >= 0) {
-            if (board[x-i][y-i] == 'Q') return false;
-            i++;
-        }
-        i = 1;
-        while (x-i >= 0 && y+i < board.length) {
-            if (board[x-i][y+i] == 'Q') return false;
-            i++;
-        }
+    private boolean posValid(boolean[][] board, int x, int y) {
+        for (int i = 0; i < x; i++)
+            if (board[i][y]) return false;
+        for (int left = 1; x-left >= 0 && y-left >= 0; left++)
+            if (board[x-left][y-left]) return false;
+        for (int right = 1; x-right >= 0 && y+right < board[0].length; right++)
+            if (board[x-right][y+right]) return false;
         return true;
+    }
+    
+    private String[] boardToStr(boolean[][] board) {
+        int n = board.length;
+        String[] arr = new String[n];
+        for (int i = 0; i < n; i++) {
+            StringBuffer sb = new StringBuffer();
+            for (int j = 0; j < n; j++) {
+                if (board[i][j]) sb.append('Q');
+                else sb.append('.');
+            }
+            arr[i] = sb.toString();
+        }
+        return arr;
     }
 }
