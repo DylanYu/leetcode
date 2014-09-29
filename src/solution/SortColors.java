@@ -29,6 +29,17 @@ public class SortColors {
             else
                 i++;
         }
+        
+        OR
+        
+        int lt = -1;
+        int i = 0;
+        int gt = A.length;
+        while (i < gt) {
+            if (A[i] == 0) swap(A, ++lt, i++);
+            else if (A[i] == 2) swap(A, i, --gt);
+            else i++;
+        }
         */
         
         /* counting sort
