@@ -14,16 +14,13 @@ package solution;
  * @author Dongliang Yu
  *
  */
-public class RemoveDuplicates {
+public class RemoveDuplicatesFromSortedArray {
     public int removeDuplicates(int[] A) {
-        if (A.length == 0) return 0;
+        if (A.length == 0) return 0; //
         int j = 0;
-        for (int i = 1; i < A.length; i++) {
-            if (A[i] != A[j]) {
-                j++;
-                A[j] = A[i];
-            }
-        }
+        for (int i = 1; i < A.length; i++)
+            if (A[i] != A[j])
+                A[++j] = A[i];
         return j+1;
     }
     
@@ -32,7 +29,7 @@ public class RemoveDuplicates {
         int length = A.length;
         int count = 0;
         for (int i = 1; i < length; i++) {
-            if (A[i] == A[i - 1])
+            if (A[i] == A[i-1-count])
                 count++;
             else
                 A[i - count] = A[i];
