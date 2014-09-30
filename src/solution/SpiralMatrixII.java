@@ -18,23 +18,23 @@ package solution;
  */
 public class SpiralMatrixII {
     public int[][] generateMatrix(int n) {
-        if (n < 0) return null;
-        if (n == 0) return new int[0][]; // only for passing OJ, not necessary exactly, should return null
-        int[][] matrix = new int[n][n];
-        int number = 1;
+        if (n < 0) return null; // n==0 is OK
+        int[][] M = new int[n][n];
+        int num = 1;
         int lo = 0;
         int hi = n-1;
-        while (lo < hi) {
+        while (lo <= hi) {
             int x = lo;
             int y = lo;
-            while (y < hi) matrix[x][y++] = number++;
-            while (x < hi) matrix[x++][y] = number++;
-            while (y > lo) matrix[x][y--] = number++;
-            while (x > lo) matrix[x--][y] = number++;
+            while (y < hi) M[x][y++] = num++;
+            while (x < hi) M[x++][y] = num++;
+            if (x == lo) { M[x][y] = num; break; } // one block left case
+            while (y > lo) M[x][y--] = num++;
+            while (x > lo) M[x--][y] = num++;
             lo++;
             hi--;
         }
-        if (lo == hi) matrix[lo][lo] = number; // odd case, not necessary for even case
-        return matrix;
+        //if (lo == hi) matrix[lo][lo] = number; // odd case, not necessary for even case
+        return M;
     }
 }
