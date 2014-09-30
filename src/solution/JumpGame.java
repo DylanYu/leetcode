@@ -16,10 +16,14 @@ package solution;
 public class JumpGame {
     // as easy as you could image
     public boolean canJump(int[] A) {
-        int farthest = A[0];
-        for (int i = 0; i <= farthest; i++) {
-            if (farthest >= A.length-1) return true;
-            farthest = Math.max(farthest, i + A[i]);
+    	if (A.length == 0) return false;
+        int dst = A.length-1;
+        int farthest = 0;
+        int i = 0;
+        while (i <= farthest) {
+            if (farthest >= dst) return true;
+            farthest = Math.max(farthest, i+A[i]);
+            i++;
         }
         return false;
     }
