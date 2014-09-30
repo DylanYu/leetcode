@@ -50,29 +50,23 @@ public class SetMatrixZeros {
     /* O(m+n) extra space
     public void setZeroes(int[][] matrix) {
         int m = matrix.length;
+        if (m == 0) return;
         int n = matrix[0].length;
-        Set<Integer> zeroRows = new HashSet<Integer>();
-        Set<Integer> zeroCols = new HashSet<Integer>();
+        if (n == 0) return;
+        Set<Integer> xset = new HashSet<Integer>();
+        Set<Integer> yset = new HashSet<Integer>();
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 if (matrix[i][j] == 0) {
-                    zeroRows.add(i);
-                    zeroCols.add(j);
+                    xset.add(i);
+                    yset.add(j);
                 }
             }
         }
-        Iterator<Integer> it = (Iterator<Integer>) zeroRows.iterator();
-        while (it.hasNext()) {
-            int row = it.next();
-            for (int j = 0; j < n; j++)
-                matrix[row][j] = 0;
-        }
-        it = (Iterator<Integer>) zeroCols.iterator();
-        while (it.hasNext()) {
-            int col = it.next();
-            for (int i = 0; i < m; i++)
-                matrix[i][col] = 0;
-        }
+        for (int x : xset)
+            for (int y = 0; y < n; y++) matrix[x][y] = 0;
+        for (int y : yset)
+            for (int x = 0; x < m; x++) matrix[x][y] = 0;
     }
     */
 }
