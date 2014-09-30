@@ -26,24 +26,25 @@ import java.util.List;
  */
 public class PathSumII {
     public static List<List<Integer>> pathSum(TreeNode root, int sum) {
-        List<List<Integer>> result = new ArrayList<List<Integer>>();
-        if (root == null) return result;
-        subroutine(root, 0, new ArrayList<Integer>(), result, sum);
-        return result;
+        List<List<Integer>> ret = new ArrayList<List<Integer>>();
+        //if (root == null) return result;
+        recurse(root, new ArrayList<Integer>(), 0, sum, ret);
+        return ret;
     }
    
-    private static void subroutine(TreeNode node, int curVal, ArrayList<Integer> curList, List<List<Integer>> result, int sum) {
+    private static void recurse(TreeNode node, ArrayList<Integer> curList, int curVal, int sum, List<List<Integer>> ret) {
+    	if (node == null) return;
         curVal += node.val;
         curList.add(node.val);
         if (curVal == sum && node.left == null && node.right == null) {
-            ArrayList<Integer> list = (ArrayList<Integer>) curList.clone();
-            result.add(list);
+            ArrayList<Integer> copy = new ArrayList<Integer>(curList);
+            ret.add(copy);
+            curList.remove(curList.size()-1); //
+            return;
         }
-        if (node.left != null)
-            subroutine(node.left, curVal, curList, result, sum);
-        if (node.right != null)
-            subroutine(node.right, curVal, curList, result, sum);
-        curList.remove(curList.size() - 1);
+        recurse(node.left, curList, curVal, sum, ret);
+        recurse(node.right, curList, curVal, sum, ret);
+        curList.remove(curList.size()-1); //
     }
     
     public static void main(String[] args) {
