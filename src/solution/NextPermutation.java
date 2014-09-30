@@ -19,27 +19,19 @@ package solution;
 public class NextPermutation {
     public static void nextPermutation(int[] num) {
         int length = num.length;
-        if (length <= 1)
-            return;
-        int i = length - 2;
-        while (i >= 0) {
-            if (num[i] < num[i + 1])
-                break;
-            i--;
-        }
+        //if (length <= 1) return;
+        int i = length-2;
+        while (i >= 0 && num[i] >= num[i+1]) i--;
         if (i == -1) { // array in descending order, return the ascending order
-            reverse(num, 0, length);
+            reverse(num, 0, length-1);
             return;
         }
-        int j = i + 1;
-        while (j < length) {
-            if (num[j] <= num[i]) // first item which smaller/equal than num[i]
-                break;
-            j++;
-        }
+        // find first item which smaller/equal than num[i]
+        int j = i+1;
+        while (j < length && num[j] > num[i]) j++;
         j--; // smallest item which is greater than num[i]
         swap(num, i, j);
-        reverse(num, i + 1, length);
+        reverse(num, i+1, length-1);
     }
     
     private static void swap(int[] num, int a, int b) {
@@ -48,26 +40,22 @@ public class NextPermutation {
         num[b] = tmp;
     }
     
-    /**
-     * [start, end) 
-     */
+    // [start, end] 
     private static void reverse(int[] num, int start, int end) {
         int length = num.length;
-        if (start < 0 || end > length || start >= end)
-            throw new IllegalArgumentException("[start, end) index out of bound");
-        int mid = start + (end - start) / 2;
-        for (int i = start; i < mid; i++) {
-            swap(num, i, end - i - 1 + start);
-        }
+        if (start < 0 || end >= length || start > end)
+            throw new IllegalArgumentException("[start, end] index out of bound");
+        while (start < end)
+            swap(num, start++, end--);
     }
     
     public static void main(String[] args) {
-        //int[] num = {1,4,3,2};
+        int[] num = {1,4,3,2};
         //int[] num = {3,1,4,4,2,3,4,0,0};
         //int[] num = {5,4,3,2,1};
         //int[] num = {1,2,3,4,5};
         //int[] num = {2,1};
-        int[] num = {1, 5, 1};
+        //int[] num = {1, 5, 1};
         nextPermutation(num);
         for (int i = 0; i < num.length; i++)
             System.out.print(num[i]);

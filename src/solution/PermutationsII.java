@@ -17,49 +17,50 @@ import java.util.Arrays;
 public class PermutationsII {
     /*
      * This solution does not depend on NextPermutation, but use a direct recursive way.
+     * 
     public List<List<Integer>> permuteUnique(int[] num) {
-        ArrayList<List<Integer>> result = new ArrayList<List<Integer>>();
-        ArrayList<Integer> cur = new ArrayList<Integer>();
-        ArrayList<Integer> left = new ArrayList<Integer>();
+        List<List<Integer>> ret = new LinkedList<List<Integer>>();
+        if (num.length == 0) return ret;
         Arrays.sort(num);
+        ArrayList<Integer> left = new ArrayList<Integer>();
         for (int e : num) left.add(e);
-        generate(cur, left, result);
-        return result;
+        generate(new ArrayList<Integer>(), left, ret);
+        return ret;
     }
     
-    private void generate(ArrayList<Integer> cur, ArrayList<Integer> left, ArrayList<List<Integer>> result) {
+    private void generate(ArrayList<Integer> curr, ArrayList<Integer> left, List<List<Integer>> ret) {
         if (left.size() == 0) {
-            result.add(cur);
+            ret.add(new ArrayList<Integer>(curr));
             return;
         }
-        for (int i = 0; i < left.size(); i++) {
-            if (i > 0 && left.get(i) == left.get(i-1)) continue;
-            ArrayList<Integer> curCopy = (ArrayList<Integer>) cur.clone();
-            int e = left.get(i);
-            curCopy.add(e);
-            left.remove(i);
-            generate(curCopy, left, result);
-            left.add(i, e); // add back to left, so we do not need to copy it.
+        int i = 0;
+        while (i < left.size()) {
+            int e = left.remove(i);
+            curr.add(e);
+            generate(curr, left, ret);
+            curr.remove(curr.size()-1);
+            left.add(i, e);
+            int j = i+1;
+            while (j < left.size() && left.get(j) == left.get(j-1)) j++;
+            i = j;
         }
     }
     */
+	
     public static ArrayList<ArrayList<Integer>> permuteUnique(int[] num) {
         int length = num.length;
-        ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
-        if (length == 0)
-            return result;
+        ArrayList<ArrayList<Integer>> ret = new ArrayList<ArrayList<Integer>>();
+        if (length == 0) return ret;
         Arrays.sort(num);
-        result.add(Permutations.getList(num));
-        while (!isDesc(num)) {
+        while (true) {
+            ret.add(Permutations.getList(num));
+            if (isDesc(num)) break;
             NextPermutation.nextPermutation(num);
-            result.add(Permutations.getList(num));
         }
-        return result;
+        return ret;
     }
     
-    /**
-     * not strictly descending
-     */
+    // not strictly descending
     public static boolean isDesc(int[] num) {
         int length = num.length;
         for (int i = 0; i < length - 1; i++)

@@ -5,43 +5,41 @@ import java.util.ArrayList;
 public class Permutations {
     /*
      * This solution does not depend on NextPermutation, but use a direct recursive way.
+     * 
     public List<List<Integer>> permute(int[] num) {
-        ArrayList<List<Integer>> result = new ArrayList<List<Integer>>();
-        ArrayList<Integer> cur = new ArrayList<Integer>();
+        List<List<Integer>> ret = new LinkedList<List<Integer>>();
+        if (num.length == 0) return ret;
         ArrayList<Integer> left = new ArrayList<Integer>();
         for (int e : num) left.add(e);
-        generate(cur, left, result);
-        return result;
+        generate(new ArrayList<Integer>(), left, ret);
+        return ret;
     }
     
-    private void generate(ArrayList<Integer> cur, ArrayList<Integer> left, ArrayList<List<Integer>> result) {
+    private void generate(List<Integer> curr, List<Integer> left, List<List<Integer>> ret) {
         if (left.size() == 0) {
-            result.add(cur);
+            ret.add(new ArrayList<Integer>(curr));
             return;
         }
         for (int i = 0; i < left.size(); i++) {
-            ArrayList<Integer> curCopy = (ArrayList<Integer>) cur.clone();
-            int e = left.get(i);
-            curCopy.add(e);
-            left.remove(i);
-            generate(curCopy, left, result);
-            left.add(i, e); // add back to left, so we do not need to copy it.
+        	int e = left.remove(i);
+            curr.add(e);
+            generate(curr, left, ret);
+            curr.remove(curr.size()-1);
+            left.add(i, e);
         }
     }
     */
     
     public static ArrayList<ArrayList<Integer>> permute(int[] num) {
         int length = num.length;
-        ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
-        if (length == 0)
-            return result;
-        result.add(getList(num));
-        int total = factorial(length);
-        for (int i = 1; i < total; i++) {
+        ArrayList<ArrayList<Integer>> ret = new ArrayList<ArrayList<Integer>>();
+        if (length == 0) return ret;
+        int total = factorial(length); // if any duplicate elements, this is NOT correct, see PermutationsII
+        for (int i = 0; i < total; i++) {
+            ret.add(getList(num));
             NextPermutation.nextPermutation(num);
-            result.add(getList(num));
         }
-        return result;
+        return ret;
     }
     
     public static ArrayList<Integer> getList(int[] num) {
@@ -60,7 +58,7 @@ public class Permutations {
     }
     
     public static void main(String[] args) {
-        int[] num = {1, 2, 3, 4};
+        int[] num = {1, 2, 2, 4};
         ArrayList<ArrayList<Integer>> permutations = permute(num);
         System.out.println("number of permutations: " + permutations.size());
         for (int i = 0; i < permutations.size(); i++) {
