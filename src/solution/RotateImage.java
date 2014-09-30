@@ -31,6 +31,37 @@ public class RotateImage {
     }
     
     /*
+     * just swap, no any extra space approach
+     * 
+    public void rotate(int[][] matrix) {
+        int n = matrix.length;
+        int x0 = 0;
+        int y0 = 0;
+        int x1 = n-1;
+        int y1 = n-1;
+        while (x0 < x1) {
+            // 1234 => 4123 needs three swaps (1&4, 1&3, 1&2)
+            for (int i = 1; y0+i <= y1; i++) // 1 & 4
+                swap(matrix, x0, y0+i, x1-i, y0);
+            for (int i = 1; y1-i >= y0; i++) // 1(4) & 3
+                swap(matrix, x1, y1-i, x1-i, y0);
+            for (int i = 1; y1-i >= y0; i++)// 1(3) & 2
+                swap(matrix, x1, y1-i, x0+i, y1);
+            x0++;
+            y0++;
+            x1--;
+            y1--;
+        }
+    }
+    
+    private void swap(int[][] matrix, int x0, int y0, int x1, int y1) {
+        int tmp = matrix[x0][y0];
+        matrix[x0][y0] = matrix[x1][y1];
+        matrix[x1][y1] = tmp;
+    }
+    */
+    
+    /*
      * Magic solution:
      * 1) flip (not rotate) the matrix upside down. (reverse)
      * 2) flip again, but this time bottom edge to the right. (swap)
