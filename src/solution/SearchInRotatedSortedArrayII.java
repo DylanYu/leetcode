@@ -10,50 +10,25 @@ package solution;
  *
  */
 public class SearchInRotatedSortedArrayII {
-    private static boolean flag;
-    
-    public static boolean search(int[] A, int target) {
-        flag = false;
-        return binary(A, 0, A.length - 1, target);
-    }
-    
-    private static boolean binary(int[] A, int lo, int hi, int target) {
-        if (lo > hi) return false;
-        int mid = lo + (hi - lo) / 2;
-        int cur = A[mid];
-        if (cur == target) {
-            return true;
-        } else if(flag) {
-            if (cur < target) return binary(A, mid + 1, hi, target);
-            else return binary(A, lo, mid - 1, target);
-        } else {
-            if (cur < A[hi]) {
-                if (cur < target) {
-                    boolean left = binary(A, lo, mid - 1, target);
-                    if (left) return left;
-                    else {
-                        flag = true;
-                        return binary(A, mid + 1, hi, target);
-                    }
-                } else {
-                    return binary(A, lo, mid - 1, target);
-                }
-            } else if (cur > A[hi]) {
-                if (cur < target) {
-                    return binary(A, mid + 1, hi, target);
-                } else {
-                    boolean right = binary(A, mid + 1, hi, target);
-                    if (right) return right;
-                    else {
-                        flag = true;
-                        return binary(A, lo, mid - 1, target);
-                    }
-                }
-            } else { // cur == A[hi], cannot decide which side, so search both
-                boolean left = binary(A, lo, mid - 1, target);
-                if (left) return left;
-                else return binary(A, mid + 1, hi, target);
+	public boolean search(int[] A, int target) {
+        int lo = 0;
+        int hi = A.length-1;
+        while (lo <= hi) {
+            int mid = lo + (hi-lo)/2;
+            if (A[mid] == target) return true;
+            if (A[mid] > A[lo]) {
+                if (A[lo] <= target && target <= A[mid]) hi = mid-1;
+                else lo = mid+1;
+            } else if (A[mid] < A[lo]) {
+                if (A[mid] <= target && target <= A[hi]) lo = mid+1;
+                else hi = mid-1;
+            } else { // or just simply lo++
+                int i = mid-1;
+                while (i >= lo && A[i] == A[mid]) i--; // lo not 0
+                if (i == lo-1) lo = mid+1; // lo-1 not -1
+                else hi = mid-1;
             }
         }
+        return false;
     }
 }

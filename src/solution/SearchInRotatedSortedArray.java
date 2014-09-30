@@ -14,46 +14,24 @@ package solution;
  *
  */
 public class SearchInRotatedSortedArray {
-    private static boolean flag;
-    
-    public static int search(int[] A, int target) {
-        flag = false;
-        return binary(A, 0, A.length - 1, target);
-    }
-    
-    private static int binary(int[] A, int lo, int hi, int target) {
-        if (lo > hi) return -1;
-        int mid = lo + (hi - lo) / 2;
-        int cur = A[mid];
-        if (cur == target) {
-            return mid;
-        } else if(flag) {
-            if (cur < target) return binary(A, mid + 1, hi, target);
-            else return binary(A, lo, mid - 1, target);
-        } else {
-            if (cur < A[hi]) {
-                if (cur < target) {
-                    int left = binary(A, lo, mid - 1, target);
-                    if (left != -1) return left;
-                    else {
-                        flag = true;
-                        return binary(A, mid + 1, hi, target);
-                    }
-                } else {
-                    return binary(A, lo, mid - 1, target);
-                }
+	public int search(int[] A, int target) {
+        int lo = 0;
+        int hi = A.length-1;
+        while (lo <= hi) {
+            int mid = lo + (hi-lo)/2;
+            if (A[mid] == target) return mid;
+            if (A[lo] <= A[mid]) {
+                if (A[lo] <= target && target <= A[mid])
+                    hi = mid-1;
+                else
+                    lo = mid+1;
             } else {
-                if (cur < target) {
-                    return binary(A, mid + 1, hi, target);
-                } else {
-                    int right = binary(A, mid + 1, hi, target);
-                    if (right != -1) return right;
-                    else {
-                        flag = true;
-                        return binary(A, lo, mid - 1, target);
-                    }
-                }
+                if (A[mid] <= target && target <= A[hi])
+                    lo = mid+1;
+                else
+                    hi = mid-1;
             }
         }
+        return -1;
     }
 }
