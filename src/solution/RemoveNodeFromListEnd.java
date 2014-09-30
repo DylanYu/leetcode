@@ -20,19 +20,17 @@ package solution;
  */
 public class RemoveNodeFromListEnd {
     public ListNode removeNthFromEnd(ListNode head, int n) {
-        if (head == null)
-            return null;
-        ListNode dummyHead = new ListNode(-1);
-        dummyHead.next = head;
-        ListNode fast = dummyHead;
-        while (n-- > 0)
-            fast = fast.next;
-        ListNode slow = dummyHead;
+        if (head == null) return null;
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode fast = dummy;
+        while (n-- > 0) fast = fast.next;
+        ListNode slow = dummy;
         while (fast.next != null) {
             slow = slow.next;
             fast = fast.next;
         }
         slow.next = slow.next.next;
-        return dummyHead.next;
+        return dummy.next;
     }
 }
