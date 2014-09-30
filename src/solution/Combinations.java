@@ -23,23 +23,37 @@ import java.util.LinkedList;
  *
  */
 public class Combinations {
-    public List<List<Integer>> combine(int n, int k) {
+	public List<List<Integer>> combine(int n, int k) {
         List<List<Integer>> ret = new LinkedList<List<Integer>>();
         combine(new ArrayList<Integer>(), 1, n, k, ret);
         return ret;
     }
     
-    // select k items from [lo, hi]
-    private void combine(ArrayList<Integer> cur, int lo, int hi, int k, List<List<Integer>> ret) {
-        //if ((hi - lo + 1) < k) return; // not necessary any more
+	private void combine(ArrayList<Integer> list, int curr, int n, int k, List<List<Integer>> ret) {
         if (k == 0) {
-            ret.add(cur);
+            ret.add(new ArrayList<Integer>(list)); //
             return;
         }
-        for (int i = lo; i <= hi-k+1; i++) {
-            ArrayList<Integer> next = (ArrayList<Integer>) cur.clone();
-            next.add(i);
-            combine(next, i+1, hi, k-1, ret);
+        for (int i = curr; i <= n-k+1; i++) {
+            list.add(i);
+            combine(list, i+1, n, k-1, ret);
+            list.remove(list.size()-1); //
         }
     }
+	
+	/*
+	 * different approach to proceed recursion, less efficient than above one
+	 * 
+    private void combine(ArrayList<Integer> list, int curr, int n, int k, List<List<Integer>> ret) {
+        if (k == 0) {
+            ret.add(list); //
+            return;
+        }
+        for (int i = curr; i <= n-k+1; i++) {
+            ArrayList<Integer> copy =  new ArrayList<Integer>(list); //
+            copy.add(i);
+            combine(copy, i+1, n, k-1, ret);
+        }
+    }
+    */
 }
