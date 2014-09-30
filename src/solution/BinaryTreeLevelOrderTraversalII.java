@@ -58,7 +58,7 @@ public class BinaryTreeLevelOrderTraversalII {
     
     private void levelOrderBottom(TreeNode node, int level, List<List<Integer>> rst) {
         if (node == null) return;
-        if (rst.size() == level) rst.add(new LinkedList<Integer>());
+        if (level >= rst.size()) rst.add(new LinkedList<Integer>());
         rst.get(level).add(node.val);
         levelOrderBottom(node.left, level+1, rst);
         levelOrderBottom(node.right, level+1, rst);
