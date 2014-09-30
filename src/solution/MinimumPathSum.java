@@ -11,19 +11,56 @@ package solution;
  */
 public class MinimumPathSum {
     // more advanced O(n) extra space solution;
+	public int minPathSum(int[][] grid) {
+        int m = grid.length;
+        if (m == 0) return Integer.MAX_VALUE;
+        int n = grid[0].length;
+        if (n == 0) return Integer.MAX_VALUE;
+        int[] A = new int[n+1];
+        for (int i = 0; i <=n; i++) A[i] = Integer.MAX_VALUE;
+        A[1] = 0; // important
+        for (int i = 1; i <= m; i++)
+            for (int j = 1; j <= n; j++)
+                A[j] = grid[i-1][j-1] + Math.min(A[j-1], A[j]);
+        return A[n];
+    }
+    
+    /*
+     * different start direction
+     * 
     public int minPathSum(int[][] grid) {
         int m = grid.length;
+        if (m == 0) return Integer.MAX_VALUE;
         int n = grid[0].length;
-        int[] A = new int[m+1]; // the A[m] is just used as a marker
+        if (n == 0) return Integer.MAX_VALUE;
+        int[] A = new int[m+1];
         for (int i = 0; i <= m; i++) A[i] = Integer.MAX_VALUE;
-        A[m-1] = 0;
-
-        for (int j = n-1; j >= 0; j--) {
-            for (int i = m-1; i >= 0; i--)
-                A[i] = Math.min(A[i+1], A[i]) + grid[i][j];
-        }
-        return A[0];
+        A[1] = 0; // important
+        for (int j = 0; j < n; j++)
+            for (int i = 0; i < m; i++)
+                A[i+1] = grid[i][j] + Math.min(A[i], A[i+1]);
+        return A[m];
     }
+    */
+    
+    /*
+     * example shows that we should take care of initial state 
+     *
+    public int minPathSum(int[][] grid) {
+        int m = grid.length;
+        if (m == 0) return Integer.MAX_VALUE;
+        int n = grid[0].length;
+        if (n == 0) return Integer.MAX_VALUE;
+        int[][] A = new int[m+1][n+1];
+        for (int i = 0; i <= m; i++) A[i][0] = Integer.MAX_VALUE;
+        for (int i = 0; i <= n; i++) A[0][i] = Integer.MAX_VALUE;
+        A[1][0] = 0; // or A[0][1] = 0, just need one 0 to give the Math.min a chance
+        for (int i = 1; i <= m; i++)
+            for (int j = 1; j <= n; j++)
+                A[i][j] = grid[i-1][j-1] + Math.min(A[i-1][j], A[i][j-1]);
+        return A[m][n];
+    }
+    */
     
     /*
      * straight forward O(n) extra space solution
@@ -49,7 +86,7 @@ public class MinimumPathSum {
     */
     
     /**
-     * normal DP
+     * recursive DP
      *  
     public int minPathSum(int[][] grid) {
         int m = grid.length;
