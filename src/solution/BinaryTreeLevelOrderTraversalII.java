@@ -29,39 +29,49 @@ import java.util.Stack;
  */
 public class BinaryTreeLevelOrderTraversalII {
     // trick the levelOrder() by inserting at head
-    public List<List<Integer>> levelOrderBottom(TreeNode root) {
-        LinkedList<List<Integer>> rst = new LinkedList<List<Integer>>();
+	public List<List<Integer>> levelOrder(TreeNode root) {
+        LinkedList<List<Integer>> ret = new LinkedList<List<Integer>>();
         LinkedList<TreeNode> queue = new LinkedList<TreeNode>();
         if (root != null) queue.add(root);
         while (!queue.isEmpty()) {
             TreeNode end = queue.getLast();
-            List<Integer> levelRst = new LinkedList<Integer>();
-            while (true) {
-                TreeNode got = queue.removeFirst();
-                levelRst.add(got.val);
-                if (got.left != null) queue.add(got.left);
-                if (got.right != null) queue.add(got.right);
-                if (got == end) break;
+            List<Integer> level = new LinkedList<Integer>();
+            while (!queue.isEmpty()) {
+                TreeNode curr = queue.removeFirst();
+                level.add(curr.val);
+                if (curr.left != null) queue.add(curr.left);
+                if (curr.right != null) queue.add(curr.right);
+                if (curr == end) break;
             }
-            rst.addFirst(levelRst);
+            ret.addFirst(level); // just this different from version I
         }
-        return rst;
+        return ret;
     }
     
-    /* just reveres the result of levelOrder()
+    /*
+     * modify the recursion version of LevelOrderTraversal
+     * 
     public List<List<Integer>> levelOrderBottom(TreeNode root) {
-        List<List<Integer>> rst = new ArrayList<List<Integer>>();
-        levelOrderBottom(root, 0, rst);
-        Collections.reverse(rst);
-        return rst;
+        List<List<Integer>> ret = new ArrayList<List<Integer>>();
+        int h = height(root);
+        // create result list first
+        for (int i = 0; i < h; i++)
+        	ret.add(new LinkedList<Integer>());
+        levelOrder(root, 0, h, ret);
+        return ret;
     }
     
-    private void levelOrderBottom(TreeNode node, int level, List<List<Integer>> rst) {
+    private int height(TreeNode node) {
+        if (node == null) return 0;
+        return 1 + Math.max(height(node.left), height(node.right));
+    }
+    
+    private void levelOrder(TreeNode node, int level, int height, List<List<Integer>> ret) {
         if (node == null) return;
-        if (level >= rst.size()) rst.add(new LinkedList<Integer>());
-        rst.get(level).add(node.val);
-        levelOrderBottom(node.left, level+1, rst);
-        levelOrderBottom(node.right, level+1, rst);
+        //if (level >= ret.size()) ret.add(new LinkedList<Integer>());
+        levelOrder(node.left, level+1, height, ret);
+        levelOrder(node.right, level+1, height, ret);
+        ret.get(height-level-1).add(node.val); // kind of a post order traversal
     }
     */
     
