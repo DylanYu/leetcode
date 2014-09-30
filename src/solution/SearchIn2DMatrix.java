@@ -21,38 +21,35 @@ package solution;
  */
 public class SearchIn2DMatrix {
     public boolean searchMatrix(int[][] matrix, int target) {
-        int row = getRow(matrix, target);
+        int row = searchVertical(matrix, target);
         if (row < 0) return false;
-        int col = getCol(matrix, row, target);
+        int col = searchHorizontal(matrix[row], target);
         if (col < 0) return false;
         else return true;
     }
     
-    private int getRow(int[][] matrix, int target) {
-        return getRow(matrix, 0, matrix.length-1, target);
-    }
-    
-    private int getRow(int[][] matrix, int lo, int hi, int target) {
-        if (lo >= hi) {
-            if (target < matrix[lo][0]) return lo-1; // may return -1, it's what we need
-            else return lo;
+    private int searchHorizontal(int[] arr, int target) {
+        int lo = 0;
+        int hi = arr.length-1;
+        while (lo <= hi) {
+            int mid = lo + (hi-lo)/2;
+            if (arr[mid] < target) lo = mid+1;
+            else if (arr[mid] > target) hi = mid-1;
+            else return mid;
         }
-        int mid = lo + (hi - lo) / 2;
-        if (matrix[mid][0] < target) return getRow(matrix, mid+1, hi, target);
-        else if (matrix[mid][0] > target) return getRow(matrix, lo, mid-1, target);
-        else return mid;
+        return -1;
     }
     
-    private int getCol(int[][] matrix, int row, int target) {
-        return getCol(matrix, 0, matrix[0].length-1, row, target);
-    }
-    
-    private int getCol(int[][] matrix, int lo, int hi, int row, int target) {
-        if (lo > hi) return -1;
-        int mid = lo + (hi - lo) / 2;
-        if (matrix[row][mid] < target) return getCol(matrix, mid+1, hi, row, target);
-        else if (matrix[row][mid] > target) return getCol(matrix, lo, mid-1, row, target);
-        else return mid;
+    private int searchVertical(int[][] matrix, int target) {
+        int lo = 0;
+        int hi = matrix.length-1;
+        while (lo <= hi) {
+            int mid = lo + (hi-lo)/2;
+            if (matrix[mid][0] < target) lo = mid+1;
+            else if (matrix[mid][0] > target) hi = mid-1;
+            else return mid;
+        }
+        return hi;
     }
     
     public static void main(String[] args) {
