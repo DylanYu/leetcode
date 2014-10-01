@@ -45,6 +45,33 @@ public class FlattenBinaryTreeToLinkedList {
         }
     }
     
+    /*
+     * more 'stack-like' stack solution
+     * 
+    public TreeNode flatten(TreeNode root) {
+        //if (root == null) return null;
+        Stack<TreeNode> stk = new Stack<TreeNode>();
+        stk.push(root);
+        while (!stk.isEmpty()) {
+            TreeNode curr = stk.pop();
+            if (curr == null) continue;
+            if (curr.left == null && curr.right == null) {
+                if (stk.isEmpty()) break; // nothing to proceed
+                curr.right = stk.pop();
+                stk.push(curr.right);
+            } else { // MUST else because we will make curr.right from null to not null 
+                if (curr.right != null) stk.push(curr.right);
+                if (curr.left != null) {
+                    curr.right = curr.left;
+                    curr.left = null;
+                    stk.push(curr.right);
+                }
+            }
+        }
+        return root;
+    }
+    */
+    
     /* use a stack
     public void flatten(TreeNode root) {
         if (root == null) return;
@@ -64,11 +91,36 @@ public class FlattenBinaryTreeToLinkedList {
     }
     */
 
+    /*
+     * recursive approach
+     * 
+    private TreeNode prev;
+    
+    public TreeNode flatten(TreeNode root) {
+        prev = null;
+        recurse(root);
+        return root;
+    }
+    
+    private void recurse(TreeNode node) {
+        if (node == null) return;
+        TreeNode savedRight = node.right;
+        node.right = node.left;
+        node.left = null;
+        prev = node;
+        
+        recurse(node.right);
+        prev.right = savedRight;
+        recurse(savedRight);
+    }
+    */
+    
     /* recursive way
     private TreeNode last = null;
     
     public void flatten(TreeNode root) {
         flattenSub(root);
+        return root;
     }
     
     public void flattenSub(TreeNode node) {
