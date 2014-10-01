@@ -16,19 +16,14 @@ package solution;
  *
  */
 public class LengthOfLastWord {
-    public int lengthOfLastWord(String s) {
+	public int lengthOfLastWord(String s) {
         if (s == null) return 0;
-        int j = s.length()-1;
-        while (j >= 0) {
-            if (s.charAt(j) != ' ') break;
-            j--;
-        }
-        if (j < 0) return 0;
-        int i = j-1;
-        while (i >= 0) {
-            if (s.charAt(i) == ' ') break;
-            i--;
-        }
+        //if (s.length() == 0) return 0;
+        char[] c = s.toCharArray();
+        int j = c.length-1;
+        while (j >= 0 && c[j] == ' ') j--;
+        int i = j; // not j-1 to deal with all space case
+        while (i >= 0 && c[i] != ' ') i--;
         return j-i;
     }
 }
