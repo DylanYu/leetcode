@@ -25,7 +25,7 @@ public class Subsets {
     }
     
     private static void collect(ArrayList<Integer> list, int[] S, int idx, List<List<Integer>> ret) {
-        ret.add(new ArrayList<Integer>(list)); //
+        ret.add(new ArrayList<Integer>(list)); // will include an empty list in final result
         if (idx == S.length) return;
         for (int i = idx; i < S.length; i++) {
             list.add(S[i]);

@@ -2,6 +2,8 @@ package solution;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.LinkedList;
 import java.util.Stack;
 
 /**
@@ -15,6 +17,26 @@ import java.util.Stack;
  *
  */
 public class SubsetsII {
+	public List<List<Integer>> subsetsWithDup(int[] num) {
+        Arrays.sort(num);
+        List<List<Integer>> ret = new LinkedList<List<Integer>>();
+        collect(new ArrayList<Integer>(), num, 0, ret);
+        return ret;
+    }
+    
+    private void collect(ArrayList<Integer> list, int[] num, int idx, List<List<Integer>> ret) {
+        ret.add(new ArrayList<Integer>(list)); // will include an empty list in final result
+        if (idx == num.length) return;
+        for (int i = idx; i < num.length; i++) {
+            if (i == idx || i-1 >= idx && num[i] != num[i-1]) { // eliminate duplicates
+                list.add(num[i]);
+                collect(list, num, i+1, ret);
+                list.remove(list.size()-1);
+            }
+        }
+    }
+	
+	/*
     class SubsetCutter implements Cloneable{
         ArrayList<Integer> subset;
         Integer cut;
@@ -61,4 +83,5 @@ public class SubsetsII {
             sets.add(stack.pop().subset);
         return sets;
     }
+    */
 }
