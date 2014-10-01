@@ -10,13 +10,13 @@ package solution;
  *
  */
 public class MaximumSubarray {
-    public int maxSubArray(int[] A) {
+	public int maxSubArray(int[] A) {
+        if (A.length == 0) return Integer.MIN_VALUE;
         int max = A[0];
-        int curr = A[0];
+        int currMaxSum = A[0];
         for (int i = 1; i < A.length; i++) {
-            if (curr < 0) curr = 0;
-            curr += A[i];
-            max = Math.max(max, curr);
+            currMaxSum = Math.max(currMaxSum+A[i] , A[i]); // maximum sum of subarray ends with A[i], kind of DP
+            max = Math.max(max, currMaxSum);
         }
         return max;
     }
