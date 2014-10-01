@@ -20,11 +20,11 @@ package solution;
  *
  */
 public class SumRootToLeaf {
-    public static int sumNumbers(TreeNode root) {
+    public int sumNumbers(TreeNode root) {
         return helper(root, 0);
     }
     
-    private static int helper(TreeNode node, int sum) {
+    private int helper(TreeNode node, int sum) {
         if (node == null)
             return 0;
         sum = sum * 10 + node.val;
@@ -33,4 +33,27 @@ public class SumRootToLeaf {
         else
             return helper(node.left, sum) + helper(node.right, sum);
     }
+    
+    /**
+     * Another kind of recursion
+     * 
+    int sum;
+    
+    public int sumNumbers(TreeNode root) {
+        sum = 0;
+        collect(root, 0);
+        return sum;
+    }
+    
+    private void collect(TreeNode node, int num) {
+        if (node == null) return;
+        num = num*10 + node.val;
+        if (node.left == null && node.right == null) {
+            sum += num;
+        } else {
+            collect(node.left, num);
+            collect(node.right, num);
+        }
+    }
+    */
 }

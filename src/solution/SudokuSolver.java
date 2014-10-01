@@ -1,7 +1,7 @@
 package solution;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Write a program to solve a Sudoku puzzle by filling the empty cells.
@@ -14,62 +14,45 @@ import java.util.List;
  *
  */
 public class SudokuSolver {
-    public void solveSudoku(char[][] board) {
-        solve(board, 0, 0);
+	public void solveSudoku(char[][] board) {
+        boolean success = solve(board, 0, 0);
     }
     
-    private boolean solve(char[][] board, int i, int j) {
-        if (i == 8 && j == 8 && board[i][j] != '.') return true; // validation test not necessary
-        if (board[i][j] != '.') { // already set, move to next empty cell
-            if (j == 8) {
-                if (solve(board, i+1, 0)) return true;
-                else return false; // else stop this attempt
-            } else {
-                if (solve(board, i, j+1)) return true;
-                else return false; // else stop this attempt
-            }
+    private boolean solve(char[][] board, int x, int y) {
+        if (x == 9 && y == 0)
+            return true;
+        if (board[x][y] != '.')
+            return solveNext(board, x, y);
+        
+        Set<Character> set = getCandidates(board, x, y);
+        if (set.size() == 0) return false;
+        for (char c : set) {
+            board[x][y] = c;
+            if (solveNext(board, x, y)) return true;
         }
-        List<Character> candidates = candidates(i, j, board);
-        if (candidates.size() == 0) return false;
-        for (char c : candidates) {
-            board[i][j] = c;
-            if (i == 8 && j == 8) return true; // solution found
-            if (j == 8) {
-                if (solve(board, i+1, 0)) return true; // else continue
-            } else 
-                if (solve(board, i, j+1)) return true; // else continue
-        }
-        board[i][j] = '.'; // set back, we need more attempts
+        board[x][y] = '.'; // current attempt failed, set back and try more attempts
         return false;
     }
     
-    // when board[i][j] is '.', get all of the candidates
-    private List<Character> candidates(int row, int col, char[][] board) {
-        char[] arr = new char[9];
-        for (int i = 0; i < 9; i++) arr[i] = 0;
-        for (int i = 0; i < 9; i++) {
-            char cur = board[row][i];
-            if (cur == '.') continue;
-            arr[cur - '1'] = cur;
-        }
-        for (int i = 0; i < 9; i++) {
-            char cur = board[i][col];
-            if (cur == '.') continue;
-            arr[cur - '1'] = cur;
-        }
-        int left = row / 3 * 3;
-        int up = col / 3 * 3;
-        for (int i = left; i < left+3; i++) {
-            for (int j = up; j < up+3; j++) {
-                char cur = board[i][j];
-                if (cur == '.') continue;
-                arr[cur - '1'] = cur;
-            }
-        }
-        List<Character> rst = new ArrayList<Character>();
+    private boolean solveNext(char[][] board, int x, int y) {
+        if (y == 8) return solve(board, x+1, 0);
+        else return solve(board, x, y+1);
+    }
+    
+    // must NOT use a 'shared' boolean array to represent the set, data will be poisoned
+    private Set<Character> getCandidates(char[][]board, int x, int y) {
+    	Set<Character> set = new HashSet<Character>();
+    	for (char i = '1'; i <= '9'; i++) set.add(i);
         for (int i = 0; i < 9; i++)
-            if (arr[i] == 0) rst.add((char) ('1' + i));
-        return rst;
+            if (board[x][i] != '.') set.remove(board[x][i]);
+        for (int i = 0; i < 9; i++)
+            if (board[i][y] != '.') set.remove(board[i][y]);
+        int x0 = x / 3 * 3;
+        int y0 = y / 3 * 3;
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
+                if (board[x0+i][y0+j] != '.') set.remove(board[x0+i][y0+j]);
+        return set;
     }
     
     public static void main(String[] args) {
