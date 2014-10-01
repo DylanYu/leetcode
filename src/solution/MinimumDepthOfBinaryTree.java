@@ -43,4 +43,22 @@ public class MinimumDepthOfBinaryTree {
         return 1 + Math.min(minDepthHelper(root.left), minDepthHelper(root.right));
     }
     */
+    
+    /*
+     * Another kind of recursion
+     * 
+    public int minDepth(TreeNode root) {
+        if (root == null) return 0; //
+        return minDepth(root, 1);
+    }
+    
+    // current height
+    private int minDepth(TreeNode node, int height) {
+        if (node == null)
+            return Integer.MAX_VALUE; // not leaf
+        if (node.left == null && node.right == null) // leaf
+            return height;
+        return Math.min(minDepth(node.left, height+1), minDepth(node.right, height+1));
+    }
+    */
 }
