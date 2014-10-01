@@ -17,7 +17,14 @@ public class RecoverBinarySearchTree {
     private TreeNode a;
     private TreeNode b;
     
-    // O(1) extra space
+    /* O(1) extra space
+     * Note:
+     * 1. Given a sequence {1, 4, 3, 7, 9}, you find pair 4(!<=)3, swap this pair and sequence is in order.
+     * 2. Given a sequence {1, 9, 4, 5, 3, 10}, you get first pair 9(!<=)4 and second pair 5(!<=)3, swap pair 9(!<=)3 and sequence is in order.
+     * 3. Given a sequence, only in two above (general) cases, that you can just swap one pair numbers to convert an unordered sequence into ordered. 
+     * 4. You can tranverse BST inorder to get above sequence.
+     * Reference: https://oj.leetcode.com/discuss/7319/an-elegent-time-complexity-and-space-complexity-algorithm
+     */
     public void recoverTree(TreeNode root) {
         if (root == null) return;
         prev = new TreeNode(Integer.MIN_VALUE);
