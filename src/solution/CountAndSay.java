@@ -1,5 +1,6 @@
 package solution;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -17,32 +18,59 @@ import java.util.LinkedList;
  *
  */
 public class CountAndSay {
-    public String countAndSay(int n) {
-        LinkedList<Integer> list = new LinkedList<Integer>();
-        list.add(1);
-        int count = 1;
-        while (count < n) {
-            LinkedList<Integer> next = new LinkedList<Integer>();
-            int currCount = 0;
-            int last = list.getFirst();
-            while (!list.isEmpty()) {
-                int curr = list.removeFirst();
-                if (curr != last) {
-                    next.add(currCount);
-                    next.add(last);
-                    currCount = 0;
-                }
-                currCount++;
-                last = curr;
+	public String countAndSay(int n) {
+        if (n <= 0) return "";
+        ArrayList<Integer> curr = new ArrayList<Integer>();
+        curr.add(1);
+        ArrayList<Integer> next = new ArrayList<Integer>();
+        for (int i = 2; i <= n; i++) {
+            int j = 0;
+            while (j < curr.size()) {
+                int k = j+1;
+                while (k < curr.size() && curr.get(k) == curr.get(j)) k++;
+                int count = k-j;
+                next.add(count);
+                next.add(curr.get(j));
+                j = k;
             }
-            next.add(currCount); // add last count in above loop
-            next.add(last);
-            count++;
-            list = next;
+            ArrayList<Integer> tmp = curr;
+            curr = next;
+            next = tmp;
+            next.clear();
         }
         StringBuffer sb = new StringBuffer();
-        for (int e : list)
+        for (int e : curr) sb.append(e);
+        return sb.toString();
+    }
+	
+	/**
+    public String countAndSay(int n) {
+        LinkedList<Integer> currRow = new LinkedList<Integer>();
+        currRow.add(1);
+        int i = 1;
+        while (i < n) {
+            LinkedList<Integer> nextRow = new LinkedList<Integer>();
+            int count = 0;
+            int last = currRow.getFirst();
+            while (!currRow.isEmpty()) {
+                int curr = currRow.removeFirst();
+                if (curr != last) {
+                    nextRow.add(count);
+                    nextRow.add(last);
+                    count = 0;
+                }
+                count++;
+                last = curr;
+            }
+            nextRow.add(count); // add last count in above loop
+            nextRow.add(last);
+            i++;
+            currRow = nextRow;
+        }
+        StringBuffer sb = new StringBuffer();
+        for (int e : currRow)
             sb.append(e);
         return sb.toString();
     }
+    */
 }
