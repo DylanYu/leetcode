@@ -10,6 +10,25 @@ package solution;
  *
  */
 public class ConstructBinaryTreeFromInorderAndPostorderTraversal {
+	public TreeNode buildTree(int[] inorder, int[] postorder) {
+        //if (inorder.length == 0 || postorder.length == 0) return null;
+        return buildTree(inorder, 0, inorder.length-1, postorder, 0, postorder.length-1);
+    }
+    
+    private TreeNode buildTree(int[] inorder, int lo1, int hi1, int[] postorder, int lo2, int hi2) {
+        if (lo1 > hi1 || lo2 > hi2) return null; //
+        int midElement = postorder[hi2];
+        TreeNode root = new TreeNode(midElement);
+        int midIdx = getIdx(inorder, lo1, hi1, midElement);
+        int rightLen = hi1 - midIdx;
+        root.left = buildTree(inorder, lo1, midIdx-1, postorder, lo2, hi2-rightLen-1);
+        root.right = buildTree(inorder, midIdx+1, hi1, postorder, hi2-rightLen, hi2-1);
+        return root;
+    }
+
+	/**
+	 * almost the same as above one
+	 * 
     public TreeNode buildTree(int[] inorder, int[] postorder) {
         return buildTree(inorder, postorder, postorder.length-1, 0, inorder.length-1);
     }
@@ -24,10 +43,11 @@ public class ConstructBinaryTreeFromInorderAndPostorderTraversal {
         node.right = buildTree(inorder, postorder, postRootIdx-1, inRootIdx+1, hi);
         return node;
     }
+    */
     
-    private int getIdx(int[] order, int val) {
-        for (int i = 0; i < order.length; i++)
-            if (order[i] == val) return i;
+    private int getIdx(int[] arr, int lo, int hi, int target) {
+        for (int i = lo; i <= hi; i++)
+            if (arr[i] == target) return i;
         return -1;
     }
 }
