@@ -33,6 +33,25 @@ public class Subsets {
             list.remove(list.size()-1); //
         }
     }
+    
+    /*
+     * awesome solution using bit manipulation 
+     * 
+    public List<List<Integer>> subsets(int[] S) {
+        List<List<Integer>> ret = new LinkedList<List<Integer>>();
+        int total = 1 << S.length;
+        Arrays.sort(S);
+        for (int i = 0; i < total; i++) {
+            LinkedList<Integer> list = new LinkedList<Integer>();
+            for (int j = 0; j < S.length; j++) {
+                if (((i >> j) & 1) == 1)
+                    list.add(S[j]);
+            }
+            ret.add(list);
+        }
+        return ret;
+    }
+    */
 	
 	/*
     public static ArrayList<ArrayList<Integer>> subsets(int[] S) {
