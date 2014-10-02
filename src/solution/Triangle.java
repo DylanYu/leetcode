@@ -30,11 +30,31 @@ public class Triangle {
         for (int i = triangle.size()-2; i >= 0; i--) {
             List<Integer> row = triangle.get(i);
             for (int j = 0; j < row.size(); j++) {
-                path[j] = Math.min(path[j], path[j+1]) + row.get(j);
+                path[j] = Math.min(path[j], path[j+1]) + row.get(j); // from front to end to avoid poisoning data
             }
         }
         return path[0];
     }
+    
+    /**
+     * O(n) extra space, top-down DP
+     * 
+     *
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int len = triangle.size();
+        int[] A = new int[len+1];
+        for (int i = 0; i <= len; i++) A[i] = Integer.MAX_VALUE;
+        A[1] = 0; // necessary to proceed first iteration
+        for (List<Integer> row : triangle) {
+            for (int i = row.size(); i >= 1; i--)
+                A[i] = Math.min(A[i-1], A[i]) + row.get(i-1); // from back to front to avoid poisoning data
+        }
+        int min = Integer.MAX_VALUE;
+        for (int i = 1; i <= len; i++)
+            min = Math.min(min, A[i]);
+        return min;
+    }
+    */
     
     /*
     // This solution uses a top-down way, but the bottom-up way will be more efficient
