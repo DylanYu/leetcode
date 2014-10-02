@@ -14,6 +14,29 @@ package solution;
  *
  */
 public class PartitionList {
+	// simple one pass solution
+	public ListNode partition(ListNode head, int x) {
+        if (head == null/* || head.next == null*/) return head;
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode dummyGt = new ListNode(-1);
+        ListNode p1 = dummy;
+        ListNode p2 = dummyGt;
+        while (p1.next != null) {
+            if (p1.next.val < x) p1 = p1.next;
+            else {
+                ListNode gt = p1.next;
+                p1.next = gt.next;
+                gt.next = null;
+                p2.next = gt;
+                p2 = p2.next;
+            }
+        }
+        p1.next = dummyGt.next;
+        return dummy.next;
+    }
+	
+	/*
     // one pass solution
     public ListNode partition(ListNode head, int x) {
         if (head == null)
@@ -60,6 +83,7 @@ public class PartitionList {
         less.next = greaterHead;
         return dummyNode.next;
     }
+    */
     
     /*
     public ListNode partition(ListNode head, int x) {
