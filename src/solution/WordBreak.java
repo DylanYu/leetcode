@@ -21,18 +21,19 @@ public class WordBreak {
     public boolean wordBreak(String s, Set<String> dict) {
         if (s == null || dict == null) return false;
         // A[i] = true means s.substring(0, i) (i.e., [1, i] if 1 is start index) is a legal split
-        boolean[] A = new boolean[s.length()+1];
+        int len = s.length();
+        //if (len == 0) return true;
+        boolean[] A = new boolean[len+1];
         A[0] = true;
-        for (int i = 1; i <= s.length(); i++) {
-            for (int j = 1; j <= i; j++) {
-                if (A[j-1]
-                    && dict.contains(s.substring(j-1, i))) { // string from [j, i] (1 as the start index)
-                        A[i] = true;
-                        break;
+        for (int j = 1; j <= len; j++) {
+            for (int i = j-1; i >= 0; i--) {
+                if (A[i] && dict.contains(s.substring(i, j))) { // caution that i and j both starts from 1
+                    A[j] = true;
+                    break;
                 }
             }
         }
-        return A[s.length()];
+        return A[len];
     }
     
     /*
