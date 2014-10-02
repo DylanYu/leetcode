@@ -24,11 +24,35 @@ public class ConvertSortedListToBST {
         int mid = lo + (hi - lo) / 2;
         TreeNode left = sortedListToBST(lo, mid-1);
         TreeNode root = new TreeNode(listNode.val);
-        listNode = listNode.next;
         root.left = left;
+        listNode = listNode.next; //
         root.right = sortedListToBST(mid+1, hi);
         return root;
     }
+    
+    /**
+     * Another recursive solution
+     * 
+    public TreeNode sortedListToBST(ListNode head) {
+        if (head == null) return null;
+        int len = 0;
+        ListNode p = head;
+        while (p != null) { p = p.next; len++; }
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        p = dummy;
+        for (int i = 0; i < len/2; i++) p = p.next;
+        ListNode pNext = p.next;
+        p.next = null; //
+        p = pNext;
+        
+        TreeNode root = new TreeNode(p.val);
+        if (p != head) root.left = sortedListToBST(head); //
+        else root.left = null;
+        root.right = sortedListToBST(p.next);
+        return root;
+    }
+    */
     
     /* naive way uses an extra array
     public TreeNode sortedListToBST(ListNode head) {
