@@ -11,7 +11,46 @@ import java.util.Map;
  *
  */
 public class MaxPointsInALine {
-    class Slope {
+	/**
+	 * Although it's short, using Double as key for Map is always a bad idea
+	 * 
+	public int maxPoints(Point[] points) {
+        int N = points.length;
+        int max = 0;
+        for (int i = 0; i < N; i++) {
+            Map<Double, Integer> map = new HashMap<Double, Integer>();
+            int same = 0;
+            Point p = points[i];
+            int localMax = 0;
+            for (int j = 0; j < N; j++) {
+                Point q = points[j];
+                if (p.x == q.x && p.y == q.y) same++;
+                else {
+                    long x = (long) p.x - q.x; // deal with possible overflow, and cannot use Math.abs here
+                    long y = (long) p.y - q.y;
+                    long gcd = gcd(x, y);
+                    x = x/gcd;
+                    y = y/gcd;
+                    double slope;
+                    if (x == 0) slope = Double.MAX_VALUE;
+                    else slope = (double) y / x;
+                    mapInc(map, slope);
+                    localMax = Math.max(localMax, map.get(slope));
+                }
+            }
+            localMax += same;
+            max = Math.max(max, localMax);
+        }
+        return max;
+    }
+    
+    private void mapInc(Map<Double, Integer> map, double key) {
+        if (!map.containsKey(key)) map.put(key, 1);
+        else map.put(key, map.get(key)+1);
+    }
+    */
+    
+	class Slope {
         long x;
         long y;
         Slope(long a, long b) { x = a; y = b; }
@@ -40,17 +79,17 @@ public class MaxPointsInALine {
         int max = 0;
         for (int i = 0; i < len; i++) {
             Point p1 = points[i];
-            int coincide = 1;
+            int coincide = 0;
             int localMax = 0;
             Map<Slope, Integer> map = new HashMap<Slope, Integer>();
-            for (int j = i+1; j < len; j++) {
+            for (int j = 0; j < len; j++) {
                 Point p2 = points[j];
                 if (p1.x == p2.x && p1.y == p2.y) {
                     coincide++;
                     continue;
                 }
-                long x = p1.x - p2.x; // deal with possible overflow
-                long y = p1.y - p2.y;
+                long x = (long) p1.x - p2.x; // deal with possible overflow
+                long y = (long) p1.y - p2.y;
                 Slope slope;
                 if (x == 0) {
                     // special vertical case.
@@ -62,10 +101,10 @@ public class MaxPointsInALine {
                 if (!map.containsKey(slope)) map.put(slope, 0);
                 int n =  map.get(slope) + 1;
                 map.put(slope, n);
-                if (n > localMax) localMax = n;
+                localMax = Math.max(localMax, n);
             }
             localMax += coincide;
-            if (localMax > max) max = localMax;
+            max = Math.max(max, localMax);
         }
         return max;
     }
