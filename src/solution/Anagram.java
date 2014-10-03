@@ -21,12 +21,15 @@ public class Anagram {
     public List<String> anagrams(String[] strs) {
         Map<String, List<String>> map = new HashMap<String, List<String>>();
         for (String s : strs) {
-            char[] arr = s.toCharArray();
+        	char[] arr = s.toLowerCase().toCharArray();
             Arrays.sort(arr);
-            String sorted = new String(arr);
-            if (!map.containsKey(sorted))
-                map.put(sorted, new LinkedList<String>());
-            map.get(sorted).add(s);
+            String signature = new String(arr);
+            List<String> list = map.get(signature);
+            if (list == null) {
+                list = new LinkedList<String>();
+                map.put(signature, list);
+            }
+            list.add(s);
         }
         List<String> ret = new LinkedList<String>();
         for (List<String> list : map.values())
@@ -61,8 +64,8 @@ public class Anagram {
      * Q: With a huge input that will run out of memory to store and sort, how to deal with it?
      * A: Bottom-up merge sort for small pieces of data. Use file to store temporary results.
      */
-    public static ArrayList<ArrayList<String>> anagrams_ms(String[] strs) {
-        ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
+    public static List<List<String>> anagrams_ms(String[] strs) {
+    	List<List<String>> result = new ArrayList<List<String>>();
         int len = strs.length;
         Signature[] sarr = new Signature[len];
         for (int i = 0; i < len; i++)
@@ -118,8 +121,8 @@ public class Anagram {
     
     public static void main(String[] args) {
         String[] strs = {"dog", "cat", "god", "tac"};
-        ArrayList<ArrayList<String>> result = anagrams_ms(strs);
-        for (ArrayList<String> e : result) {
+        List<List<String>> result = anagrams_ms(strs);
+        for (List<String> e : result) {
             for (String ee : e)
                 System.out.print(ee + " ");
             System.out.println();
