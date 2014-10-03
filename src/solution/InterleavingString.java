@@ -19,138 +19,116 @@ import java.util.Queue;
  *
  */
 public class InterleavingString {
-    // DP
+    // iterative DP
     public boolean isInterleave(String s1, String s2, String s3) {
         if (s1 == null || s2 == null || s3 == null) return false;
         int len1 = s1.length();
         int len2 = s2.length();
         int len3 = s3.length();
-        if (len3 != len1+len2) return false;
-        //if (len1 == 0 && len2 == 0 && len3 == 0) return true;
+        if (len1 + len2 != len3) return false;
+        //if (len3 == 0) return len1 == 0 && len2 == 0;
+        //if (len1 == 0) return s2.equals(s3);
+        //if (len2 == 0) return s1.equals(s3);
         
+        boolean[][] A = new boolean[len1+1][len2+1]; // A[i][j] == true means s1[0,i) and s2[0,j) can form s3[0,i+j)
         // init
-        boolean[][] DP = new boolean[len1+1][len2+1];
-        DP[0][0] = true; // s1 is "", s2 is "" and s3 is ""
-        for (int i = 1; i <= len1; i++)
-            if (s1.charAt(i-1) == s3.charAt(i-1)) DP[i][0] = true;
-            else while (i <= len1) DP[i++][0] = false;
-        for (int i = 1; i <= len2; i++)
-            if (s2.charAt(i-1) == s3.charAt(i-1)) DP[0][i] = true;
-            else while (i <= len2) DP[0][i++] = false;
+        for (int i = 1; i <= Math.min(len2, len3); i++)
+        	if (s2.charAt(i-1) == s3.charAt(i-1)) A[0][i] = true;
+        	else break;
+        for (int i = 1; i <= Math.min(len1, len3); i++)
+        	if (s1.charAt(i-1) == s3.charAt(i-1)) A[i][0] = true;
+        	else break;
+        A[0][0] = true; // "" + "" = "" 
         
         for (int i = 1; i <= len1; i++) {
+            char c1 = s1.charAt(i-1);
             for (int j = 1; j <= len2; j++) {
-                boolean ret = false;
-                if (s1.charAt(i-1) == s3.charAt(i+j-1))
-                    ret |= DP[i-1][j];
-                if (s2.charAt(j-1) == s3.charAt(i+j-1))
-                    ret |= DP[i][j-1];
-               DP[i][j] = ret;
+                char c2 = s2.charAt(j-1);
+                char c3 = s3.charAt(i+j-1);
+                if (c1 != c3 && c2 != c3) A[i][j] = false;
+                else if (c1 == c3 && c2 != c3) A[i][j] = A[i-1][j];
+                else if (c1 != c3 && c2 == c3) A[i][j] = A[i][j-1];
+                else A[i][j] = A[i-1][j] || A[i][j-1];
             }
         }
-        return DP[len1][len2];
+        return A[len1][len2];
     }
     
-    /*
-     * DP using HashMap for caching
+    /**
+     * recursive DP, uses more space than non-recursive approach, we have to use Int to 
+     * store temporary result because we need a 'init state' rather than just true or false
      * 
-    class Pair {
-        String a;
-        String b;
-        String c;
-        int hashcode = 0;
-        Pair(String x, String y, String z) { a = x; b = y; c = z; }
-        @Override
-        public boolean equals(Object obj) {
-            if (obj == this) return true;
-            if (!(obj instanceof Pair)) return false;
-            Pair that = (Pair) obj;
-            return this.a.equals(that.a) && this.b .equals(that.b) && this.c.equals(that.c);
-        }
-        @Override
-        public int hashCode() {
-            if (hashcode != 0) return hashcode;
-            int ret = 17;
-            ret += ret * 31 + a.hashCode();
-            ret += ret * 31 + b.hashCode();
-            ret += ret * 31 + c.hashCode();
-            this.hashcode = ret;
-            return ret;
-        }
-    }
-    
     public boolean isInterleave(String s1, String s2, String s3) {
-        if (s1 == null || s2 == null || s3 == null) return false;
         int len1 = s1.length();
         int len2 = s2.length();
         int len3 = s3.length();
-        if (len3 != len1+len2) return false;
-        Map<Pair, Boolean> map = new HashMap<Pair, Boolean>();
-        return isInterleave(new Pair(s1, s2, s3), map);
+        if (len1 + len2 != len3) return false;
+        //if (len3 == 0) return len1 == 0 && len2 == 0;
+        //if (len1 == 0) return s2.equals(s3);
+        //if (len2 == 0) return s1.equals(s3);
+        
+        int[][] A = new int[len1+1][len2+1]; // A[i][j] == 1 means s1[0,i) and s2[0,j) can form s3[0,i+j)
+        // init
+        for (int i = 0; i <= len1; i++)
+            for (int j = 0; j <= len2; j++)
+                A[i][j] = -1;
+        for (int i = 1; i <= Math.min(len2, len3); i++)
+        	if (s2.charAt(i-1) == s3.charAt(i-1)) A[0][i] = 1;
+        	else while (i <= Math.min(len2, len3)) A[0][i++] = 0;
+        for (int i = 1; i <= Math.min(len1, len3); i++)
+        	if (s1.charAt(i-1) == s3.charAt(i-1)) A[i][0] = 1;
+        	else while (i <= Math.min(len1, len3)) A[i++][0] = 0;
+        A[0][0] = 1; // "" + "" = "" 
+        
+        return DP(A, s1, s2, s3, len1, len2) == 1;
     }
     
-    public boolean isInterleave(Pair pair, Map<Pair, Boolean> map) {
-        if (map.containsKey(pair)) return map.get(pair);
-        String a = pair.a;
-        String b = pair.b;
-        String c = pair.c;
-        if (a.length() == 0) {
-            if (b.equals(c)) {
-                map.put(pair, true);
-                return true;
-            } else {
-                map.put(pair, false);
-                return false;
-            }
-        }
-        if (b.length() == 0) {
-            if (a.equals(c)) {
-                map.put(pair, true);
-                return true;
-            } else {
-                map.put(pair, false);
-                return false;
-            }
-        }
-        if (a.charAt(0) == c.charAt(0))
-            if (isInterleave(new Pair(a.substring(1), b, c.substring(1)), map)) {
-                map.put(pair, true);
-                return true;
-            }
-        if (b.charAt(0) == c.charAt(0))
-            if (isInterleave(new Pair(a, b.substring(1), c.substring(1)), map)) {
-                map.put(pair, true);
-                return true;
-            }
-        map.put(pair, false);
-        return false;
+    private int DP(int[][] A, String s1, String s2, String s3, int i, int j) {
+        if (A[i][j] != -1) return A[i][j];
+        char c1 = s1.charAt(i-1);
+        char c2 = s2.charAt(j-1);
+        char c3 = s3.charAt(i+j-1);
+        if (c1 != c3 && c2 != c3) A[i][j] = 0;
+        else if (c1 == c3 && c2 != c3)
+            A[i][j] = DP(A, s1, s2, s3, i-1, j);
+        else if (c1 != c3 && c2 == c3)
+            A[i][j] = DP(A, s1, s2, s3, i, j-1);
+        else
+            if (DP(A, s1, s2, s3, i-1, j) == 1 || DP(A, s1, s2, s3, i, j-1) == 1)
+                A[i][j] = 1;
+            else
+                A[i][j] = 0;
+        return A[i][j];
     }
     */
     
     /*
-     * DFS
+     * DFS, will TLE
      * 
     public boolean isInterleave(String s1, String s2, String s3) {
-        if (s1 == null || s2 == null || s3 == null) return false;
         int len1 = s1.length();
         int len2 = s2.length();
         int len3 = s3.length();
-        if (len3 != len1+len2) return false;
-        return isInterleave(s1, s2, s3, 0, 0, 0);
-    }
-    
-    public boolean isInterleave(String s1, String s2, String s3, int i, int j, int k) {
-        if (i == s1.length() && j == s2.length() && k == s3.length()) return true;
-        if (i < s1.length() && s1.charAt(i) == s3.charAt(k))
-            if (isInterleave(s1, s2, s3, i+1, j, k+1)) return true;
-        if (j < s2.length() && s2.charAt(j) == s3.charAt(k))
-            if (isInterleave(s1, s2, s3, i, j+1, k+1)) return true;
-        return false;
+        if (len1 + len2 != len3) return false;
+        if (len3 == 0) return len1 == 0 && len2 == 0;
+        if (len1 == 0) return s2.equals(s3);
+        if (len2 == 0) return s1.equals(s3);
+        char c1 = s1.charAt(len1-1);
+        char c2 = s2.charAt(len2-1);
+        char c3 = s3.charAt(len3-1);
+        if (c1 != c3 && c2 != c3) return false;
+        if (c1 == c3 && c2 != c3)
+            return isInterleave(s1.substring(0, len1-1), s2, s3.substring(0, len3-1));
+        if (c1 != c3 && c2 == c3)
+            return isInterleave(s1, s2.substring(0, len2-1), s3.substring(0, len3-1));
+        return isInterleave(s1.substring(0, len1-1), s2, s3.substring(0, len3-1))
+                || isInterleave(s1, s2.substring(0, len2-1), s3.substring(0, len3-1));
     }
     */
     
     /*
-     * BFS, each time we just move one step forward, much slower than DFS (recursive way)
+     * BFS, will TLE,
+     * each time we just move one step forward, much slower than DFS (recursive way)
      * 
     class Pair {
         int a;
