@@ -38,4 +38,31 @@ public class FirstMissingPositive {
         A[i] = A[j];
         A[j] = tmp;
     }
+    
+    /**
+     * zero based solution, almost the same as above one
+     * 
+    public int firstMissingPositive(int[] A) {
+        int n = A.length;
+        if (n == 0) return 1;
+        int i = 0;
+        while (i < n) {
+            if (A[i]-1 != i) {
+                if (A[i] > n || A[i] <= 0) i++;
+                else {
+                    int tmp = A[i];
+                    swap(A, i, A[i]-1);
+                    if (A[i] == tmp) i++;
+                }
+            } else
+                i++;
+        }
+        i = 0;
+        while (i < n) {
+            if (A[i]-1 != i) return i+1;
+            i++;
+        }
+        return n+1;
+    }
+    */
 }
