@@ -27,7 +27,7 @@ public class SimplifyPath {
         for (String s : ps) {
             if (s.equals("..")) {
                 if (!stk.isEmpty()) stk.pop();
-                else continue;
+                //else continue;
             } else if (!s.equals(".") && !s.equals(""))
                 stk.push(s);
             // for "." and "" case (continuous "/"), just ignore
