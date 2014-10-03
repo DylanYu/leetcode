@@ -22,11 +22,11 @@ import java.util.Map;
  */
 public class BinaryTreeMaximumPathSum {
     private int max;
-    private Map<TreeNode, Integer> pathNoTurnDic;
+    private Map<TreeNode, Integer> maxPathDownToLeafDic;
 
     public int maxPathSum(TreeNode root) {
-        max = Integer.MIN_VALUE;
-        pathNoTurnDic = new HashMap<TreeNode, Integer>(); // use HashMap to cache no-turn path
+        max = Integer.MIN_VALUE; // not 0, nodes have negative value
+        maxPathDownToLeafDic = new HashMap<TreeNode, Integer>(); // use HashMap to cache no-turn path
         maxPathSumHelper(root);
         return max;
     }
@@ -34,29 +34,25 @@ public class BinaryTreeMaximumPathSum {
     // we calculate path sum for every (turning point) node, and return the maximum one
     private void maxPathSumHelper(TreeNode node) {
         if (node == null) return;
-        int sum = maxPathWithTurn(node);
-        if (sum > max) max = sum;
+        int left = maxPathDownToLeaf(node.left);
+        int right = maxPathDownToLeaf(node.right);
+        if (left < 0) left = 0; // do not use negative path from children
+        if (right < 0) right = 0;
+        int path = node.val + left + right;
+        max = Math.max(max, path);
         maxPathSumHelper(node.left);
         maxPathSumHelper(node.right);
     }
     
-    private int maxPathWithTurn(TreeNode node) {
+    // max path from current node to leaf, children may not be included but current node must be included
+    private int maxPathDownToLeaf(TreeNode node) {
         if (node == null) return 0;
-        int left = maxPathNoTurn(node.left);
-        int right = maxPathNoTurn(node.right);
-        if (left < 0) left = 0;
-        if (right < 0) right = 0;
-        return node.val + left + right;
-    }
-    
-    private int maxPathNoTurn(TreeNode node) {
-        if (node == null) return 0;
-        if (pathNoTurnDic.containsKey(node)) return pathNoTurnDic.get(node);
-        int maxChildPath = Math.max(maxPathNoTurn(node.left), maxPathNoTurn(node.right));
+        if (maxPathDownToLeafDic.containsKey(node)) return maxPathDownToLeafDic.get(node);
+        int maxChildPath = Math.max(maxPathDownToLeaf(node.left), maxPathDownToLeaf(node.right));
         // path does not need to reach the leaf,
         // if children's path are both negative, do not use them
-        int rst = node.val + (maxChildPath > 0 ? maxChildPath : 0);     
-        pathNoTurnDic.put(node, rst);
-        return rst;
+        int path = node.val + (maxChildPath > 0 ? maxChildPath : 0);     
+        maxPathDownToLeafDic.put(node, path);
+        return path;
     }
 }
