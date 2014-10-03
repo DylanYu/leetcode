@@ -17,6 +17,23 @@ import java.util.ArrayList;
  * 
  */
 public class Candy {
+	// search from head and then from tail, it is easy
+	public static int candy(int[] ratings) {
+        int len = ratings.length;
+        int[] num = new int[len];
+        num[0] = 1;
+        for (int i = 1; i < len; i++) {
+            num[i] = 1;
+            if (ratings[i] > ratings[i-1]) num[i] = num[i-1] + 1;
+        }
+        for (int i = len-2; i >= 0; i--)
+            if (ratings[i] > ratings[i+1]) num[i] = Math.max(num[i], num[i+1]+1);
+        int sum = 0;
+        for (int e : num) sum += e;
+        return sum;
+    }
+	
+	/**
     public static int candy(int[] ratings) {
         int len = ratings.length;
         int number = 1;
@@ -50,6 +67,7 @@ public class Candy {
         }
         return number;
     }
+    */
     
     /*****************************************************/
     static class Node {
