@@ -21,20 +21,32 @@ public class ZigZagConversion {
         if (s == null || nRows == 0) return null;
         if (s.length() == 0 || nRows == 1) return s;
         
-        char[] c = s.toCharArray();
-        int len = c.length;
-        StringBuffer[] sb = new StringBuffer[nRows];
-        for (int i = 0; i < sb.length; i++) sb[i] = new StringBuffer();
+        int len = s.length();
+        StringBuffer[] sarr = new StringBuffer[nRows];
+        for (int i = 0; i < nRows; i++) sarr[i] = new StringBuffer();
         
         int i = 0;
+        int row = 0;
+        while (i < len) {
+            int move = 0;
+            while (i < len && move < 2*nRows-2) {
+                if (move < nRows-1)
+                	sarr[row++].append(s.charAt(i++));
+                else
+                	sarr[row--].append(s.charAt(i++));
+                move++;
+            }
+        }
+        /*
         while (i < len) {
             for (int idx = 0; idx < nRows && i < len; idx++) // vertically down
-                sb[idx].append(c[i++]);
+                sarr[idx].append(s.charAt(i++));
             for (int idx = nRows-2; idx >= 1 && i < len; idx--) // obliquely up
-                sb[idx].append(c[i++]);
+                sarr[idx].append(s.charAt(i++));
         }
-        for (int idx = 1; idx < sb.length; idx++)
-            sb[0].append(sb[idx]);
-        return sb[0].toString();
+        */
+        for (int idx = 1; idx < sarr.length; idx++)
+        	sarr[0].append(sarr[idx]);
+        return sarr[0].toString();
     }
 }
