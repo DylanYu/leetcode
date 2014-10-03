@@ -15,33 +15,28 @@ import java.util.Collections;
  *
  */
 public class AddBinary {
-    public static String addBinary(String a, String b) {
-        char[] aa = a.toCharArray();
-        char[] ab = b.toCharArray();
-        ArrayList<Character> clist = new ArrayList<Character>();
-        boolean carry = false;
-        int i = aa.length - 1;
-        int j = ab.length - 1;
-        while (i >= 0 || j >= 0) {
-            int sum = carry ? 1 : 0;
-            if (i >= 0) {
-                if (aa[i] == '1') sum++;
-                i--;
-            }
-            if (j >= 0) {
-                if (ab[j] == '1') sum++;
-                j--;
-            }
-            carry = sum <= 1 ? false : true;
-            sum = sum % 2;
-            clist.add((char) ('0' + sum));
+	public static String addBinary(String a, String b) {
+        if (a == null || b == null) return null;
+        int len1 = a.length();
+        int len2 = b.length();
+        if (len1 == 0) return b;
+        if (len2 == 0) return a;
+        int len = 1 + Math.max(len1, len2);
+        char[] c = new char[len];
+        int carry = 0;
+        int i = 0;
+        while (len1-1-i >= 0 || len2-1-i >= 0) {
+            int i1 = len1-1-i >= 0 ? a.charAt(len1-1-i)-'0' : 0;
+            int i2 = len2-1-i >= 0 ? b.charAt(len2-1-i)-'0' : 0;
+            int sum = i1 + i2 + carry;
+            carry = sum / 2;
+            sum %= 2;
+            c[len-1-i] = (char) (sum + '0'); //
+            i++; //
         }
-        if (carry) clist.add('1');
-        Collections.reverse(clist);
-        char[] arr = new char[clist.size()];
-        for (i = 0; i < arr.length; i++)
-            arr[i] = clist.get(i);
-        return new String(arr);
+        if (carry == 1) c[0] = '1';
+        else c[0] = ' '; // sum not so big
+        return new String(c).trim();
     }
 
     public static void main(String[] args) {
