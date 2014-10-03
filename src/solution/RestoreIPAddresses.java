@@ -47,9 +47,12 @@ public class RestoreIPAddresses {
     
     private boolean isValidIPSeg(String s) {
         if (s.length() > 3) return false;
-        if (s.length() >= 2 && s.charAt(0) == '0') return false;
-        if (Integer.parseInt(s) > 255) return false;
-        return true;
+        if (s.charAt(0) == '0' && s.length() != 1) return false; // if 0 appears in front, no other numbers are allowed
+        int num = 0;
+        for (int i = 0; i < s.length(); i++)
+            num = num * 10 + (s.charAt(i)-'0');
+        if (num > 255) return false;
+        else return true;
     }
     
     /*
@@ -58,7 +61,7 @@ public class RestoreIPAddresses {
      * 
     public List<String> restoreIpAddresses(String s) {
         List<String> ret = new LinkedList<String>();
-        if (s == null || s.length() > 12 || s.length() < 4) return ret;
+        if (s == null || s.length() < 4 || s.length() > 12) return ret;
         restore(new ArrayList<String>(), s, ret);
         return ret;
     }
@@ -66,27 +69,18 @@ public class RestoreIPAddresses {
     private void restore(ArrayList<String> list, String s, List<String> ret) {
         if (list.size() == 4) {
             if (s.length() == 0) {
-                StringBuffer sb = new StringBuffer();
-                for (String segment : list) {
-                    sb.append(segment);
-                    sb.append(".");
-                }
-                sb.deleteCharAt(sb.length()-1);
-                ret.add(sb.toString());
+                String ip = String.format("%s.%s.%s.%s", list.get(0), list.get(1), list.get(2), list.get(3));
+                ret.add(ip);
             }
             return;
         }
-        int maxSize = (4 - list.size()) * 3;
-        if (s.length() > maxSize) return;
-        int num = 0;
-        for (int i = 0; i < Math.min(3, s.length()); i++) {
-            num = num * 10 + (s.charAt(i)-'0');
-            if (num <= 255) {
-                ArrayList<String> copy = new ArrayList<String>(list);
-                copy.add(s.substring(0, i+1));
-                restore(copy, s.substring(i+1), ret);
-                if (num == 0) break; // no consecutive 0s in a segment
-            }
+        if (list.size() + s.length() < 4) return; // early stop
+        for (int i = 0; i < 3 && i < s.length(); i++) {
+            String seg = s.substring(0, i+1);
+            if (!isValidIpSeg(seg)) break; // break not continue
+            list.add(seg);
+            restore(list, s.substring(i+1), ret);
+            list.remove(list.size()-1);
         }
     }
     */
