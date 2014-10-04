@@ -34,46 +34,45 @@ import java.util.LinkedList;
  *
  */
 public class TextJustification {
-    public List<String> fullJustify(String[] words, int L) {
+	/**
+	 * This problem is supposed to be tedious, and cases:
+	 * add extra space for not divisible number of spaces,
+	 * single char, L == 1,
+	 * empty string, L == 0,
+	 * every line should have L length (last line and one word line),
+	 * last line is left-justified and only one space between each word
+	 */
+	public List<String> fullJustify(String[] words, int L) {
         List<String> ret = new LinkedList<String>();
-        if (words.length == 0) return ret;
         int i = 0;
         while (i < words.length) {
-            LinkedList<String> list = new LinkedList<String>();
+            int lastI = i;
+            int minLen = words[i++].length();
             int n = 1;
-            int len = words[i].length();
-            list.add(words[i++]);
-            while (i < words.length && len+words[i].length()+1 <= L) {
-                list.add(words[i]);
-                len += words[i].length()+1;
+            while (i < words.length && minLen+words[i].length()+1 <= L) {
+                minLen += words[i++].length()+1;
                 n++;
-                i++;
             }
+            
+            int wordLen = minLen-n+1;
+            int space = L - wordLen;
+            int perSpace = (n == 1) ? 0 : space / (n-1); // space between each word
+            int extraSpace = (n == 1) ? 0 : space % (n-1); // extra space added for front words
+            if (i == words.length) { // just for last line
+                perSpace = 1;
+                extraSpace = 0;
+            }
+            
             StringBuffer sb = new StringBuffer();
-            
-            if (i == words.length) { // special case for last line
-                sb.append(list.removeFirst());
-                while (!list.isEmpty()) {
+            sb.append(words[lastI++]);
+            while (lastI < i) {
+                for (int k = 0; k < perSpace; k++) sb.append(' ');
+                if (extraSpace-- > 0)
                     sb.append(' ');
-                    sb.append(list.removeFirst());
-                }
-                while (len++ < L) sb.append(' ');
-                ret.add(sb.toString());
-                break;
+                sb.append(words[lastI++]);
             }
+            while (sb.length() < L) sb.append(' '); // one word and last line case
             
-            int spaceLen = L - len + (n-1);
-            int perWordSpaceLen = n == 1 ? spaceLen : spaceLen / (n-1);
-            int extraSpace = n == 1 ? 0 : spaceLen % (n-1);
-            sb.append(list.removeFirst());
-            if (list.isEmpty())
-                while (perWordSpaceLen-- > 0) sb.append(' ');
-            while (!list.isEmpty()) {
-                int j = 0;
-                while (j++ < perWordSpaceLen) sb.append(' ');
-                if (extraSpace-- > 0) sb.append(' ');
-                sb.append(list.removeFirst());
-            }
             ret.add(sb.toString());
         }
         return ret;
