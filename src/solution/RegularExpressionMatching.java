@@ -22,33 +22,46 @@ package solution;
  *
  */
 public class RegularExpressionMatching {
-    public boolean isMatch(String s, String p) {
-        if (s == null || p == null) return false;
-        char[] S = s.toCharArray();
-        char[] P = p.toCharArray();
-        return isMatch(S, P, 0, 0);
-    }
-    
-    public boolean isMatch(char[] s, char[] p, int m, int n) {
-        // if we run out of p, then match is over. But if only s is exhausted, match may continue
-        if (n == p.length) return m == s.length;
+	public boolean isMatch(String s, String p) {
+        int lenS = s.length();
+        int lenP = p.length();
+        if (lenP == 0) return lenS == 0;
+        if (lenS == 0) {
+            int i = 0; // lenP==0 is ok
+            while (i < lenP) {
+                if (i+1 >= lenP) return false;
+                if (p.charAt(i+1) != '*') return false;
+                else i+=2;
+            }
+            return true;
+        }
         
-        if (!(n+1 < p.length && p[n+1] == '*')) { // p[n+1] != '*', must match
-            if (m < s.length && n < p.length    // look out for bound, actually no need to check n, but m is necessary
-                && (s[m] == p[n] || p[n] == '.')) 
-                return isMatch(s, p, m+1, n+1);
+        if (p.charAt(lenP-1) != '*') { // crucial early stop
+            if (s.charAt(lenS-1) != p.charAt(lenP-1) && p.charAt(lenP-1) != '.')
+                return false;
+        }
+        char c1 = s.charAt(0);
+        char c2 = p.charAt(0);
+        if (lenP >= 2 && p.charAt(1) == '*') {
+        	if (isMatch(s, p.substring(2))) return true; // aggressively
+            if (c1 == c2 || c2 == '.')
+                return isMatch(s.substring(1), p.substring(2))
+                        || isMatch(s.substring(1), p);
+                        //|| isMatch(s, p.substring(2))
+            return false;
+        	/*
+            if (c1 == c2 || c2 == '.')
+                return isMatch(s.substring(1), p.substring(2))
+                        || isMatch(s.substring(1), p)
+                        || isMatch(s, p.substring(2));
+            else
+            	return isMatch(s, p.substring(2));
+           	*/
+        } else {
+            if (c1 == c2 || c2 == '.')
+                return isMatch(s.substring(1), p.substring(1));
             else
                 return false;
-        } else { // p[n+1] is '*'
-            while (n+2 < p.length && p[n+2] == p[n]
-                    && n+3 < p.length && p[n+3] == '*') n += 2; // skip same 'X*'
-            
-            if (m >= s.length || !(s[m] == p[n] || p[n] == '.')) // s[m] not match with p[n]. Look out for (m >= s.length) case: <"", ".*">
-                return isMatch(s, p, m, n+2);
-            else                                                // s[m] match with p[n]
-                return isMatch(s, p, m, n+2) 
-                    || isMatch(s, p, m+1, n) 
-                    || isMatch(s, p, m+1, n+2);
         }
     }
     
