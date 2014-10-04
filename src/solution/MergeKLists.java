@@ -1,6 +1,8 @@
 package solution;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.PriorityQueue;
 
 /**
  * Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
@@ -9,6 +11,28 @@ import java.util.List;
  *
  */
 public class MergeKLists {
+	public ListNode mergeKLists(List<ListNode> lists) {
+		PriorityQueue<ListNode> heap = new PriorityQueue<ListNode>(100, new Comparator<ListNode>() {
+            public int compare(ListNode l1, ListNode l2) {
+                return l1.val - l2.val;
+            }
+        });
+		for (ListNode node : lists)
+            if (node != null) heap.add(node); // we MUST do the null check
+        ListNode dummy = new ListNode(-1);
+        ListNode p = dummy;
+        while (!heap.isEmpty()) {
+            ListNode min = heap.poll();
+            ListNode next = min.next;
+            min.next = null;
+            p.next = min;
+            p = min;
+            if (next != null) heap.add(next);
+        }
+        return dummy.next;
+    }
+	
+	/**
     // O(nklog(k)) time complexity, n is the size of every single original list 
     public ListNode mergeKLists(List<ListNode> lists) {
         if (lists == null || lists.size() == 0) return null;
@@ -49,4 +73,5 @@ public class MergeKLists {
         if (l1 == null) p1.next = l2;
         return h1.next;
     }
+    */
 }
