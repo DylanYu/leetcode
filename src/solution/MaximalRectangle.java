@@ -10,22 +10,20 @@ package solution;
 public class MaximalRectangle {
     // use LargestRectangleInHistogram
     public int maximalRectangle(char[][] matrix) {
-        int m = matrix.length;
+    	int m = matrix.length;
         if (m == 0) return 0;
         int n = matrix[0].length;
-        int[][] nums = new int[m][n];
-        for (int i = 0; i < m; i++)
-            for (int j = 0; j < n; j++)
-                nums[i][j] = matrix[i][j] == '0' ? 0 : 1;
-        // build histogram
-        for (int j = 0; j < n; j++)
-            for (int i = 1; i < m; i++)
-                if (nums[i][j] != 0) nums[i][j] += nums[i-1][j];
         int maxArea = 0;
+        int[] height = new int[n];
         LargestRectangleInHistogram instance = new LargestRectangleInHistogram();
-        // calculate max area row by row
-        for (int i = 0; i < m; i++)
-            maxArea = Math.max(maxArea, instance.largestRectangleArea(nums[i]));
+        for (int i = 0; i < m; i++) {
+            char[] row = matrix[i];
+            for (int j = 0; j < n; j++)
+                if (row[j] == '0') height[j] = 0;
+                else height[j]++;
+            int localMax = instance.largestRectangleArea(height);
+            maxArea = Math.max(maxArea, localMax);
+        }
         return maxArea;
     }
 }
