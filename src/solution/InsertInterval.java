@@ -1,6 +1,7 @@
 package solution;
 
 import java.util.List;
+import java.util.LinkedList;
 
 /**
  * Given a set of non-overlapping intervals, insert a new interval into the intervals (merge if necessary).
@@ -28,35 +29,48 @@ public class InsertInterval {
     
     /**
      * Cases:
+     * null input,
      * empty list,
-     * one item list
-     * insert in head,
      * insert in tail,
+     * merge,
+     * no more merge
      */
     public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
+        if (intervals == null) {
+            List<Interval> list = new LinkedList<Interval>();
+            list.add(newInterval);
+            return list;
+        }
+        if (newInterval == null) return intervals;
         if (intervals.size() == 0) {
             intervals.add(newInterval);
             return intervals;
         }
-        for (int i = 0; i < intervals.size(); i++) {
+        // insert at tail
+        if (newInterval.start > intervals.get(intervals.size()-1).end) {
+            intervals.add(newInterval);
+            return intervals;
+        }
+        
+        Interval prev = new Interval(Integer.MIN_VALUE, Integer.MIN_VALUE);
+        int i = 0;
+        boolean inserted = false;
+        while (i < intervals.size()) {
             Interval curr = intervals.get(i);
-            if (newInterval.start > curr.end) {
-                if (i == intervals.size()-1) { // last item
-                    intervals.add(newInterval);
+            if (inserted) { // try to merge
+                if (prev.end < curr.start) // no more merge
                     break;
-                } else
-                    continue;
-            } else if (newInterval.end < curr.start) {
-                intervals.add(i, newInterval);
-                break;
-            } else{
-                curr.start = Math.min(newInterval.start, curr.start);
-                curr.end = Math.max(newInterval.end, curr.end);
-                if (i == intervals.size()-1) break; // last item
-                newInterval = curr;
-                intervals.remove(i);
+                curr.start = Math.min(prev.start, curr.start);
+                curr.end = Math.max(prev.end, curr.end);
+                intervals.remove(i-1);
                 i--;
+            } else if (newInterval.start <= curr.end) { // curr.end not curr.start
+                intervals.add(i, newInterval);
+                curr = newInterval;
+                inserted = true;
             }
+            prev = curr;
+            i++;
         }
         return intervals;
     }
