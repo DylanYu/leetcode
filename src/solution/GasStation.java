@@ -16,6 +16,31 @@ package solution;
  *
  */
 public class GasStation {
+	// try to extend the tail and head until they meet
+	public int canCompleteCircuit(int[] gas, int[] cost) {
+        if (gas.length != cost.length) return -1;
+        int len = gas.length;
+        //if (len == 1) {
+        //    if (gas[0]-cost[0] >= 0) return 0;
+        //    else return -1;
+        //}
+        int i = 0;
+        int j = len;
+        int net = 0;
+        do {
+            if (net < 0) {
+                j--;
+                net += (gas[j] - cost[j]);
+            } else {
+                net += (gas[i] - cost[i]);
+                i++;
+            }
+        } while (i != j);
+        if (net < 0) return -1;
+        else return j % len;// for j == len case, return 0
+    }
+	
+	/**
 	public int canCompleteCircuit(int[] gas, int[] cost) {
         int[] A = new int[gas.length];
         for (int i = 0; i < A.length; i++)
@@ -36,6 +61,7 @@ public class GasStation {
         }
         return -1;
     }
+    */
 	
 	/**
     // 1. If start from A to B, B is first station can't be reached, then every station
