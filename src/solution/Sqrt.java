@@ -8,6 +8,22 @@ package solution;
  *
  */
 public class Sqrt {
+	public static int sqrt(int x) {
+        if (x < 0) return -1;
+        //if (x == 0) return 0;
+        int lo = 1;
+        int hi = x;
+        while (lo <= hi) {
+            int mid = lo + (hi-lo)/2;
+            long mul = (long) mid * mid;
+            if (mul == x) return mid;
+            else if (mul < x) lo = mid+1;
+            else hi = mid-1;
+        }
+        return hi;
+    }
+	
+	/**
     public static int sqrt(int x) {
         if (x <= 0)
             return 0;
@@ -26,6 +42,8 @@ public class Sqrt {
         else
             return range(mid, hi, x);
     }
+    */
+	
     /*
     private static boolean overflow(int a, int b) {
         if (a != 0 && Integer.MAX_VALUE/a < b)
