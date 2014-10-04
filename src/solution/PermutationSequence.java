@@ -1,5 +1,7 @@
 package solution;
 
+import java.util.ArrayList;
+
 /**
  * The set [1,2,3,…,n] contains a total of n! unique permutations.
  * 
@@ -20,6 +22,23 @@ package solution;
  *
  */
 public class PermutationSequence {
+	public String getPermutation(int n, int k) {
+		ArrayList<Integer> arr = new ArrayList<Integer>();
+		for (int i = 1; i <= n; i++) arr.add(i);
+		k = (k - 1) % factorial(n);
+		int factor = factorial(n-1);
+        StringBuffer sb = new StringBuffer();
+        for (int i = n-1; i >= 0; i--) {
+            int idx = k / factor;
+            sb.append(arr.get(idx));
+            arr.remove(idx);
+            k %= factor;
+            if (i >= 1) factor /= i; // avoid divide 0
+        }
+        return sb.toString();
+    }
+	
+	/**
     public String getPermutation(int n, int k) {
         int[] A = new int[n];
         for (int i = 0; i < n; i++)
@@ -67,13 +86,11 @@ public class PermutationSequence {
         A[i] = A[j];
         A[j] = tmp;
     }
+    */
     
     private int factorial(int n) {
         int ret = 1;
-        while(n > 1) {
-            ret *= n;
-            n--;
-        }
+        while (n > 0) ret *= n--;
         return ret;
     }
 }
