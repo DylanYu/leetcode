@@ -7,7 +7,7 @@ package solution;
  *
  */
 public class PalindromeNumber {
-	// caution about 1000021
+    // caution about 1000021
     public boolean isPalindrome(int x) {
         if (x < 0) return false;
         //if (x <= 9) return true; don't do this to avoid extra work

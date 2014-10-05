@@ -21,7 +21,7 @@ public class Permutations {
             return;
         }
         for (int i = 0; i < left.size(); i++) {
-        	int e = left.remove(i);
+            int e = left.remove(i);
             curr.add(e);
             generate(curr, left, ret);
             curr.remove(curr.size()-1);

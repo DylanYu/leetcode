@@ -7,7 +7,7 @@ package solution;
  *
  */
 public class Atoi {
-	private static final int MAX = Integer.MAX_VALUE;
+    private static final int MAX = Integer.MAX_VALUE;
     
     // +, -, overflow , 0000000123, if encounter invalid character return last result
     public static int atoi(String str) {

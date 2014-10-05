@@ -24,8 +24,8 @@ import java.util.Map;
  *
  */
 public class MinimumWindowSubstring {
-	
-	private int count;
+    
+    private int count;
     
     public String minWindow(String S, String T) {
         if (S == null || T == null) return null;
@@ -37,7 +37,7 @@ public class MinimumWindowSubstring {
         
         Map<Character, Integer> limitMap = new HashMap<Character, Integer>();
         for (int i = 0; i < t.length; i++)
-        	if (!limitMap.containsKey(t[i])) limitMap.put(t[i], 1);
+            if (!limitMap.containsKey(t[i])) limitMap.put(t[i], 1);
             else limitMap.put(t[i], limitMap.get(t[i])+1);
         Map<Character, Integer> map = new HashMap<Character, Integer>();
         count = 0;
@@ -62,7 +62,7 @@ public class MinimumWindowSubstring {
     }
     
     private void mapInc(Map<Character, Integer> map, Map<Character, Integer> limitMap, char key) {
-    	if (!limitMap.containsKey(key)) return;
+        if (!limitMap.containsKey(key)) return;
         if (!map.containsKey(key)) map.put(key, 1);
         else map.put(key, map.get(key)+1);
         if (map.get(key) <= limitMap.get(key)) // actions lead to exceeding limit does not count
@@ -70,14 +70,14 @@ public class MinimumWindowSubstring {
     }
     
     private void mapDec(Map<Character, Integer> map, Map<Character, Integer> limitMap, char key) {
-    	if (!limitMap.containsKey(key)) return;
+        if (!limitMap.containsKey(key)) return;
         if (!map.containsKey(key)) return;
         if (map.get(key) <= limitMap.get(key))
             count--;
         map.put(key, map.get(key)-1);
     }
-	
-	/**
+    
+    /**
     // idea from https://oj.leetcode.com/discuss/5469/is-the-length-of-t-considered-constant-or-m?show=5502#a5502
     public String minWindow(String S, String T) {
         //if (S.length() < T.length()) return ""; // handled by if(negativeCount>0)break in while loop

@@ -15,7 +15,7 @@ package solution;
  *
  */
 public class SearchInsertPosition {
-	public int searchInsert(int[] A, int target) {
+    public int searchInsert(int[] A, int target) {
         int lo = 0;
         int hi = A.length-1;
         while (lo <= hi) {
@@ -26,8 +26,8 @@ public class SearchInsertPosition {
         }
         return lo; // it is easy
     }
-	
-	/*
+    
+    /*
     public int searchInsert(int[] A, int target) {
         return searchInsert(A, 0, A.length-1, target);
     }

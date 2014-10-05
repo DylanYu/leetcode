@@ -23,13 +23,13 @@ import java.util.LinkedList;
  *
  */
 public class Combinations {
-	public List<List<Integer>> combine(int n, int k) {
+    public List<List<Integer>> combine(int n, int k) {
         List<List<Integer>> ret = new LinkedList<List<Integer>>();
         combine(new ArrayList<Integer>(), 1, n, k, ret);
         return ret;
     }
     
-	private void combine(ArrayList<Integer> list, int curr, int n, int k, List<List<Integer>> ret) {
+    private void combine(ArrayList<Integer> list, int curr, int n, int k, List<List<Integer>> ret) {
         if (k == 0) {
             ret.add(new ArrayList<Integer>(list)); //
             return;
@@ -40,10 +40,10 @@ public class Combinations {
             list.remove(list.size()-1); //
         }
     }
-	
-	/*
-	 * different approach to proceed recursion, less efficient than above one
-	 * 
+    
+    /*
+     * different approach to proceed recursion, less efficient than above one
+     * 
     private void combine(ArrayList<Integer> list, int curr, int n, int k, List<List<Integer>> ret) {
         if (k == 0) {
             ret.add(list); //

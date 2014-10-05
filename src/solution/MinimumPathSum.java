@@ -11,7 +11,7 @@ package solution;
  */
 public class MinimumPathSum {
     // more advanced O(n) extra space solution;
-	public int minPathSum(int[][] grid) {
+    public int minPathSum(int[][] grid) {
         int m = grid.length;
         if (m == 0) return Integer.MAX_VALUE;
         int n = grid[0].length;

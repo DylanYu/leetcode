@@ -9,8 +9,8 @@ package solution;
  *
  */
 public class MultiplyStrings {
-	// this version can handle numbers with + or -
-	public String multiply(String num1, String num2) {
+    // this version can handle numbers with + or -
+    public String multiply(String num1, String num2) {
         if (num1 == null || num2 == null) return null;
         int len1 = num1.length();
         int len2 = num2.length();
@@ -42,9 +42,9 @@ public class MultiplyStrings {
                 n3[len3-1-i-j] += (n1[len1-1-i] - '0') * (n2[len2-1-j] - '0');
         int carry = 0;
         for (int i = len3-1; i >= 0; i--) {
-        	n3[i] += carry;
-        	carry = n3[i] / 10;
-        	n3[i] %= 10;
+            n3[i] += carry;
+            carry = n3[i] / 10;
+            n3[i] %= 10;
         }
         
         // collect result
@@ -57,7 +57,7 @@ public class MultiplyStrings {
             sb.append(n3[i++]);
         return sb.toString();
     }
-	
+    
     /*
     public String multiply(String num1, String num2) {
         if (num1 == null || num2 == null) return null;

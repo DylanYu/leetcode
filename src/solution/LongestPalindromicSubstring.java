@@ -32,11 +32,11 @@ public class LongestPalindromicSubstring {
         }
         return s.substring(max_left - max_side_len, max_right + max_side_len + 1);
     }
-	
-	/*
-	 * less efficient solution
-	 *
-	public String longestPalindrome(String s) {
+    
+    /*
+     * less efficient solution
+     *
+    public String longestPalindrome(String s) {
         if (s == null) return null;
         char[] c = s.toCharArray();
         int len = c.length;
@@ -69,7 +69,7 @@ public class LongestPalindromicSubstring {
         }
         return maxStr;
     }
-	*/
+    */
     
     public static void main(String[] args) {
         String s = "aaaaccbcaaaaaaaaaaaaaacaaaaaaaaaaaaaa";

@@ -15,7 +15,7 @@ import java.util.Collections;
  *
  */
 public class AddBinary {
-	public static String addBinary(String a, String b) {
+    public static String addBinary(String a, String b) {
         if (a == null || b == null) return null;
         int len1 = a.length();
         int len2 = b.length();

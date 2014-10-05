@@ -15,7 +15,7 @@ public class ValidateBinarySearchTree {
     // Caveat: We should avoid use Integer.MIN_VALUE and Integer.MAX_VALUE to pass 
     // edge cases which have Integer.MIN_VALUE/MAX_VALUE as node.val
     // Also: Double.MIN_VALUE is the closest positive number to zero
-	// Also: In fact we can use Long.MIN_VALUE/MAX_VALUE
+    // Also: In fact we can use Long.MIN_VALUE/MAX_VALUE
     public boolean isValidBST(TreeNode root) {
         //if (root == null) return true;
         return isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);

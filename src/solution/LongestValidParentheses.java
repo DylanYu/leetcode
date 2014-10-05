@@ -4,7 +4,7 @@ import java.util.Stack;
 
 public class LongestValidParentheses {
     // one pass O(N) solution
-	public static int longestValidParentheses(String s) {
+    public static int longestValidParentheses(String s) {
         char[] c = s.toCharArray();
         if (c.length <= 1) return 0;
         Stack<Integer> stk = new Stack<Integer>();

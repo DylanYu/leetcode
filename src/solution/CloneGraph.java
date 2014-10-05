@@ -11,8 +11,8 @@ import java.util.Set;
  *
  */
 public class CloneGraph {
-	
-	private Map<Integer, UndirectedGraphNode> map;
+    
+    private Map<Integer, UndirectedGraphNode> map;
     
     public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
         if (node == null) return null; // never forget to check null

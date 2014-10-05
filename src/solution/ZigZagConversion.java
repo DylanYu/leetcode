@@ -31,9 +31,9 @@ public class ZigZagConversion {
             int move = 0;
             while (i < len && move < 2*nRows-2) {
                 if (move < nRows-1)
-                	sarr[row++].append(s.charAt(i++));
+                    sarr[row++].append(s.charAt(i++));
                 else
-                	sarr[row--].append(s.charAt(i++));
+                    sarr[row--].append(s.charAt(i++));
                 move++;
             }
         }
@@ -46,7 +46,7 @@ public class ZigZagConversion {
         }
         */
         for (int idx = 1; idx < sarr.length; idx++)
-        	sarr[0].append(sarr[idx]);
+            sarr[0].append(sarr[idx]);
         return sarr[0].toString();
     }
 }

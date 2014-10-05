@@ -29,11 +29,11 @@ public class PlusOne {
         }
         return digits;
     }
-	
-	public static void main(String[] args) {
-		int[] digits = {9, 9, 9};
-		digits = plusOne(digits);
-		for (int digit : digits)
-			System.out.print(digit);
-	}
+    
+    public static void main(String[] args) {
+        int[] digits = {9, 9, 9};
+        digits = plusOne(digits);
+        for (int digit : digits)
+            System.out.print(digit);
+    }
 }

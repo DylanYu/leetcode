@@ -10,7 +10,7 @@ package solution;
  *
  */
 public class SearchInRotatedSortedArrayII {
-	public boolean search(int[] A, int target) {
+    public boolean search(int[] A, int target) {
         int lo = 0;
         int hi = A.length-1;
         while (lo <= hi) {

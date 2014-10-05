@@ -33,7 +33,7 @@ public class PathSumII {
     }
    
     private static void recurse(TreeNode node, ArrayList<Integer> curList, int curVal, int sum, List<List<Integer>> ret) {
-    	if (node == null) return;
+        if (node == null) return;
         curVal += node.val;
         curList.add(node.val);
         if (curVal == sum && node.left == null && node.right == null) {

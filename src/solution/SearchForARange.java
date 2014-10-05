@@ -16,7 +16,7 @@ package solution;
  *
  */
 public class SearchForARange {
-	public int[] searchRange(int[] A, int target) {
+    public int[] searchRange(int[] A, int target) {
         int[] ret = new int[2];
         int idx = binarySearch(A, target);
         if (idx == -1) {

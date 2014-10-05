@@ -41,7 +41,7 @@ public class ValidSudoku {
     }
     
     private boolean isValidCol(int c, char[][] board) {
-    	boolean[] col = new boolean[9];
+        boolean[] col = new boolean[9];
         for (int i = 0; i < 9; i++) {
             char cur = board[i][c];
             if (cur == '.') continue;

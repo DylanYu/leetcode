@@ -22,7 +22,7 @@ package solution;
  *
  */
 public class RegularExpressionMatching {
-	public boolean isMatch(String s, String p) {
+    public boolean isMatch(String s, String p) {
         int lenS = s.length();
         int lenP = p.length();
         if (lenP == 0) return lenS == 0;
@@ -43,20 +43,20 @@ public class RegularExpressionMatching {
         char c1 = s.charAt(0);
         char c2 = p.charAt(0);
         if (lenP >= 2 && p.charAt(1) == '*') {
-        	if (isMatch(s, p.substring(2))) return true; // aggressively
+            if (isMatch(s, p.substring(2))) return true; // aggressively
             if (c1 == c2 || c2 == '.')
                 return isMatch(s.substring(1), p.substring(2))
                         || isMatch(s.substring(1), p);
                         //|| isMatch(s, p.substring(2))
             return false;
-        	/*
+            /*
             if (c1 == c2 || c2 == '.')
                 return isMatch(s.substring(1), p.substring(2))
                         || isMatch(s.substring(1), p)
                         || isMatch(s, p.substring(2));
             else
-            	return isMatch(s, p.substring(2));
-           	*/
+                return isMatch(s, p.substring(2));
+            */
         } else {
             if (c1 == c2 || c2 == '.')
                 return isMatch(s.substring(1), p.substring(1));

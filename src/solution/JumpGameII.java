@@ -18,12 +18,12 @@ package solution;
 public class JumpGameII {
     // Kind of BFS. For k steps, calculate the furthest index we can reach
     public int jump(int[] A) {
-    	if (A.length == 0) return -1;
+        if (A.length == 0) return -1;
         int furthest = 0;
         int step = 0;
         int i = 0;
         while (i <= furthest) {
-        	if (furthest >= A.length-1) return step;
+            if (furthest >= A.length-1) return step;
             int stopIdx = furthest; // stop at every step
             while (i <= stopIdx) {
                 furthest = Math.max(furthest, i + A[i]);

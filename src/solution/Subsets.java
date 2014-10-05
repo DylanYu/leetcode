@@ -17,7 +17,7 @@ import java.util.Stack;
  *
  */
 public class Subsets {
-	public static List<List<Integer>> subsets(int[] S) {
+    public static List<List<Integer>> subsets(int[] S) {
         List<List<Integer>> ret = new LinkedList<List<Integer>>();
         Arrays.sort(S);
         collect(new ArrayList<Integer>(), S, 0, ret);
@@ -52,8 +52,8 @@ public class Subsets {
         return ret;
     }
     */
-	
-	/*
+    
+    /*
     public static ArrayList<ArrayList<Integer>> subsets(int[] S) {
         Arrays.sort(S);
         Stack<ArrayList<Integer>> stack = new Stack<ArrayList<Integer>>();

@@ -29,7 +29,7 @@ import java.util.Stack;
  */
 public class BinaryTreeLevelOrderTraversalII {
     // trick the levelOrder() by inserting at head
-	public List<List<Integer>> levelOrder(TreeNode root) {
+    public List<List<Integer>> levelOrder(TreeNode root) {
         LinkedList<List<Integer>> ret = new LinkedList<List<Integer>>();
         LinkedList<TreeNode> queue = new LinkedList<TreeNode>();
         if (root != null) queue.add(root);
@@ -56,7 +56,7 @@ public class BinaryTreeLevelOrderTraversalII {
         int h = height(root);
         // create result list first
         for (int i = 0; i < h; i++)
-        	ret.add(new LinkedList<Integer>());
+            ret.add(new LinkedList<Integer>());
         levelOrder(root, 0, h, ret);
         return ret;
     }

@@ -8,7 +8,7 @@ package solution;
  *
  */
 public class Sqrt {
-	public static int sqrt(int x) {
+    public static int sqrt(int x) {
         if (x < 0) return -1;
         //if (x == 0) return 0;
         int lo = 1;
@@ -22,8 +22,8 @@ public class Sqrt {
         }
         return hi;
     }
-	
-	/**
+    
+    /**
     public static int sqrt(int x) {
         if (x <= 0)
             return 0;
@@ -43,7 +43,7 @@ public class Sqrt {
             return range(mid, hi, x);
     }
     */
-	
+    
     /*
     private static boolean overflow(int a, int b) {
         if (a != 0 && Integer.MAX_VALUE/a < b)

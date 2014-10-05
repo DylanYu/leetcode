@@ -21,7 +21,7 @@ public class Anagram {
     public List<String> anagrams(String[] strs) {
         Map<String, List<String>> map = new HashMap<String, List<String>>();
         for (String s : strs) {
-        	char[] arr = s.toLowerCase().toCharArray();
+            char[] arr = s.toLowerCase().toCharArray();
             Arrays.sort(arr);
             String signature = new String(arr);
             List<String> list = map.get(signature);
@@ -65,7 +65,7 @@ public class Anagram {
      * A: Bottom-up merge sort for small pieces of data. Use file to store temporary results.
      */
     public static List<List<String>> anagrams_ms(String[] strs) {
-    	List<List<String>> result = new ArrayList<List<String>>();
+        List<List<String>> result = new ArrayList<List<String>>();
         int len = strs.length;
         Signature[] sarr = new Signature[len];
         for (int i = 0; i < len; i++)

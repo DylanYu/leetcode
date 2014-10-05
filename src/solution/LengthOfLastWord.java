@@ -16,7 +16,7 @@ package solution;
  *
  */
 public class LengthOfLastWord {
-	public int lengthOfLastWord(String s) {
+    public int lengthOfLastWord(String s) {
         if (s == null) return 0;
         //if (s.length() == 0) return 0;
         char[] c = s.toCharArray();

@@ -12,7 +12,7 @@ package solution;
  *
  */
 public class AddTwoNumbers {
-	public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         if (l1 == null || l2 == null) return null;
         ListNode dummy = new ListNode(-1);
         ListNode p = dummy;

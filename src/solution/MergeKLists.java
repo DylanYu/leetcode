@@ -11,13 +11,13 @@ import java.util.PriorityQueue;
  *
  */
 public class MergeKLists {
-	public ListNode mergeKLists(List<ListNode> lists) {
-		PriorityQueue<ListNode> heap = new PriorityQueue<ListNode>(100, new Comparator<ListNode>() {
+    public ListNode mergeKLists(List<ListNode> lists) {
+        PriorityQueue<ListNode> heap = new PriorityQueue<ListNode>(100, new Comparator<ListNode>() {
             public int compare(ListNode l1, ListNode l2) {
                 return l1.val - l2.val;
             }
         });
-		for (ListNode node : lists)
+        for (ListNode node : lists)
             if (node != null) heap.add(node); // we MUST do the null check
         ListNode dummy = new ListNode(-1);
         ListNode p = dummy;
@@ -31,8 +31,8 @@ public class MergeKLists {
         }
         return dummy.next;
     }
-	
-	/**
+    
+    /**
     // O(nklog(k)) time complexity, n is the size of every single original list 
     public ListNode mergeKLists(List<ListNode> lists) {
         if (lists == null || lists.size() == 0) return null;

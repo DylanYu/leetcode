@@ -10,7 +10,7 @@ package solution;
  *
  */
 public class MaximumSubarray {
-	public int maxSubArray(int[] A) {
+    public int maxSubArray(int[] A) {
         if (A.length == 0) return Integer.MIN_VALUE;
         int max = A[0];
         int currMaxSum = A[0];

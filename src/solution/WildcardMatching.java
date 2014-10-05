@@ -24,7 +24,7 @@ package solution;
  */
 public class WildcardMatching {
     // when not match, if there's previous star, try to use it to suck more characters
-	public boolean isMatch(String s, String p) {
+    public boolean isMatch(String s, String p) {
         int lenS = s.length(); int lenP = p.length();
         if (lenP == 0) return lenS == 0;
         char[] S = s.toCharArray(); char[] P = p.toCharArray();
@@ -50,11 +50,11 @@ public class WildcardMatching {
         while (j < lenP && p.charAt(j) == '*') j++;
         return j == lenP;
     }
-	
-	/**
-	 * Another explanation of above solution
-	 * 
-	public boolean isMatch(String s, String p) {
+    
+    /**
+     * Another explanation of above solution
+     * 
+    public boolean isMatch(String s, String p) {
         int lenS = s.length(); int lenP = p.length();
         if (lenP == 0) return lenS == 0;
         char[] S = s.toCharArray(); char[] P = p.toCharArray();

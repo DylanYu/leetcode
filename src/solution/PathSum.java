@@ -22,7 +22,7 @@ import java.util.Set;
  *
  */
 public class PathSum {
-	// decided by leaf
+    // decided by leaf
     public static boolean hasPathSum(TreeNode root, int sum) {
         return subroutine(root, 0, sum);
     }

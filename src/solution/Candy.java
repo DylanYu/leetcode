@@ -17,8 +17,8 @@ import java.util.ArrayList;
  * 
  */
 public class Candy {
-	// search from head and then from tail, it is easy
-	public static int candy(int[] ratings) {
+    // search from head and then from tail, it is easy
+    public static int candy(int[] ratings) {
         int len = ratings.length;
         int[] num = new int[len];
         num[0] = 1;
@@ -32,8 +32,8 @@ public class Candy {
         for (int e : num) sum += e;
         return sum;
     }
-	
-	/**
+    
+    /**
     public static int candy(int[] ratings) {
         int len = ratings.length;
         int number = 1;
