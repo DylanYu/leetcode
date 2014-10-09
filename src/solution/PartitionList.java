@@ -27,7 +27,7 @@ public class PartitionList {
             else {
                 ListNode gt = p1.next;
                 p1.next = gt.next;
-                gt.next = null;
+                gt.next = null; // do NOT forget this
                 p2.next = gt;
                 p2 = p2.next;
             }
