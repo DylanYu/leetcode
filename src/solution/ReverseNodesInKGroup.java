@@ -20,33 +20,30 @@ package solution;
  */
 public class ReverseNodesInKGroup {
     public ListNode reverseKGroup(ListNode head, int k) {
-        if (head == null || k <= 0) return null;
-        ListNode dummy = new ListNode(-1);
+        if (head == null || head.next == null || k <= 0) return head;
+        ListNode dummy = new ListNode(0);
         dummy.next = head;
-        ListNode p1 = dummy;
-        while (p1.next != null) {
-            ListNode p2 = p1;
-            int i = 0;
-            while (p2 != null && i++ < k) p2 = p2.next;
-            if (p2 == null) break;
-            ListNode p2Next = p2.next;
-            p2.next = null; // necessary for later q2!=null
+        ListNode p = dummy;
+        while (p.next != null) {
+            ListNode test = p;
+            for (int i = 0; i < k && test != null; i++) test = test.next;
+            if (test == null) break;
+            ListNode nextGroup = test.next;
+            ListNode tail = p.next;
             
-            //reverse
-            ListNode q1 = p1.next; // won't be null
-            ListNode q2 = q1.next;
-            ListNode tail = q1;
-            q1.next = null;
-            while (q2 != null) {
-                ListNode q2Next = q2.next;
-                q2.next = q1;
-                q1 = q2;
-                q2 = q2Next;
+            // reverse
+            ListNode p1 = p.next;
+            ListNode p2 = p1.next;
+            p1.next = null;
+            while (p2 != nextGroup) {
+                ListNode p2Next = p2.next;
+                p2.next = p1;
+                p1 = p2;
+                p2 = p2Next;
             }
-            p1.next = q1;
-            tail.next = p2Next;
-            
-            p1 = tail;
+            p.next = p1;
+            tail.next = nextGroup;
+            p = tail;
         }
         return dummy.next;
     }
