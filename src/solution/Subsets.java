@@ -35,6 +35,19 @@ public class Subsets {
     }
     
     /*
+    private void collect(List<Integer> list, int idx, int[] S, List<List<Integer>> ret) {
+        if (idx == S.length) {
+            ret.add(new ArrayList<Integer>(list));
+            return;
+        }
+        generate(list, idx+1, S, ret);
+        list.add(S[idx]);
+        generate(list, idx+1, S, ret);
+        list.remove(list.size()-1);
+    }
+    */
+    
+    /*
      * awesome solution using bit manipulation 
      * 
     public List<List<Integer>> subsets(int[] S) {
