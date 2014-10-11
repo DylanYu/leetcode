@@ -12,7 +12,7 @@ package solution;
  *
  */
 public class ValidNumber {
-	// 2e6
+    // 2e6
     // 123. , 123.123
     // +/-, 10a,  +123e-123, 123e123 e 1e1, 1  e10, just e
     // just .
@@ -34,7 +34,7 @@ public class ValidNumber {
         if (s.length() == 0) return false; // just + or - is invalid
         boolean hasPoint = false;
         for (int i = 0; i < s.length(); i++) {
-        	char c = s.charAt(i);
+            char c = s.charAt(i);
             if (c == '.') {
                 if (exp) return false; // the exponent must be an integer, 6e6.5 is invalid
                 if (i == 0 && i+1 == s.length()) return false; // just . is invalid
@@ -46,8 +46,8 @@ public class ValidNumber {
         }
         return true;
     }
-	
-	/*
+    
+    /*
     public boolean isNumber(String s) {
         s = s.trim().toLowerCase();
         if (s.length() == 0) return false;

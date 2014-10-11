@@ -10,7 +10,7 @@ package solution;
  *
  */
 public class ConstructBinaryTreeFromInorderAndPostorderTraversal {
-	public TreeNode buildTree(int[] inorder, int[] postorder) {
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
         //if (inorder.length == 0 || postorder.length == 0) return null;
         return buildTree(inorder, 0, inorder.length-1, postorder, 0, postorder.length-1);
     }
@@ -26,9 +26,9 @@ public class ConstructBinaryTreeFromInorderAndPostorderTraversal {
         return root;
     }
 
-	/**
-	 * almost the same as above one
-	 * 
+    /**
+     * almost the same as above one
+     * 
     public TreeNode buildTree(int[] inorder, int[] postorder) {
         return buildTree(inorder, postorder, postorder.length-1, 0, inorder.length-1);
     }

@@ -10,7 +10,7 @@ package solution;
  *
  */
 public class ConstructBinaryTreeFromPreorderAndInorderTraversal {
-	public TreeNode buildTree(int[] preorder, int[] inorder) {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
         //if (preorder.length == 0 || inorder.length == 0) return null;
         return buildTree(preorder, 0, preorder.length-1, inorder, 0, inorder.length);
     }
@@ -25,12 +25,12 @@ public class ConstructBinaryTreeFromPreorderAndInorderTraversal {
         root.right = buildTree(preorder, lo1+leftLen+1, hi1, inorder, midIdx+1, hi2);
         return root;
     }
-	
+    
     /**
      * almost the same as above one
      * 
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-    	//if (preorder.length == 0 || inorder.length == 0) return null;
+        //if (preorder.length == 0 || inorder.length == 0) return null;
         return buildTree(preorder, inorder, 0, 0, inorder.length-1);
     }
     

@@ -33,11 +33,11 @@ public class InterleavingString {
         boolean[][] A = new boolean[len1+1][len2+1]; // A[i][j] == true means s1[0,i) and s2[0,j) can form s3[0,i+j)
         // init
         for (int i = 1; i <= Math.min(len2, len3); i++)
-        	if (s2.charAt(i-1) == s3.charAt(i-1)) A[0][i] = true;
-        	else break;
+            if (s2.charAt(i-1) == s3.charAt(i-1)) A[0][i] = true;
+            else break;
         for (int i = 1; i <= Math.min(len1, len3); i++)
-        	if (s1.charAt(i-1) == s3.charAt(i-1)) A[i][0] = true;
-        	else break;
+            if (s1.charAt(i-1) == s3.charAt(i-1)) A[i][0] = true;
+            else break;
         A[0][0] = true; // "" + "" = "" 
         
         for (int i = 1; i <= len1; i++) {
@@ -73,11 +73,11 @@ public class InterleavingString {
             for (int j = 0; j <= len2; j++)
                 A[i][j] = -1;
         for (int i = 1; i <= Math.min(len2, len3); i++)
-        	if (s2.charAt(i-1) == s3.charAt(i-1)) A[0][i] = 1;
-        	else while (i <= Math.min(len2, len3)) A[0][i++] = 0;
+            if (s2.charAt(i-1) == s3.charAt(i-1)) A[0][i] = 1;
+            else while (i <= Math.min(len2, len3)) A[0][i++] = 0;
         for (int i = 1; i <= Math.min(len1, len3); i++)
-        	if (s1.charAt(i-1) == s3.charAt(i-1)) A[i][0] = 1;
-        	else while (i <= Math.min(len1, len3)) A[i++][0] = 0;
+            if (s1.charAt(i-1) == s3.charAt(i-1)) A[i][0] = 1;
+            else while (i <= Math.min(len1, len3)) A[i++][0] = 0;
         A[0][0] = 1; // "" + "" = "" 
         
         return DP(A, s1, s2, s3, len1, len2) == 1;

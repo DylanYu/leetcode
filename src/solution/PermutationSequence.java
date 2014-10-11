@@ -22,11 +22,11 @@ import java.util.ArrayList;
  *
  */
 public class PermutationSequence {
-	public String getPermutation(int n, int k) {
-		ArrayList<Integer> arr = new ArrayList<Integer>();
-		for (int i = 1; i <= n; i++) arr.add(i);
-		k = (k - 1) % factorial(n);
-		int factor = factorial(n-1);
+    public String getPermutation(int n, int k) {
+        ArrayList<Integer> arr = new ArrayList<Integer>();
+        for (int i = 1; i <= n; i++) arr.add(i);
+        k = (k - 1) % factorial(n);
+        int factor = factorial(n-1);
         StringBuffer sb = new StringBuffer();
         for (int i = n-1; i >= 0; i--) {
             int idx = k / factor;
@@ -37,8 +37,8 @@ public class PermutationSequence {
         }
         return sb.toString();
     }
-	
-	/**
+    
+    /**
     public String getPermutation(int n, int k) {
         int[] A = new int[n];
         for (int i = 0; i < n; i++)

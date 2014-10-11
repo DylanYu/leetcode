@@ -14,8 +14,8 @@ package solution;
  *
  */
 public class PartitionList {
-	// simple one pass solution
-	public ListNode partition(ListNode head, int x) {
+    // simple one pass solution
+    public ListNode partition(ListNode head, int x) {
         if (head == null/* || head.next == null*/) return head;
         ListNode dummy = new ListNode(-1);
         dummy.next = head;
@@ -35,8 +35,8 @@ public class PartitionList {
         p1.next = dummyGt.next;
         return dummy.next;
     }
-	
-	/*
+    
+    /*
     // one pass solution
     public ListNode partition(ListNode head, int x) {
         if (head == null)

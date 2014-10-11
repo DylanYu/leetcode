@@ -18,7 +18,7 @@ import java.util.LinkedList;
  *
  */
 public class CountAndSay {
-	public String countAndSay(int n) {
+    public String countAndSay(int n) {
         if (n <= 0) return "";
         ArrayList<Integer> curr = new ArrayList<Integer>();
         curr.add(1);
@@ -42,8 +42,8 @@ public class CountAndSay {
         for (int e : curr) sb.append(e);
         return sb.toString();
     }
-	
-	/**
+    
+    /**
     public String countAndSay(int n) {
         LinkedList<Integer> currRow = new LinkedList<Integer>();
         currRow.add(1);

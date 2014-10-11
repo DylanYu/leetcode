@@ -14,7 +14,7 @@ package solution;
  *
  */
 public class SearchInRotatedSortedArray {
-	public int search(int[] A, int target) {
+    public int search(int[] A, int target) {
         int lo = 0;
         int hi = A.length-1;
         while (lo <= hi) {

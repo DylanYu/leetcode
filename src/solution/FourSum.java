@@ -26,10 +26,10 @@ import java.util.Set;
  *
  */
 public class FourSum {
-	/* 
-	 * typical O(N^3) solution (convert to two-sum problem)
-	 * 
-	public List<List<Integer>> fourSum(int[] num, int target) {
+    /* 
+     * typical O(N^3) solution (convert to two-sum problem)
+     * 
+    public List<List<Integer>> fourSum(int[] num, int target) {
         List<List<Integer>> ret = new LinkedList<List<Integer>>();
         int len = num.length;
         if (len < 4) return ret;
@@ -60,7 +60,7 @@ public class FourSum {
         return ret;
     }
     */
-	
+    
     class Pair {
         int a;
         int b;

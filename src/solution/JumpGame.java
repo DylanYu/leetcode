@@ -16,7 +16,7 @@ package solution;
 public class JumpGame {
     // as easy as you could image
     public boolean canJump(int[] A) {
-    	if (A.length == 0) return false;
+        if (A.length == 0) return false;
         int dst = A.length-1;
         int farthest = 0;
         int i = 0;

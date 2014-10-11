@@ -10,7 +10,7 @@ package solution;
 public class MaximalRectangle {
     // use LargestRectangleInHistogram
     public int maximalRectangle(char[][] matrix) {
-    	int m = matrix.length;
+        int m = matrix.length;
         if (m == 0) return 0;
         int n = matrix[0].length;
         int maxArea = 0;

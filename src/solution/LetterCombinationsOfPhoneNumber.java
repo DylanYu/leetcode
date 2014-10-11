@@ -19,13 +19,13 @@ import java.util.LinkedList;
  *
  */
 public class LetterCombinationsOfPhoneNumber {
-	public List<String> letterCombinations(String digits) {
+    public List<String> letterCombinations(String digits) {
         List<String> ret = new LinkedList<String>();
         recurse(new StringBuffer(), digits, ret);
         return ret;
     }
     
-	private void recurse(StringBuffer sb, String digits, List<String> ret) {
+    private void recurse(StringBuffer sb, String digits, List<String> ret) {
         if (digits.length() == 0) {
             ret.add(sb.toString());
             return;
@@ -53,15 +53,15 @@ public class LetterCombinationsOfPhoneNumber {
     /**
      *  BFS
      *
- 	public List<String> letterCombinations(String digits) {
+    public List<String> letterCombinations(String digits) {
          List<String> ret = new LinkedList<String>();
          ret.add("");
          for (int i = 0; i < digits.length(); i++) {
              int size = ret.size();
              char[] chs = map[digits.charAt(i)].toCharArray();
              for (int j = 0; j < size; j++) {
-             	String s = ret.get(j);
-             	ret.set(j, s+chs[0]); // reuse the space
+                String s = ret.get(j);
+                ret.set(j, s+chs[0]); // reuse the space
                  for (int idx = 1; idx < chs.length; idx++)
                      ret.add(s+chs[idx]);
              }

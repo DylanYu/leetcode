@@ -12,7 +12,7 @@ package solution;
  *
  */
 public class ReverseWordsInAString {
-	/*
+    /*
     public static String reverseWords(String s) {
         String[] a = s.trim().split("\\s+");
         StringBuilder sb = new StringBuilder();
@@ -25,7 +25,7 @@ public class ReverseWordsInAString {
     }
     */
     
-	public String reverseWords(String s) {
+    public String reverseWords(String s) {
         if (s == null) return null;
         char[] c = s.toCharArray();
         int start = 0;
@@ -55,10 +55,10 @@ public class ReverseWordsInAString {
         
         char[] ret = new char[end-start+1];
         for (int index = start; index <= end; index++)
-        	ret[index-start] = c[index];
+            ret[index-start] = c[index];
         return new String(ret);
     }
-	
+    
     private void reverse(char[] c, int lo, int hi) {
         while (lo < hi) {
             char tmp = c[lo];
@@ -68,9 +68,9 @@ public class ReverseWordsInAString {
             hi--;
         }
     }
-	
+    
     public static void main(String[] args) {
-    	ReverseWordsInAString reverser = new ReverseWordsInAString();
+        ReverseWordsInAString reverser = new ReverseWordsInAString();
         System.out.println(reverser.reverseWords(""));
         System.out.println(reverser.reverseWords("  "));
         System.out.println(reverser.reverseWords("  a "));

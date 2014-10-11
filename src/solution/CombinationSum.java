@@ -44,7 +44,7 @@ public class CombinationSum {
                 copy.add(candidates[i]);
                 recurse(copy, newTarget, candidates, i, ret);
             } else
-            	break; // minor optimization
+                break; // minor optimization
         }
     }
 }

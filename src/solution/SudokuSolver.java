@@ -14,7 +14,7 @@ import java.util.Set;
  *
  */
 public class SudokuSolver {
-	public void solveSudoku(char[][] board) {
+    public void solveSudoku(char[][] board) {
         boolean success = solve(board, 0, 0);
     }
     
@@ -41,8 +41,8 @@ public class SudokuSolver {
     
     // must NOT use a 'shared' boolean array to represent the set, data will be poisoned
     private Set<Character> getCandidates(char[][]board, int x, int y) {
-    	Set<Character> set = new HashSet<Character>();
-    	for (char i = '1'; i <= '9'; i++) set.add(i);
+        Set<Character> set = new HashSet<Character>();
+        for (char i = '1'; i <= '9'; i++) set.add(i);
         for (int i = 0; i < 9; i++)
             if (board[x][i] != '.') set.remove(board[x][i]);
         for (int i = 0; i < 9; i++)

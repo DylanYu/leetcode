@@ -15,8 +15,8 @@ import java.util.Map;
  *
  */
 public class LargestRectangleInHistogram {
-	// divide and conquer solution
-	public int largestRectangleArea(int[] height) {
+    // divide and conquer solution
+    public int largestRectangleArea(int[] height) {
         return largest(height, 0, height.length-1);
     }
     
@@ -36,7 +36,7 @@ public class LargestRectangleInHistogram {
         int maxRight = largest(height, minIdx+1, hi);
         return Math.max(maxMid, Math.max(maxLeft, maxRight));
     }
-	
+    
     /**
      * Awesome O(N) solution, the key to understand this solution is all the index in stack is 
      * ALWAYS in ascending order.

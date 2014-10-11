@@ -17,7 +17,7 @@ import java.util.Stack;
  *
  */
 public class SubsetsII {
-	public List<List<Integer>> subsetsWithDup(int[] num) {
+    public List<List<Integer>> subsetsWithDup(int[] num) {
         Arrays.sort(num);
         List<List<Integer>> ret = new LinkedList<List<Integer>>();
         collect(new ArrayList<Integer>(), num, 0, ret);
@@ -35,8 +35,8 @@ public class SubsetsII {
             }
         }
     }
-	
-	/*
+    
+    /*
     class SubsetCutter implements Cloneable{
         ArrayList<Integer> subset;
         Integer cut;

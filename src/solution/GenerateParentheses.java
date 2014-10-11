@@ -14,8 +14,8 @@ import java.util.List;
  *
  */
 public class GenerateParentheses {
-	// recursive solution
-	public List<String> generateParenthesis(int n) {
+    // recursive solution
+    public List<String> generateParenthesis(int n) {
         List<String> ret = new LinkedList<String>();
         if (n <= 0) return ret;
         generate(new StringBuffer(), 0, 0, n, ret);
@@ -39,8 +39,8 @@ public class GenerateParentheses {
             generate(s, left, right+1, n, ret);
         }
     }
-	
-	/*
+    
+    /*
     class Node {
         int l;
          int r;

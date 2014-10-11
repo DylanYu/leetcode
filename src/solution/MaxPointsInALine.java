@@ -11,10 +11,10 @@ import java.util.Map;
  *
  */
 public class MaxPointsInALine {
-	/**
-	 * Although it's short, using Double as key for Map is always a bad idea
-	 * 
-	public int maxPoints(Point[] points) {
+    /**
+     * Although it's short, using Double as key for Map is always a bad idea
+     * 
+    public int maxPoints(Point[] points) {
         int N = points.length;
         int max = 0;
         for (int i = 0; i < N; i++) {
@@ -50,7 +50,7 @@ public class MaxPointsInALine {
     }
     */
     
-	class Slope {
+    class Slope {
         long x;
         long y;
         Slope(long a, long b) { x = a; y = b; }

@@ -34,15 +34,15 @@ import java.util.LinkedList;
  *
  */
 public class TextJustification {
-	/**
-	 * This problem is supposed to be tedious, and cases:
-	 * add extra space for not divisible number of spaces,
-	 * single char, L == 1,
-	 * empty string, L == 0,
-	 * every line should have L length (last line and one word line),
-	 * last line is left-justified and only one space between each word
-	 */
-	public List<String> fullJustify(String[] words, int L) {
+    /**
+     * This problem is supposed to be tedious, and cases:
+     * add extra space for not divisible number of spaces,
+     * single char, L == 1,
+     * empty string, L == 0,
+     * every line should have L length (last line and one word line),
+     * last line is left-justified and only one space between each word
+     */
+    public List<String> fullJustify(String[] words, int L) {
         List<String> ret = new LinkedList<String>();
         int i = 0;
         while (i < words.length) {
