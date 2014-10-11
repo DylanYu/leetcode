@@ -27,7 +27,7 @@ public class DistinctSubsequences {
         for (int i = 1; i <= lenS; i++)
             for (int j = 1; j <= lenT; j++)
                 A[i][j] = A[i-1][j] 
-                        + (S.charAt(i-1) == T.charAt(j-1) ? A[i-1][j-1] : 0);
+                        + (S.charAt(i-1) == T.charAt(j-1) ? A[i-1][j-1] : 0); // NOTE: always wrap () for ?
         return A[lenS][lenT];
     }
     
