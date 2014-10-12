@@ -22,7 +22,7 @@ public class MaxPointsInALine {
             int same = 0;
             Point p = points[i];
             int localMax = 0;
-            for (int j = 0; j < N; j++) {
+            for (int j = i; j < N; j++) { // start from i, the points before i is already considered
                 Point q = points[j];
                 if (p.x == q.x && p.y == q.y) same++;
                 else {
@@ -82,7 +82,7 @@ public class MaxPointsInALine {
             int coincide = 0;
             int localMax = 0;
             Map<Slope, Integer> map = new HashMap<Slope, Integer>();
-            for (int j = 0; j < len; j++) {
+            for (int j = i; j < len; j++) { // start from i, the points before i is already considered
                 Point p2 = points[j];
                 if (p1.x == p2.x && p1.y == p2.y) {
                     coincide++;
