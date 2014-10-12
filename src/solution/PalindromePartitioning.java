@@ -42,6 +42,33 @@ public class PalindromePartitioning {
         }
     }
     
+    /**
+     * DP solution
+     * 
+    public List<List<String>> partition(String s) {
+        if (s == null || s.length() == 0) return new LinkedList<List<String>>();
+        Map<Integer, List<List<String>>> map = new HashMap<Integer, List<List<String>>>();
+        ArrayList<List<String>> initList = new ArrayList<List<String>>(); // important
+        initList.add(new LinkedList<String>());
+        map.put(-1, initList);
+        for (int i = 0; i < s.length(); i++) {
+            map.put(i, new LinkedList<List<String>>());
+            for (int j = i; j >= 0; j--) {
+                String sub = s.substring(j, i+1);
+                if (isPalindrome(sub) && map.containsKey(j-1)) {
+                    for (List<String> list : map.get(j-1)) { // copy every sub list and add sub, not the whole list and allAll (TLE)
+                        ArrayList<String> copy = new ArrayList<String>(list);
+                        copy.add(sub);
+                        map.get(i).add(copy);
+                    }
+                }
+            }
+            if (map.get(i).size() == 0) map.remove(i); //
+        }
+        return map.get(s.length()-1); // surely will have a result
+    }
+    */
+    
     private boolean isPalindrome(String s) {
         int i = 0;
         int j = s.length()-1;
