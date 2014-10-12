@@ -27,15 +27,15 @@ public class InterleavingString {
         int len3 = s3.length();
         if (len1 + len2 != len3) return false;
         //if (len3 == 0) return len1 == 0 && len2 == 0;
-        //if (len1 == 0) return s2.equals(s3);
-        //if (len2 == 0) return s1.equals(s3);
+        if (len1 == 0) return s2.equals(s3);
+        if (len2 == 0) return s1.equals(s3);
         
         boolean[][] A = new boolean[len1+1][len2+1]; // A[i][j] == true means s1[0,i) and s2[0,j) can form s3[0,i+j)
         // init
-        for (int i = 1; i <= Math.min(len2, len3); i++)
+        for (int i = 1; i <= len2; i++) // len2 <= len3 so do not need to use Math.min(len2, len3)
             if (s2.charAt(i-1) == s3.charAt(i-1)) A[0][i] = true;
             else break;
-        for (int i = 1; i <= Math.min(len1, len3); i++)
+        for (int i = 1; i <= len1; i++)
             if (s1.charAt(i-1) == s3.charAt(i-1)) A[i][0] = true;
             else break;
         A[0][0] = true; // "" + "" = "" 
@@ -64,20 +64,20 @@ public class InterleavingString {
         int len3 = s3.length();
         if (len1 + len2 != len3) return false;
         //if (len3 == 0) return len1 == 0 && len2 == 0;
-        //if (len1 == 0) return s2.equals(s3);
-        //if (len2 == 0) return s1.equals(s3);
+        if (len1 == 0) return s2.equals(s3);
+        if (len2 == 0) return s1.equals(s3);
         
         int[][] A = new int[len1+1][len2+1]; // A[i][j] == 1 means s1[0,i) and s2[0,j) can form s3[0,i+j)
         // init
         for (int i = 0; i <= len1; i++)
             for (int j = 0; j <= len2; j++)
                 A[i][j] = -1;
-        for (int i = 1; i <= Math.min(len2, len3); i++)
+        for (int i = 1; i <= s2.length(); i++)
             if (s2.charAt(i-1) == s3.charAt(i-1)) A[0][i] = 1;
-            else while (i <= Math.min(len2, len3)) A[0][i++] = 0;
-        for (int i = 1; i <= Math.min(len1, len3); i++)
+            else while (i <= s2.length()) A[0][i++] = 0;
+        for (int i = 1; i <= s1.length(); i++)
             if (s1.charAt(i-1) == s3.charAt(i-1)) A[i][0] = 1;
-            else while (i <= Math.min(len1, len3)) A[i++][0] = 0;
+            else while (i <= s1.length()) A[i++][0] = 0;
         A[0][0] = 1; // "" + "" = "" 
         
         return DP(A, s1, s2, s3, len1, len2) == 1;
