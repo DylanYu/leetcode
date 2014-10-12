@@ -8,7 +8,7 @@ package solution;
  *
  */
 public class ConvertSortedListToBST {
-    // awesome recursive solution
+    // awesome O(n) recursive solution
     private ListNode listNode;
     
     public TreeNode sortedListToBST(ListNode head) {
@@ -31,25 +31,27 @@ public class ConvertSortedListToBST {
     }
     
     /**
-     * Another recursive solution
+     * O(nlogn) recursive solution
      * 
     public TreeNode sortedListToBST(ListNode head) {
-        if (head == null) return null;
-        int len = 0;
+        //if (head == null) return null
         ListNode p = head;
-        while (p != null) { p = p.next; len++; }
-        ListNode dummy = new ListNode(-1);
-        dummy.next = head;
-        p = dummy;
-        for (int i = 0; i < len/2; i++) p = p.next;
-        ListNode pNext = p.next;
-        p.next = null; //
-        p = pNext;
-        
+        int n = 0;
+        while (p != null) {
+            n++;
+            p = p.next;
+        }
+        return generate(head, 1, n);
+    }
+    
+    private TreeNode generate(ListNode head, int lo, int hi) {
+        if (lo > hi) return null;
+        int mid = lo + (hi-lo)/2;
+        ListNode p = head;
+        for (int i = lo; i < mid; i++) p = p.next;
         TreeNode root = new TreeNode(p.val);
-        if (p != head) root.left = sortedListToBST(head); //
-        else root.left = null;
-        root.right = sortedListToBST(p.next);
+        root.left = generate(head, lo, mid-1);
+        root.right = generate(p.next, mid+1, hi);
         return root;
     }
     */
