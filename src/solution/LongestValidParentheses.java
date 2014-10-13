@@ -54,73 +54,58 @@ public class LongestValidParentheses {
     /*
      * Direct solution, too complex
      * 
-    public static int longestValidParentheses(String s) {
-        Stack<Integer> stack = new Stack<Integer>();
-        // use negative value to store '(' and ')', we will use 
-        // positive value to store length of valid parentheses 
-        for (int i = 0; i < s.length(); i++)
-            add(stack, -s.charAt(i));
-        int maxLen = 0;
-        while (!stack.empty()) {
-            int a = stack.pop();
-            if (a > maxLen) maxLen = a;
-        }
-        return maxLen;
-    }
-    
-    private static void add(Stack<Integer> stack, int now) {
-        if (stack.empty()) {
-            stack.push(now);
-        } else if (isParenthese(now)) {
-            int last = stack.peek();
-            if (isParenthese(last)) { // [stack, char, char]
-                if (match(last, now)) {
-                    stack.pop();
-                    add(stack, 2);
-                } else {
-                    stack.push(now);
-                }
-            } else { // [stack, number, char]
-                stack.pop();
-                if (stack.empty()) { // [number, char]
-                    stack.push(last);
-                    stack.push(now);
-                } else {
-                    int llast = stack.peek();
-                    if (isParenthese(llast)) { // [stack, char, number, char]
-                        if (match(llast, now)) {
-                            stack.pop();
-                            add(stack, 2 + last);
-                        } else {
-                            stack.push(last);
-                            stack.push(now);
+    public int longestValidParentheses(String s) {
+        if (s == null || s.length() <= 1) return 0;
+        char[] c = s.toCharArray();
+        Stack<Integer> stk = new Stack<Integer>();
+        int state = 0; // 0 - char in s ; 1 - num in stack
+        int i = 0;
+        while (i < c.length || state == 1) {
+            if (state == 0) {
+                if (c[i] == '(') {
+                    stk.push(-2);
+                    state = 0;
+                } else { // ')'
+                    if (stk.isEmpty()) {
+                        stk.push(-1);
+                        state = 0;
+                    } else if (stk.peek() == -2) {
+                        stk.pop();
+                        stk.push(2);
+                        state = 1;
+                    } else if (stk.peek() > 0) {
+                        int num = stk.pop();
+                        if (stk.isEmpty() || stk.peek() != -2) {
+                            stk.push(num);
+                            stk.push(-1);
+                            state = 0;
+                        } else { // ( num )
+                            stk.pop();
+                            stk.push(num+2);
+                            state = 1;
                         }
-                    } else { // [stack, number, number, char]
-                        // Not possible. All the consecutive numbers will be merged before this case happens
-                        //add(stack, llast + last);
-                        //add(stack, now);
+                    } else if (stk.peek() == -1) {
+                        stk.push(-1);
+                        state = 0;
                     }
                 }
-            }
-        } else { // now is a number
-            int last = stack.peek();
-            if (!isParenthese(last)) { // [stack, number, number]
-                stack.pop();
-                // no need to use recursion because previous consecutive numbers are already merged
-                //add(stack, last + now);
-                stack.push(last + now);
-            } else { // [stack, char, number]
-                stack.push(now);
+                i++;
+            } else if (state == 1) {
+                if (stk.isEmpty()) { // not possible
+                    state = 0;
+                    continue;
+                }
+                int num = stk.pop();
+                //while (!stk.isEmpty() && stk.peek() > 0) num += stk.pop();
+                if (!stk.isEmpty() && stk.peek() > 0) num += stk.pop();
+                stk.push(num);
+                state = 0;
             }
         }
-    }
-    
-    private static boolean isParenthese(int c) {
-        return -c == '(' || -c == ')';
-    }
-    
-    private static boolean match(int a, int b) {
-        return -a == '(' && -b == ')';
+        int max = 0;
+        while (!stk.isEmpty())
+            max = Math.max(max, stk.pop());
+        return max;
     }
     */
 
