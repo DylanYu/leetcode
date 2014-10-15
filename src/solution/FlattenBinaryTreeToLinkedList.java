@@ -92,26 +92,25 @@ public class FlattenBinaryTreeToLinkedList {
     */
 
     /*
-     * recursive approach
+     * recursive approach, use the property of preorder traverse
      * 
     private TreeNode prev;
     
-    public TreeNode flatten(TreeNode root) {
+    public void flatten(TreeNode root) {
         prev = null;
         recurse(root);
-        return root;
     }
     
     private void recurse(TreeNode node) {
         if (node == null) return;
-        TreeNode savedRight = node.right;
-        node.right = node.left;
-        node.left = null;
+        if (prev != null) {
+            prev.right = node;
+            prev.left = null;
+        }
         prev = node;
-        
-        recurse(node.right);
-        prev.right = savedRight;
-        recurse(savedRight);
+        TreeNode right = node.right;
+        recurse(node.left);
+        recurse(right);
     }
     */
     
