@@ -11,6 +11,7 @@ import java.util.LinkedList;
  * The same repeated number may be chosen from C unlimited number of times.
  * 
  * Note:
+ * Assume all candidates are distinct.
  * All numbers (including target) will be positive integers.
  * Elements in a combination (a1, a2, … , ak) must be in non-descending order. (ie, a1 ≤ a2 ≤ … ≤ ak).
  * The solution set must not contain duplicate combinations.
@@ -25,26 +26,50 @@ import java.util.LinkedList;
 public class CombinationSum {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> ret = new LinkedList<List<Integer>>();
-        Arrays.sort(candidates); // sort the candidates
-        // collect possible candidates from small to large to eliminate duplicates,
-        recurse(new ArrayList<Integer>(), target, candidates, 0, ret);
+        if (candidates == null) return ret;
+        Arrays.sort(candidates); //
+        collect(new ArrayList<Integer>(), 0, target, candidates, ret);
         return ret;
     }
     
-    // the index here means we are allowed to choose candidates from that index
-    private void recurse(List<Integer> list, int target, int[] candidates, int index, List<List<Integer>> ret) {
+    private void collect(ArrayList<Integer> list, int idx, int target, int[] candidates, List<List<Integer>> ret) {
         if (target == 0) {
-            ret.add(list);
+            ret.add(new ArrayList<Integer>(list));
             return;
         }
-        for (int i = index; i < candidates.length; i++) {
-            int newTarget = target - candidates[i];
-            if (newTarget >= 0) {
-                List<Integer> copy = new ArrayList<Integer>(list);
-                copy.add(candidates[i]);
-                recurse(copy, newTarget, candidates, i, ret);
-            } else
-                break; // minor optimization
+        for (int i = idx; i < candidates.length; i++) {
+            int newTarget = target-candidates[i];
+            if (newTarget < 0) break; // improvement
+            list.add(candidates[i]);
+            collect(list, i, newTarget, candidates, ret);
+            list.remove(list.size()-1);
         }
+        // no need to do the 'not choose anything' operation
+    }
+    
+    /**
+     * another approach
+     *
+    private void collect(ArrayList<Integer> list, int idx, int target, int[] candidates, List<List<Integer>> ret) {
+        if (target == 0) {
+            ret.add(new ArrayList<Integer>(list));
+            return;
+        }
+        if (idx == candidates.length) return; 
+        
+        collect(list, idx+1, target, candidates, ret);
+        int newTarget = target-candidates[idx];
+        if (newTarget < 0) return; // improvement
+        list.add(candidates[idx]);
+        collect(list, idx, newTarget, candidates, ret); // same element can be chosen several times
+        list.remove(list.size()-1);
+    }
+    */
+    
+    public static void main(String[] args) {
+        //int[] num = {2, 2, 3, 3, 6, 7};
+        int[] num = {2, 3, 6, 7};
+        List<List<Integer>> ret = new CombinationSum().combinationSum(num, 7);
+        System.out.println(ret.size());
     }
 }

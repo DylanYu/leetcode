@@ -30,31 +30,28 @@ import java.util.Set;
  *
  */
 public class CombinationSumII {
-    // tricky case: for {1, 1}, output only {{1}}
-    // solution without using Set
     public List<List<Integer>> combinationSum2(int[] num, int target) {
         List<List<Integer>> ret = new LinkedList<List<Integer>>();
-        Arrays.sort(num);
-        recurse(new ArrayList<Integer>(), num, target, 0, ret);
+        if (num == null) return ret;
+        Arrays.sort(num); //
+        collect(new ArrayList<Integer>(), 0, target, num, ret);
         return ret;
     }
     
-    private void recurse(ArrayList<Integer> list, int[] num, int target, int idx, List<List<Integer>> ret) {
+    private void collect(ArrayList<Integer> list, int idx, int target, int[] num, List<List<Integer>> ret) {
         if (target == 0) {
-            ret.add(list);
+            ret.add(new ArrayList<Integer>(list));
             return;
         }
-        int i = idx;
-        while (i < num.length) {
+        //if (idx == num.length) return; // not necessary
+        for (int i = idx; i < num.length; i++) {
+            if (i != idx) while (i < num.length && num[i] == num[i-1]) i++; // eliminate duplicates
+            if (i == num.length) break;
             int newTarget = target - num[i];
-            if (newTarget >= 0) {
-                ArrayList<Integer> copy = new ArrayList<Integer>(list);
-                copy.add(num[i]);
-                recurse(copy, num, newTarget, i+1, ret);
-                i++;
-                while (i < num.length && num[i] == num[i-1]) i++; // eliminate duplicates
-            } else
-                break;
+            if (newTarget < 0) break; // early stop
+            list.add(num[i]);
+            collect(list, i+1, newTarget, num, ret);
+            list.remove(list.size()-1);
         }
     }
     
@@ -93,4 +90,11 @@ public class CombinationSumII {
         }
     }
     */
+    
+    public static void main(String[] args) {
+        //int[] num = {2, 2, 3, 3, 6, 7}; // error input
+        int[] num = {2, 3, 6, 7};
+        List<List<Integer>> ret = new CombinationSumII().combinationSum2(num, 7);
+        System.out.println(ret.size());
+    }
 }
