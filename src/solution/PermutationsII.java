@@ -28,21 +28,19 @@ public class PermutationsII {
         return ret;
     }
     
-    private void generate(ArrayList<Integer> curr, ArrayList<Integer> left, List<List<Integer>> ret) {
-        if (left.size() == 0) {
+    private void collect(ArrayList<Integer> curr, ArrayList<Integer> remain, List<List<Integer>> ret) {
+        if (remain.size() == 0) {
             ret.add(new ArrayList<Integer>(curr));
             return;
         }
-        int i = 0;
-        while (i < left.size()) {
-            int e = left.remove(i);
+        for (int i = 0; i < remain.size(); i++) { // size will not change after add and remove
+            if (i > 0 && remain.get(i) == remain.get(i-1)) continue;
+            int e = remain.get(i);
+            remain.remove(i);
             curr.add(e);
-            generate(curr, left, ret);
+            collect(curr, remain, ret);
             curr.remove(curr.size()-1);
-            left.add(i, e);
-            int j = i+1;
-            while (j < left.size() && left.get(j) == left.get(j-1)) j++;
-            i = j;
+            remain.add(i, e);
         }
     }
     */
