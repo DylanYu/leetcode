@@ -15,33 +15,11 @@ import java.util.Map;
  *
  */
 public class LargestRectangleInHistogram {
-    // divide and conquer solution
-    public int largestRectangleArea(int[] height) {
-        return largest(height, 0, height.length-1);
-    }
-    
-    private int largest(int[] height, int lo, int hi) {
-        if (lo > hi) return 0; //
-        //if (lo == hi) return height[lo];
-        int minIdx = -1;
-        int minHeight = Integer.MAX_VALUE;
-        for (int i = lo; i <= hi; i++) {
-            if (height[i] < minHeight) {
-                minHeight = height[i];
-                minIdx = i;
-            }
-        }
-        int maxMid = minHeight * (hi - lo + 1);
-        int maxLeft = largest(height, lo, minIdx-1);
-        int maxRight = largest(height, minIdx+1, hi);
-        return Math.max(maxMid, Math.max(maxLeft, maxRight));
-    }
-    
     /**
      * Awesome O(N) solution, the key to understand this solution is all the index in stack is 
      * ALWAYS in ascending order.
      * The idea is from http://www.geeksforgeeks.org/largest-rectangle-under-histogram/
-     *
+     */
     public int largestRectangleArea(int[] height) {
         int maxArea = 0;
         Stack<Integer> stk = new Stack<Integer>();
@@ -62,7 +40,6 @@ public class LargestRectangleInHistogram {
         }
         return maxArea;
     }
-    */
     
     /**
      * trivial solution
