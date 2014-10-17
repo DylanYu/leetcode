@@ -14,6 +14,7 @@ import java.util.Set;
  * Each number in C may only be used once in the combination.
  * 
  * Note:
+ * Assume all candidates are distinct.
  * All numbers (including target) will be positive integers.
  * Elements in a combination (a1, a2, … , ak) must be in non-descending order. 
  * (ie, a1 ≤ a2 ≤ … ≤ ak).
