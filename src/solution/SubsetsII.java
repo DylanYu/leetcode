@@ -20,21 +20,42 @@ public class SubsetsII {
     public List<List<Integer>> subsetsWithDup(int[] num) {
         Arrays.sort(num);
         List<List<Integer>> ret = new LinkedList<List<Integer>>();
-        collect(new ArrayList<Integer>(), num, 0, ret);
+        collect(new ArrayList<Integer>(), 0, num, ret);
         return ret;
     }
     
-    private void collect(ArrayList<Integer> list, int[] num, int idx, List<List<Integer>> ret) {
+    // makes more sense
+    private void collect(ArrayList<Integer> list, int idx, int[] num, List<List<Integer>> ret) {
+        if (idx == num.length) {
+            ret.add(new ArrayList<Integer>(list));
+            return;
+        }
+        for (int i = idx; i < num.length; i++) { //choose one element and recursively continue
+            if (i > idx && num[i] == num[i-1]) continue;
+            else {
+                list.add(num[i]);
+                collect(list, i+1, num, ret);
+                list.remove(list.size()-1);
+            }
+        }
+        collect(list, num.length, num, ret); // choose nothing
+    }
+    
+    /**
+     * same as the above one
+     * 
+    private void collect(ArrayList<Integer> list, int idx, int[] num, List<List<Integer>> ret) {
         ret.add(new ArrayList<Integer>(list)); // will include an empty list in final result
         if (idx == num.length) return;
         for (int i = idx; i < num.length; i++) {
             if (i == idx || i-1 >= idx && num[i] != num[i-1]) { // eliminate duplicates
                 list.add(num[i]);
-                collect(list, num, i+1, ret);
+                collect(list, i+1, num, ret);
                 list.remove(list.size()-1);
             }
         }
     }
+    */
     
     /*
     class SubsetCutter implements Cloneable{
