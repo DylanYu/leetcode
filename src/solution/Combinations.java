@@ -25,26 +25,30 @@ import java.util.LinkedList;
 public class Combinations {
     public List<List<Integer>> combine(int n, int k) {
         List<List<Integer>> ret = new LinkedList<List<Integer>>();
-        combine(new ArrayList<Integer>(), 1, n, k, ret);
+        if (n <= 0 || k <= 0) return ret;
+        collect(new ArrayList<Integer>(), 1, n, k, ret);
         return ret;
     }
     
-    private void combine(ArrayList<Integer> list, int curr, int n, int k, List<List<Integer>> ret) {
-        if (k == 0) {
-            ret.add(new ArrayList<Integer>(list)); //
+    private void collect(ArrayList<Integer> list, int curr, int n, int k, List<List<Integer>> ret) {
+        if (list.size() == k) {
+            ret.add(new ArrayList<Integer>(list));
             return;
         }
-        for (int i = curr; i <= n-k+1; i++) {
+        //if (curr == n+1) return;
+        for (int i = curr; i <= n; i++) {
+            if (list.size() + n-i+1 < k) break;
             list.add(i);
-            combine(list, i+1, n, k-1, ret);
-            list.remove(list.size()-1); //
+            collect(list, i+1, n, k, ret);
+            list.remove(list.size()-1);
         }
+        // no need to do the 'not choose anything' operation, possible result is already check at first
     }
     
     /*
      * different approach to proceed recursion, less efficient than above one
      * 
-    private void combine(ArrayList<Integer> list, int curr, int n, int k, List<List<Integer>> ret) {
+    private void collect(ArrayList<Integer> list, int curr, int n, int k, List<List<Integer>> ret) {
         if (k == 0) {
             ret.add(list); //
             return;
@@ -52,7 +56,7 @@ public class Combinations {
         for (int i = curr; i <= n-k+1; i++) {
             ArrayList<Integer> copy =  new ArrayList<Integer>(list); //
             copy.add(i);
-            combine(copy, i+1, n, k-1, ret);
+            collect(copy, i+1, n, k-1, ret);
         }
     }
     */

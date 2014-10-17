@@ -2,6 +2,7 @@ package solution;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * Given n non-negative integers representing the histogram's bar height where the width of each 
