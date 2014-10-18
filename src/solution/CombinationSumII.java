@@ -46,7 +46,7 @@ public class CombinationSumII {
         }
         //if (idx == num.length) return; // not necessary
         for (int i = idx; i < num.length; i++) {
-            if (i != idx) while (i < num.length && num[i] == num[i-1]) i++; // eliminate duplicates
+            if (i >idx && num[i] == num[i-1]) continue; // eliminate duplicates
             if (i == num.length) break;
             int newTarget = target - num[i];
             if (newTarget < 0) break; // early stop
