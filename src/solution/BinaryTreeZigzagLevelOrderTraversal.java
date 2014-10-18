@@ -29,31 +29,22 @@ public class BinaryTreeZigzagLevelOrderTraversal {
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
         List<List<Integer>> ret = new LinkedList<List<Integer>>();
         if (root == null) return ret;
-        boolean leftToRight = true;
-        List<TreeNode> level = new ArrayList<TreeNode>();
-        level.add(root);
-        while (!level.isEmpty()) {
-            List<TreeNode> nextLevel = new ArrayList<TreeNode>(level.size()*2); // to avoid resize ArrayList
-            int idx = 0;
-            while (idx < level.size()) {
-                TreeNode curr = level.get(idx);
-                if (curr.left != null) nextLevel.add(curr.left);
-                if (curr.right != null) nextLevel.add(curr.right);
-                idx++;
-            }
-            
-            List<Integer> subRet = new LinkedList<Integer>();
-            if (leftToRight) {
-                for (int i = 0; i < level.size(); i++)
-                    subRet.add(level.get(i).val);
-            } else {
-                for (int i = level.size()-1; i >= 0; i--)
-                    subRet.add(level.get(i).val);
-            }
-            ret.add(subRet);
-            
-            leftToRight = !leftToRight;
-            level = nextLevel;
+        LinkedList<TreeNode> queue = new LinkedList<TreeNode>();
+        queue.add(root);
+        boolean lr = true;
+        while (!queue.isEmpty()) {
+            LinkedList<Integer> level = new LinkedList<Integer>();
+            TreeNode tail = queue.getLast();
+            TreeNode curr;
+            do {
+                curr = queue.removeFirst();
+                if (lr) level.add(curr.val);
+                else level.addFirst(curr.val);
+                if (curr.left != null) queue.add(curr.left);
+                if (curr.right != null) queue.add(curr.right);
+            } while (curr != tail);
+            ret.add(level);
+            lr = !lr;
         }
         return ret;
     }
