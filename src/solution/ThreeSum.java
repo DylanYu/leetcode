@@ -29,33 +29,28 @@ public class ThreeSum {
     // convert this problem to two-sum, no Set or Map is used
     public List<List<Integer>> threeSum(int[] num) {
         List<List<Integer>> ret = new LinkedList<List<Integer>>();
+        if (num == null || num.length < 3) return ret;
         Arrays.sort(num);
-        int i = 0;
-        while (i < num.length-2) {
-            int target = -num[i];
+        for (int i = 0; i < num.length-2; i++) {
+            if (i > 0 && num[i] == num[i-1]) continue; // eliminate duplicates
             int j = i+1;
             int k = num.length-1;
             while (j < k) {
                 int twoSum = num[j] + num[k];
-                if (twoSum > target)  {
-                    k--;
-                    while (k > j && num[k] == num[k+1]) k--;
-                } else if (twoSum < target) {
+                if (twoSum < -num[i]) j++;
+                else if (twoSum > -num[i]) k--;
+                else {
+                    List<Integer> list = new LinkedList<Integer>();
+                    list.add(num[i]);
+                    list.add(num[j]);
+                    list.add(num[k]);
+                    ret.add(list);
                     j++;
-                    while (j < k && num[j] == num[j-1]) j++;
-                } else {
-                    List<Integer> subRet = new LinkedList<Integer>();
-                    subRet.add(num[i]);
-                    subRet.add(num[j]);
-                    subRet.add(num[k]);
-                    ret.add(subRet);
-                    // skip duplicates
-                    do { j++; } while (j < k && num[j] == num[j-1]); // DO NOT forget me
-                    do { k--; } while (k > j && num[k] == num[k+1]); // DO NOT forget me
+                    k--;
                 }
+                if (j > i+1) while (j < k && num[j] == num[j-1]) j++; // eliminate duplicates
+                if (k < num.length-1) while (j < k && num[k] == num[k+1]) k--; // eliminate duplicates
             }
-            i++;
-            while (i < num.length-2 && num[i-1] == num[i]) i++; // skip duplicates
         }
         return ret;
     }
