@@ -15,6 +15,30 @@ package solution;
  *
  */
 public class EditDistance {
+    // iterative DP
+    public int minDistance(String word1, String word2) {
+        if (word1 == null || word2 == null) return Integer.MAX_VALUE;
+        int len1 = word1.length();
+        int len2 = word2.length();
+        if (len1 == 0) return len2;
+        if (len2 == 0) return len1;
+        int[][] A = new int[len1+1][len2+1];
+        for (int i = 1; i <= len1; i++) A[i][0] = i;
+        for (int i = 1; i <= len2; i++) A[0][i] = i;
+        //A[0][0] = 0;
+        for (int i = 1; i <= len1; i++) {
+            for (int j = 1; j <= len2; j++) {
+                int penalty = word1.charAt(i-1) == word2.charAt(j-1) ? 0 : 1;
+                A[i][j] = Math.min(
+                            A[i-1][j-1]  + penalty,
+                            Math.min(A[i-1][j] + 1, A[i][j-1] + 1)
+                        );
+            }
+        }
+        return A[len1][len2];
+   }
+    
+    /*
     public int minDistance(String word1, String word2) {
         int len1 = word1.length();
         int len2 = word2.length();
@@ -42,4 +66,5 @@ public class EditDistance {
                     minDistance(P, word1, word2, i, j-1) + 1)); // gap in word1
         return P[i][j];
     }
+    */
 }
