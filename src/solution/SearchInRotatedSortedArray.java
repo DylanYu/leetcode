@@ -14,13 +14,15 @@ package solution;
  *
  */
 public class SearchInRotatedSortedArray {
+    // check if the target is in the sorted part, if so keep doing the binary search
+    // otherwise throw away the sorted part and do the same on the other part of the array
     public int search(int[] A, int target) {
         int lo = 0;
         int hi = A.length-1;
         while (lo <= hi) {
             int mid = lo + (hi-lo)/2;
             if (A[mid] == target) return mid;
-            if (A[lo] <= A[mid]) {
+            if (A[lo] <= A[mid]) { // NOT <
                 if (A[lo] <= target && target <= A[mid])
                     hi = mid-1;
                 else
