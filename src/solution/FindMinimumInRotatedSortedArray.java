@@ -9,9 +9,7 @@ package solution;
  * 
  * You may assume no duplicate exists in the array.
  * 
- * 
  * @author Dongliang Yu
- * 
  * @see FindMinimumInRotatedSortedArrayII
  * @see SearchInRotatedSortedArray
  * @see SearchInRotatedSortedArrayII
