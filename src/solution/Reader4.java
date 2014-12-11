@@ -30,6 +30,12 @@ public class Reader4 {
         System.out.println();
     }
     
+    public void show(char[] buf, int len) {
+        for (int i = 0; i < Math.min(buf.length, len); i++)
+            System.out.print(buf[i] + ",");
+        System.out.println();
+    }
+    
     public static void main(String[] args) {
         char[] buf = new char[4];
         Reader4 reader = new Reader4("12345");
