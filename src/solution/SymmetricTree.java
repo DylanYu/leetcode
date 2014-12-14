@@ -23,6 +23,9 @@ package solution;
  *
  */
 public class SymmetricTree {
+    // Caveat: We should NOT try to use inorder traversal to determine whether two trees are 
+    // symmetric because inorder traversal can not decide a tree's actual shape.
+    
     public boolean isSymmetric(TreeNode root) {
         if (root == null) return true;
         return isSymmetric(root.left, root.right);
