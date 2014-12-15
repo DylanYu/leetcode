@@ -12,7 +12,7 @@ package solution;
  * @author Dongliang Yu
  *
  */
-public class RemoveListDuplicates {
+public class RemoveDuplicatesFromSortedList {
     public static ListNode deleteDuplicates(ListNode head) {
         if (head == null) return null;
         ListNode p = head;

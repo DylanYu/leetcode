@@ -12,23 +12,21 @@ package solution;
  * @author Dongliang Yu
  *
  */
-public class RemoveListDuplicatesII {
+public class RemoveDuplicatesFromSortedListII {
     public ListNode deleteDuplicates(ListNode head) {
         if (head == null) return head;
         ListNode dummy = new ListNode(Integer.MIN_VALUE);
         dummy.next = head;
         ListNode prev = dummy;
-        ListNode p = head;
-        while (p != null && p.next != null) {
-            if (p.val == p.next.val) {
-                ListNode dup = p.next;
-                while (dup != null && dup.val == p.val) dup = dup.next;
-                prev.next = dup;
-                p = dup;
-            } else {
+        while (prev != null && prev.next != null) {
+            ListNode p1 = prev.next;
+            ListNode p2 = p1.next;
+            while (p2 != null && p1.val == p2.val)
+                p2 = p2.next;
+            if (p2 != p1.next)
+                prev.next = p2;
+            else
                 prev = prev.next;
-                p = p.next;
-            }
         }
         return dummy.next;
     }
