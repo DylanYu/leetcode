@@ -15,10 +15,10 @@ public class MergeTwoLists {
         if (l2 == null) return l1;
         ListNode pre1 = new ListNode(Integer.MIN_VALUE);
         pre1.next = l1;
-        ListNode dummyHead = pre1;
+        ListNode dummy = pre1;
         while (l1 != null && l2 != null) {
             if (l1.val <= l2.val) {
-                pre1 = l1;
+                pre1 = pre1.next;
                 l1 = l1.next;
             } else {
                 ListNode tmp = l2;
@@ -29,10 +29,9 @@ public class MergeTwoLists {
             }
         }
         // join with l2
-        if (l1 == null) {
+        if (l2 != null)
             pre1.next = l2;
-        }
-        return dummyHead.next;
+        return dummy.next;
     }
     
     public static void main(String[] args) {
