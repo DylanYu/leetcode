@@ -2,7 +2,8 @@ package solution;
 
 /**
  * Implement int sqrt(int x).
- * <p>Compute and return the square root of x.
+ * 
+ * Compute and return the square root of x.
  * 
  * @author Dongliang Yu
  *
@@ -15,7 +16,7 @@ public class Sqrt {
         int hi = x;
         while (lo <= hi) {
             int mid = lo + (hi-lo)/2;
-            long mul = (long) mid * mid;
+            long mul = (long) mid * mid; // overflow
             if (mul == x) return mid;
             else if (mul < x) lo = mid+1;
             else hi = mid-1;
