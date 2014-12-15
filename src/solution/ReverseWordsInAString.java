@@ -1,12 +1,13 @@
 package solution;
 
 /**
- * Reverse Words in a String 
- * <p>
+ * Reverse Words in a String
+ *  
  * Given an input string, reverse the string word by word.
- * <p>For example,
- * <p>Given s = "the sky is blue",
- * <p>return "blue is sky the".
+ * For example,
+ * 
+ * Given s = "the sky is blue",
+ * return "blue is sky the".
  * 
  * @author Dongliang Yu
  *
@@ -25,26 +26,27 @@ public class ReverseWordsInAString {
     }
     */
     
+    // C style solution
     public String reverseWords(String s) {
         if (s == null) return null;
         char[] c = s.toCharArray();
         int start = 0;
-        while (start < c.length && c[start] == ' ') start++;
-        if (start == c.length) return "";
         int end = c.length-1;
-        while (end >= start && c[end] == ' ') end--;
+        while (start <= end && c[start] == ' ') start++;
+        if (start > end) return "";
+        while (start <= end && c[end] == ' ') end--;
+        if (start > end) return "";
         
         // delete redundant space between words
         int count = 0;
-        for (int i = start; i <= end; i++) {
-            if (i-1-count >= start && c[i-1-count] == ' ' && c[i] == ' ')
+        for (int i = start+1; i <= end; i++) {
+            if (c[i-1-count] == ' ' && c[i] == ' ')
                 count++;
-            else
+            else if (count > 0)
                 c[i-count] = c[i];
         }
         end -= count;
         
-        reverse(c, start, end);
         int i = start;
         while (i <= end) {
             int j = i;
@@ -52,8 +54,9 @@ public class ReverseWordsInAString {
             reverse(c, i, j-1);
             i = j+1;
         }
+        reverse(c, start, end);
         
-        char[] ret = new char[end-start+1];
+        char[] ret = new char[end-start+1]; // faster than StringBuffer.append()
         for (int index = start; index <= end; index++)
             ret[index-start] = c[index];
         return new String(ret);
