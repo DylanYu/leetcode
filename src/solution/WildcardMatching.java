@@ -52,7 +52,7 @@ public class WildcardMatching {
     }
     
     /**
-     * Another explanation of above solution
+     * Another explanation of above solution, which is easier to understand
      * 
     public boolean isMatch(String s, String p) {
         int lenS = s.length(); int lenP = p.length();
@@ -77,6 +77,58 @@ public class WildcardMatching {
         }
         while (j < lenP && p.charAt(j) == '*') j++;
         return j == lenP;
+    }
+    */
+    
+    /**
+     * a straight forward solution with detailed description
+     *
+    public boolean isMatch(String s, String p) {
+        if (s == null || p == null) return false;
+        int len1 = s.length(); int len2 = p.length();
+        if (len2 == 0) return len1 == 0;
+        char[] S = s.toCharArray(); char[] P = p.toCharArray();
+        if (P[len2-1] != '?' && P[len2-1] != '*') { // tail check
+            if (len1 == 0) return false;
+            if (S[len1-1] != P[len2-1]) return false;
+        }
+        int i = 0; int j = 0;
+        int stari = -1; int starj = -1;
+        // We try to use character and '?' in P to match S before using star, 
+        // so when i >= len1 the match is finished and no need to go back to previous star
+        while (i < len1) {
+            if (j == len2) { // try to go back to use star
+                if (stari == -1 || stari == len1) return false;
+                else {
+                    stari++;
+                    i = stari;
+                    j = starj+1;
+                }
+            } else {
+                if (P[j] != '?' && P[j] != '*') {
+                    if (S[i] == P[j]) { // match
+                        i++;
+                        j++;
+                    } else { // try to go back to use star
+                        if (stari == -1 || stari == len1) return false;
+                        else {
+                            stari++;
+                            i = stari;
+                            j = starj+1;
+                        }
+                    }
+                } else if (P[j] == '?') { // match
+                    i++;
+                    j++;
+                } else { // P[j] == '*', record star's position
+                    stari = i;
+                    starj = j;
+                    j++;
+                }
+            }
+        }
+        while (j < len2 && P[j] == '*') j++;
+        return j == len2;
     }
     */
     
@@ -110,10 +162,12 @@ public class WildcardMatching {
     public static void main(String[] args) {
         //String s = "";
         //String p = "";
+        String s = "b";
+        String p = "*?*?";
         //String s = "hi";
         //String p = "*?"; //true
-        String s = "bbaaababaaabaaaababaabbabababbbaabaababbbaabababbb";
-        String p = "**b*aa*b***aa****b*aaaa*"; // true
+        //String s = "bbaaababaaabaaaababaabbabababbbaabaababbbaabababbb";
+        //String p = "**b*aa*b***aa****b*aaaa*"; // true
         //String s = "bbbbbbbabbaabbabbbbaaabbabbabaaabbababbbabbbabaaabaab";
         //String p = "b*b*ab**ba*b**b***bba"; // false
         //String s = "abbbaaaaaaaabbbabaaabbabbbaabaabbbbaabaabbabaabbabbaabbbaabaabbabaabaabbbbaabbbaabaaababbbbabaaababbaaa";
