@@ -1,6 +1,8 @@
 package solution;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.LinkedList;
 import java.util.Stack;
 
 /**
@@ -18,10 +20,12 @@ import java.util.Stack;
  *
  */
 public class BinaryTreePostorder {
-    public static ArrayList<Integer> postorderTraversal(TreeNode root) {
-        ArrayList<Integer> queue = new ArrayList<Integer>();
+    /**
+     *
+    public static List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> ret = new ArrayList<Integer>();
         if (root == null)
-            return queue;
+            return ret;
         Stack<TreeNode> stack = new Stack<TreeNode>();
         stack.push(root);
         TreeNode prev = null;
@@ -35,45 +39,46 @@ public class BinaryTreePostorder {
                     stack.push(cur.right);
                 }
                 else {
-                    queue.add(cur.val);
+                    ret.add(cur.val);
                     stack.pop();
                 }
             } else if (cur.left == prev) { // traverse up from left
                 if (cur.right != null) {
                     stack.push(cur.right);
                 } else {
-                    queue.add(cur.val);
+                    ret.add(cur.val);
                     stack.pop();
                 }
             } else if (cur.right == prev) { // traverse up from right
-                queue.add(cur.val);
+                ret.add(cur.val);
                 stack.pop();
             }
             prev = cur;
         }
-        return queue;
+        return ret;
     }
+    */
     
     
     /* Magic solution with two stacks */
-    public static ArrayList<Integer> postorderTraversalWithTwoStacks(TreeNode root) {
-        ArrayList<Integer> queue = new ArrayList<Integer>();
+    public static List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> ret = new LinkedList<Integer>();
         if (root == null)
-            return queue;
-        Stack<TreeNode> s = new Stack<TreeNode>();
+            return ret;
+        Stack<TreeNode> stk = new Stack<TreeNode>();
         Stack<Integer> output = new Stack<Integer>();
-        s.push(root);
-        while (!s.empty()) {
-            TreeNode from1 = s.pop();
+        stk.push(root);
+        while (!stk.empty()) {
+            TreeNode from1 = stk.pop();
             output.push(from1.val);
             if (from1.left != null)
-                s.push(from1.left);
+                stk.push(from1.left);
             if (from1.right != null)
-                s.push(from1.right);
+                stk.push(from1.right);
         }
-        while (!output.empty())
-            queue.add(output.pop());
-        return queue;
+        while (!output.isEmpty())
+            ret.add(output.pop());
+        return ret;
     }
     
 
@@ -98,17 +103,17 @@ public class BinaryTreePostorder {
         }
     }
     
-    public static ArrayList<Integer> postorderTraversalWithCounter(TreeNode root) {
-        ArrayList<Integer> queue = new ArrayList<Integer>();
+    public static List<Integer> postorderTraversalWithCounter(TreeNode root) {
+        List<Integer> ret = new ArrayList<Integer>();
         if (root == null)
-            return queue;
+            return ret;
         Node current = new Node(root);
         Stack<Node> stack = new Stack<Node>();
         do {
             if (current != null) {
                 current.count++;
                 if (current.count == 3) {
-                    queue.add(current.val);
+                    ret.add(current.val);
                     if (stack.isEmpty()) // traversal is finished
                         break;
                     current = stack.pop();
@@ -131,14 +136,13 @@ public class BinaryTreePostorder {
                 current = stack.pop();
             }
         } while (!stack.isEmpty() || current.count != 3); // avoid early stop
-        return queue;
+        return ret;
     }
     
     public static void main(String[] args) {
         TreeNode root = BinaryTree.createTree();
-        ArrayList<Integer> queue = postorderTraversal(root);
-        //ArrayList<Integer> queue = postorderTraversalWithTwoStacks(root);
-        //ArrayList<Integer> queue = postorderTraversalWithCounter(root);
+        List<Integer> queue = postorderTraversal(root);
+        //List<Integer> queue = postorderTraversalWithCounter(root);
         for (Integer e : queue)
             System.out.println(e);
     }
