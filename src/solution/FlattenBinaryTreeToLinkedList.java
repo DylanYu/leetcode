@@ -108,9 +108,35 @@ public class FlattenBinaryTreeToLinkedList {
             prev.left = null;
         }
         prev = node;
-        TreeNode right = node.right;
+        TreeNode right = node.right; // record to avoid poisoning link
         recurse(node.left);
         recurse(right);
+    }
+    */
+    
+    /*
+     * Another straight-forward recursive solution
+     * 
+    public void flatten(TreeNode root) {
+        helper(root);
+    }
+    
+    private TreeNode helper(TreeNode node) {
+        if (node == null) return null;
+        if (node.left == null) {
+            if (node.right == null) return node;
+            else return helper(node.right);
+        } else {
+            TreeNode right = node.right;
+            node.right = node.left;
+            node.left = null;
+            TreeNode mostRight = helper(node.right);
+            mostRight.right = right;
+            if (right != null) {
+                return helper(right);
+            } else
+                return mostRight;
+        }
     }
     */
     
