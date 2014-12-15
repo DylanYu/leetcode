@@ -7,16 +7,14 @@ import java.util.Stack;
 
 /**
  * Binary Tree Postorder Traversal
- * <p>
+ * 
  * 3 non-recursive solutions including:
- * <ol>
- * <li>Most straight forward way with one stack
- * <li>Magic solution with two stacks
- * <li>Use a counter for each node
- * </ol>
- * <p>Reference: http://leetcode.com/2010/10/binary-tree-post-order-traversal.html
+ *  Straight forward way with one stack
+ *  Magic solution with two stacks
+ *  Use a counter for each node
  * 
  * @author Dongliang Yu
+ * @see http://leetcode.com/2010/10/binary-tree-post-order-traversal.html
  *
  */
 public class BinaryTreePostorder {
