@@ -36,18 +36,11 @@ public class InsertInterval {
      * no more merge
      */
     public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
-        if (intervals == null) {
-            List<Interval> list = new LinkedList<Interval>();
-            list.add(newInterval);
-            return list;
-        }
+        if (intervals == null)
+            intervals = new LinkedList<Interval>();
         if (newInterval == null) return intervals;
-        if (intervals.size() == 0) {
-            intervals.add(newInterval);
-            return intervals;
-        }
-        // insert at tail
-        if (newInterval.start > intervals.get(intervals.size()-1).end) {
+        // empty list or insert at tail
+        if (intervals.size() == 0 || newInterval.start > intervals.get(intervals.size()-1).end) {
             intervals.add(newInterval);
             return intervals;
         }
