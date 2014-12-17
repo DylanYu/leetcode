@@ -9,29 +9,25 @@ package solution;
  */
 public class LinkedListCycleII {
     public ListNode detectCycle(ListNode head) {
-        if (head == null) return null;
+        if (head == null || head.next == null) return null;
         ListNode slow = head;
-        ListNode fast = head.next;
-        boolean hasCycle = false;
-        while (fast != null) {
-            if (slow == fast) {
-                hasCycle = true;
-                break;
-            }
-            slow = slow.next;
-            fast = fast.next;
-            if (fast == null) break;
-            fast = fast.next;
-        }
-        if (!hasCycle) return null;
-        int perimeter = 0;
+        ListNode fast = head;
         do {
             slow = slow.next;
-            perimeter++;
+            fast = fast.next;
+            if (fast == null) return null;
+            fast = fast.next;
+            if (fast == null) return null; //
         } while (slow != fast);
-        int i = 0;
+        int perimeter = 1;
+        ListNode p = slow.next;
+        while (p != slow) {
+            p = p.next;
+            perimeter++;
+        }
         fast = head;
-        while (i++ < perimeter) fast = fast.next;
+        for (int i = 0; i < perimeter; i++)
+            fast = fast.next;
         slow = head;
         while (slow != fast) {
             slow = slow.next;
