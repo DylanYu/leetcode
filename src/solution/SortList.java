@@ -20,51 +20,47 @@ public class SortList {
     public ListNode sortList(ListNode head) {
         if (head == null) return null;
         int N = 0;
-        ListNode walker = head;
-        while (walker != null) {
-            walker = walker.next;
+        ListNode p = head;
+        while (p != null) {
+            p = p.next;
             N++;
         }
-        ListNode dummyHead = new ListNode(-1);
-        dummyHead.next = head;
-        int step = 1;
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
         
-        while (step < N) {
-            ListNode h = dummyHead;
-            while (h != null) {
-                merge(h, step);
-                
-                int count = 0;
-                while (count++ < 2*step && h != null) h = h.next;
+        for (int listLen = 1; listLen < N; listLen *= 2) {
+            p = dummy;
+            while (p.next != null) {
+                merge(p, listLen);
+                for (int i = 0; i < 2*listLen && p.next != null; i++)
+                    p = p.next;
             }
-            step *= 2;
         }
-        return dummyHead.next;
+        return dummy.next;
     }
     
-    private void merge(ListNode h1, int step) {
-        ListNode h2 = h1;
-        int count = 0;
-        while (count++ < step && h2 != null) h2 = h2.next;
-        if (h2 == null) return;
-        ListNode p1 = h1.next;
-        ListNode p2 = h2.next;
+    private void merge(ListNode p1, int listLen) {
+        //if (h1 == null || h1.next == null) return;
+        ListNode p2 = p1;
+        for (int i = 0; i < listLen && p2.next != null; i++) //
+            p2 = p2.next;
+        if (p2.next == null) return;
         int i = 0;
         int j = 0;
-        while (i < step && p1 != null && j < step && p2 != null) {
-            if (p1.val < p2.val) {
+        while (i < listLen && p1.next != null && j < listLen && p2.next != null) { //
+            if (p1.next.val < p2.next.val) {
                 p1 = p1.next;
-                h1 = h1.next;
                 i++;
             } else {
-                h2.next = p2.next;
-                h1.next = p2;
-                p2.next = p1;
-                h1 = h1.next;
-                p2 = h2.next;
+                ListNode tmp = p2.next;
+                p2.next = p2.next.next;
                 j++;
+                tmp.next = p1.next;
+                p1.next = tmp;
+                p1 = p1.next;
             }
         }
+        // no need to link l1 tail with l2 because they are already linked together
     }
     
     /*
