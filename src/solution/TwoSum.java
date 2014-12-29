@@ -25,22 +25,23 @@ import java.util.Map;
 public class TwoSum {
     // O(N) using HashMap with only one pass
     public static int[] twoSum(int[] numbers, int target) {
-        int[] rst = new int[2];
+        if (numbers == null) return null;
         Map<Integer, Integer> map = new HashMap<Integer, Integer>();
         for (int i = 0; i < numbers.length; i++) {
-            if (map.containsKey(target - numbers[i])) {
-                rst[0] = map.get(target - numbers[i]);
-                rst[1] = i+1;
-                return rst;
+            if (map.containsKey(target-numbers[i])) {
+                int[] ret = new int[2];
+                ret[0] = map.get(target-numbers[i]) + 1;
+                ret[1] = i+1;
+                return ret;
             } else
-                map.put(numbers[i], i+1);
+                map.put(numbers[i], i);
         }
         return null;
     }
     
     /* O(N) using HashMap with two pass of the Array
     public static int[] twoSum(int[] numbers, int target) {
-        HashMap<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
+        Map<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
         for (int i = 0; i < numbers.length; i++) {
             if (map.containsKey(numbers[i])) map.get(numbers[i]).add(i+1);
             else {
@@ -57,10 +58,10 @@ public class TwoSum {
                         index1 = map.get(e).get(1);
                     else continue;
                 }
-                int[] rst = new int[2];
-                rst[0] = Math.min(index1, index2);
-                rst[1] = Math.max(index1, index2);
-                return rst;
+                int[] ret = new int[2];
+                ret[0] = Math.min(index1, index2);
+                ret[1] = Math.max(index1, index2);
+                return ret;
             }
         }
         return null;
@@ -73,15 +74,12 @@ public class TwoSum {
         Arrays.sort(num2); // O(n) if use LSD
         int[] result = new int[2];
         int i = 0;
-        int j = Arrays.binarySearch(num2, target - num2[i]);
-        if (j < 0) { // not found
-            j = (-j - 1) - 1;
-            while (i < j) {
-                int sum = num2[i] + num2[j];
-                if (sum > target)      j--;
-                else if (sum < target) i++;
-                else break;
-            }
+        int j = num2.length-1;
+        while (i < j) {
+            int sum = num2[i] + num2[j];
+            if (sum > target) j--;
+            else if (sum < target) i++;
+            else break;
         }
         int result_i = 0;
         for (int index = 0; index < numbers.length; index++) {
