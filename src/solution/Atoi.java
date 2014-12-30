@@ -27,7 +27,13 @@ public class Atoi {
             char ch = c[i];
             if (!(ch >= '0' && ch <= '9')) break; // error
             int digit = ch - '0';
-            // deal with overflow
+            // elegant than below ones
+            if (val > Integer.MAX_VALUE/10 || val == Integer.MAX_VALUE/10 && digit > 7) {
+                if (sign == 1) return Integer.MAX_VALUE;
+                else return Integer.MIN_VALUE;
+            }
+            val = val * 10 + digit;
+            /* deal with overflow
             if (sign == 1) {
                 if (val > MAX/10) return MAX;
                 val *= 10;
@@ -40,6 +46,7 @@ public class Atoi {
                 //if (num-1+digit == MAX) return -MAX-1; //special case for Integer.MIN_VALUE
                 val += digit;
             }
+            */
             i++; //
         }
         return sign * val;
