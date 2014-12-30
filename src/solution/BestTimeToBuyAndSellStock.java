@@ -12,24 +12,27 @@ package solution;
 public class BestTimeToBuyAndSellStock {
     // scan from front
     public int maxProfit(int[] prices) {
-        int min = Integer.MAX_VALUE;
-        int profit = 0; // no need to use Integer.MIN_VALUE because profit >= 0
-        for (int i = 0; i < prices.length; i++) {
+        if (prices == null || prices.length == 0) return 0;
+        int min = prices[0];
+        int maxProfit = 0; // previous max profit
+        for (int i = 1; i < prices.length; i++) {
+            maxProfit = Math.max(maxProfit, prices[i] - min);
             min = Math.min(min, prices[i]);
-            profit = Math.max(profit, prices[i] - min);
         }
-        return profit;
+        return maxProfit;
     }
 
     /* scan from back
     public int maxProfit(int[] prices) {
-        int max = 0; // no need to use Integer.MIN_VALUE
-        int profit = 0;
-        for (int i = prices.length-1; i >= 0; i--) {
+        if (prices == null || prices.length == 0) return 0;
+        int len = prices.length;
+        int max = prices[len-1];
+        int maxProfit = 0; // previous max profit
+        for (int i = len-2; i >= 0; i--) {
+            maxProfit = Math.max(maxProfit, max - prices[i]);
             max = Math.max(max, prices[i]);
-            profit = Math.max(profit, max-prices[i]);
         }
-        return profit;
+        return maxProfit;
     }
     */
     
