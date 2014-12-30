@@ -21,23 +21,24 @@ public class LongestConsecutiveSequence {
         HashSet<Integer> set = new HashSet<Integer>();
         for (Integer e : num)
             set.add(e);
-        int maxLen = 0;
+        int maxLen = 0; // TODO: The question is not well defined, sequence 
+                        // length may be longer then Integer range
         for (int i = 0; i < num.length; i++) {
             int curr = num[i];
             if (!set.contains(curr)) continue;
             set.remove(curr); // set.remove(e) just returns false when element is not contained, 
                               // without exception throwed, so above line is actually not necessary
-            int left = curr - 1;
+            long left = curr - 1; // overflow for Integer.MIN_VALUE
             while (set.contains(left)) {
                 set.remove(left);
                 left--;
             }
-            int right = curr + 1;
+            long right = curr + 1; // overflow for Integer.MAX_VALUE
             while (set.contains(right)) {
                 set.remove(right);
                 right++;
             }
-            maxLen = Math.max(maxLen, right-left-1);
+            maxLen = Math.max(maxLen, (int) (right-left-1));
         }
         return maxLen;
     }
