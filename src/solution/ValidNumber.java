@@ -24,22 +24,24 @@ public class ValidNumber {
         s = s.toLowerCase(); // E to e
         String[] segments = s.split("e", -1); // split no -1 will discard tailing 0s, negative means as many as possible
         if (segments.length != 1 && segments.length != 2) return false; // can have at most one "e"
-        if (segments.length == 1) return isNumberNoExp(segments[0], false); // no "e"
-        else return isNumberNoExp(segments[0], false) && isNumberNoExp(segments[1], true); // xxxEyyy
+        if (segments.length == 1) return isIntegerOrFloat(segments[0], false); // no "e"
+        else return isIntegerOrFloat(segments[0], false) && isIntegerOrFloat(segments[1], true); // xxxEyyy
     }
     
-    private boolean isNumberNoExp(String s, boolean exp) {
+    // hasPoint is true : Float
+    // hasPoint is false : Integer
+    private boolean isIntegerOrFloat(String s, boolean hasPoint) {
         if (s.length() == 0) return false;
         if (s.charAt(0) == '+' || s.charAt(0) == '-') s = s.substring(1);
         if (s.length() == 0) return false; // just + or - is invalid
-        boolean hasPoint = false;
+        if (s.length() == 1 && s.equals(".")) return false; // just . is invalid
+        int pointCount = 0;
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             if (c == '.') {
-                if (exp) return false; // the exponent must be an integer, 6e6.5 is invalid
-                if (i == 0 && i+1 == s.length()) return false; // just . is invalid
-                if (hasPoint) return false; // two more points is invalid
-                else hasPoint = true;
+                pointCount++;
+                if (hasPoint && pointCount >= 2) return false; // two more points is invalid
+                if (!hasPoint) return false; // the exponent must be an integer, 6e6.5 is invalid
             } else if (!Character.isDigit(c)){ // anything not digit is invalid
                 return false;
             }
