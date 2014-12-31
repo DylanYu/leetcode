@@ -52,22 +52,59 @@ public class ScrambleString {
         char[] c2 = s2.toCharArray();
         Arrays.sort(c2);
         if (!Arrays.equals(c1, c2)) return false;
-        for (int i = 1; i < s1.length(); i++) {
+        int len = s1.length();
+        for (int i = 1; i < len; i++) {
             String s1left = s1.substring(0, i);
             String s1right = s1.substring(i);
-            
             String s2left = s2.substring(0, i);
             String s2right = s2.substring(i);
-            //if (s1.equals(s2right+s2left)) return true;
             if (isScramble(s1left, s2left) && isScramble(s1right, s2right)) return true;
             
-            s2left = s2.substring(0, s2.length()-i);
-            s2right = s2.substring(s2.length()-i);
-            //if (s1.equals(s2right+s2left)) return true;
+            s2left = s2.substring(0, len-i);
+            s2right = s2.substring(len-i);
             if (isScramble(s1left, s2right) && isScramble(s1right, s2left)) return true;
         }
         return false;
     }
+    
+    /**
+     * DP
+     * 
+    public boolean isScramble(String s1, String s2) {
+        if (s1 == null || s2 == null) return false;
+        int len = s1.length();
+        int[][][][] A = new int[len][len][len][len];
+        return isScramble(A, s1, 0, len-1, s2, 0, len-1);
+    }
+    
+    // 0-init, 1-true, 2-false
+    private boolean isScramble(int[][][][] A, String s1, int a1, int a2, String s2, int b1, int b2) {
+        if (A[a1][a2][b1][b2] != 0) return A[a1][a2][b1][b2] == 1;
+        A[a1][a2][b1][b2] = 2;
+        if (a2-a1 != b2-b1)
+            A[a1][a2][b1][b2] = 2;
+        else if (s1.substring(a1, a2+1).equals(s2.substring(b1, b2+1)))
+            A[a1][a2][b1][b2] = 1;
+        else {
+            char[] c1 = s1.substring(a1, a2+1).toCharArray();
+            Arrays.sort(c1);
+            char[] c2 = s2.substring(b1, b2+1).toCharArray();
+            Arrays.sort(c2);
+            if (!Arrays.equals(c1, c2)) A[a1][a2][b1][b2] = 2;
+            else {
+                for (int i = 0; i <= a2-a1-1; i++)
+                    if (isScramble(A, s1, a1, a1+i, s2, b1, b1+i)
+                            && isScramble(A, s1, a1+i+1, a2, s2, b1+i+1, b2)
+                        || isScramble(A, s1, a1, a1+i, s2, b2-i, b2)
+                            && isScramble(A, s1, a1+i+1, a2, s2, b1, b2-i-1)) {
+                        A[a1][a2][b1][b2] = 1;
+                        break;
+                    }
+            }
+        }
+        return A[a1][a2][b1][b2] == 1;
+    }
+    */
     
     public static void main(String[] args) {
         //String s1 = "abcdefghij"; // false
