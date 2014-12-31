@@ -14,9 +14,8 @@ public class CopyListWithRandomPointer {
         if (head == null) return null;
         RandomListNode p = head;
         while (p != null) {
-            RandomListNode copy = p.next;
             RandomListNode newNode = new RandomListNode(p.label);
-            newNode.next = copy;
+            newNode.next = p.next;
             p.next = newNode;
             p = newNode.next;
         }
@@ -33,9 +32,9 @@ public class CopyListWithRandomPointer {
         while (p != null) { // p != null then p.next != null
             RandomListNode copy = p.next;
             p.next = copy.next;
-            if (copy.next == null) break; //
-            copy.next = copy.next.next;
             p = p.next;
+            if (p == null) break; //
+            copy.next = p.next;
             copy = copy.next;
         }
         return copyHead;
