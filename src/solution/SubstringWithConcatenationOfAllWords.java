@@ -43,27 +43,17 @@ public class SubstringWithConcatenationOfAllWords {
                     start = j + step;
                     count = 0;
                 } else {
-                    if (!countMap.containsKey(curr) || countMap.get(curr) < limitMap.get(curr)) {
-                        // current word is valid and included
-                        mapInc(countMap, curr);
-                        count++;
-                    } else {
-                        // current word usage exceeds the limitation, try to avoid rescan
-                        String t = S.substring(start, start+step);
-                        while (!t.equals(curr)) {
-                            mapDec(countMap, t);
-                            count--;
-                            start += step;
-                            t = S.substring(start, start+step);
-                        }
-                        // no need to decrease the countMap because we haven't increased it yet,
-                        // doing nothing equals increase and then decrease
+                    mapInc(countMap, curr);
+                    count++;
+                    while (countMap.get(curr) > limitMap.get(curr)) {
+                        String headWord = S.substring(start, start + step);
+                        mapDec(countMap, headWord);
+                        count--;
                         start += step;
                     }
+                    if (count == L.length)
+                        ret.add(start);
                 }
-                
-                if (count == L.length)
-                    ret.add(start);
             }
         }
         
