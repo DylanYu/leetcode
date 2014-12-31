@@ -28,6 +28,25 @@ public class ValidateBinarySearchTree {
                 && isValidBST(node.right, node.val, largest);
     }
     
+    /**
+     * Use inorder traversal to check: value sequence must be ascending 
+     * 
+    private TreeNode prev;
+    
+    public boolean isValidBST(TreeNode root) {
+        prev = null;
+        return inorderCheck(root);
+    }
+    
+    private boolean inorderCheck(TreeNode node) {
+        if (node == null) return true;
+        if (!inorderCheck(node.left)) return false;
+        if (prev != null && prev.val >= node.val) return false;
+        prev = node;
+        return inorderCheck(node.right);
+    }
+    */
+    
     /*
      * complicated version but the same idea as above one
      * 
