@@ -53,18 +53,19 @@ public class PalindromePartitioning {
         initList.add(new LinkedList<String>());
         map.put(-1, initList);
         for (int i = 0; i < s.length(); i++) {
-            map.put(i, new LinkedList<List<String>>());
+            List<List<String>> currLists = new LinkedList<List<String>>();
             for (int j = i; j >= 0; j--) {
                 String sub = s.substring(j, i+1);
-                if (isPalindrome(sub) && map.containsKey(j-1)) {
+                if (map.containsKey(j-1) && isPalindrome(sub)) {
                     for (List<String> list : map.get(j-1)) { // copy every sub list and add sub, not the whole list and allAll (TLE)
                         ArrayList<String> copy = new ArrayList<String>(list);
                         copy.add(sub);
-                        map.get(i).add(copy);
+                        currLists.add(copy);
                     }
                 }
             }
-            if (map.get(i).size() == 0) map.remove(i); //
+            if (currLists.size() > 0)
+                map.put(i, currLists); //
         }
         return map.get(s.length()-1); // surely will have a result
     }
