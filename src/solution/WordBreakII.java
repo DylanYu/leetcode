@@ -19,6 +19,7 @@ import java.util.Set;
  * A solution is ["cats and dog", "cat sand dog"].
  * 
  * @author Dongliang Yu
+ * @see PalindromePartitioning
  *
  */
 public class WordBreakII {
@@ -36,18 +37,8 @@ public class WordBreakII {
         List<List<String>> emptyList = new LinkedList<List<String>>();
         emptyList.add(new ArrayList<String>());
         map.put(-1, emptyList);
-        List<List<String>> sentences = DP(s, s.length()-1, map, dict);
         
-        for (List<String> sentence : sentences) {
-            StringBuffer sb = new StringBuffer();
-            for (String word : sentence) {
-                sb.append(word);
-                sb.append(' ');
-            }
-            if (sb.length() != 0) sb.deleteCharAt(sb.length()-1);  // handle s = ""
-            ret.add(sb.toString());
-        }
-        return ret;
+        return collect(DP(s, s.length()-1, map, dict));
     }
     
     private List<List<String>> DP(String s, int idx, Map<Integer, List<List<String>>> map, Set<String> dict) {
@@ -68,7 +59,21 @@ public class WordBreakII {
         }
         return curr;
     }
-    //*/
+    
+    private List<String> collect(List<List<String>> lists) {
+        List<String> ret = new LinkedList<String>();
+        if (lists == null) return ret;
+        for (List<String> list : lists) {
+            StringBuffer sb = new StringBuffer();
+            for (String s : list) {
+                sb.append(s);
+                sb.append(' ');
+            }
+            if (sb.length() > 0) sb.deleteCharAt(sb.length()-1);  // handle s = ""
+            ret.add(sb.toString());
+        }
+        return ret;
+    }
     
     /**
      * non-recursive head to tail search version, TLE on "aaaa...aab" case
@@ -96,17 +101,7 @@ public class WordBreakII {
                 }
             }
         }
-        List<List<String>> sentences = map.get(s.length()-1);
-        for (List<String> sentence : sentences) {
-            StringBuffer sb = new StringBuffer();
-            for (String word : sentence) {
-                sb.append(word);
-                sb.append(' ');
-            }
-            sb.deleteCharAt(sb.length()-1);
-            ret.add(sb.toString());
-        }
-        return ret;
+        return collect(map.get(s.length()-1));
     }
     */
     
