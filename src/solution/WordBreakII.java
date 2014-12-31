@@ -77,6 +77,9 @@ public class WordBreakII {
     
     /**
      * non-recursive head to tail search version, TLE on "aaaa...aab" case
+     * !!: The reason why this solution is not suitable for WordBreakII but 
+     * suitable for PalindromePartitioning is that, palindrome problem has no
+     * tail problem for "aaaa...aab" which happends in WorkBreakII
      * 
     public List<String> wordBreak(String s, Set<String> dict) {
         List<String> ret = new LinkedList<String>();
