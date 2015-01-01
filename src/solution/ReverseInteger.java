@@ -34,26 +34,25 @@ public class ReverseInteger {
     // for oveflow cases, return closest MAX_VALUE or MIN_VALUE
     public int reverse(int x) {
         int sign = x >= 0 ? 1 : -1;
-        if (x == Integer.MIN_VALUE) return x; // abs(x) will overflow
+        // abs(Integer.MIN_VALUE) will overflow, but abs(Integer.MIN_VALUE) is 
+        // Integer.MIN_VALUE, so the while loop is skipped, which return 0...
+        //if (x == Integer.MIN_VALUE) return 0;
         x = Math.abs(x);
         int num = 0;
         while (x > 0) {
             int digit = x % 10;
-            if (sign == 1) {
-                if (num > MAX/10) return MAX;
-                num *= 10;
-                if (num > MAX-digit) return MAX;
-                num += digit;
-            } else {
-                if (num > ((long)MAX + 1) / 10) return -MAX-1; // in fact MAX/10 is enough
-                num *= 10;
-                if (num > ((long)MAX + 1 - digit)) return -MAX-1;
-                if (num-1+digit == MAX) return -MAX-1; // special case for Integer.MIN_VALUE
-                num += digit;
+            if (num > MAX/10 || num == MAX/10 && digit > 7) {
+                //if (sign == 1) return MAX;
+                //else return -MAX-1;
+                return 0; // follow the requirement
             }
+            num = num * 10 + digit;
             x /= 10;
         }
-        
         return sign * num;
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(new ReverseInteger().reverse(Integer.MIN_VALUE));
     }
 }
