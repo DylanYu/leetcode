@@ -2,6 +2,8 @@ package solution;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.LinkedList;
 
 /**
  * Given a collection of numbers that might contain duplicates, return all possible unique 
@@ -15,6 +17,45 @@ import java.util.Arrays;
  *
  */
 public class PermutationsII {
+    public List<List<Integer>> permuteUnique(int[] num) {
+        List<List<Integer>> ret = new LinkedList<List<Integer>>();
+        if (num.length == 0) return ret;
+        Arrays.sort(num);
+        collect(num, 0, ret);
+        return ret;
+    }
+    
+    private void collect(int[] num, int index, List<List<Integer>> ret) {
+        if (index == num.length) {
+            List<Integer> list = new LinkedList<Integer>();
+            for (int e : num) list.add(e);
+            ret.add(list);
+            return;
+        }
+        for (int i = index; i < num.length; i++) {
+            // if (i > index && num[i] == num[i-1]) continue; // This is not correct because right now the array may not be sorted
+            // skip if we found duplicate
+            boolean skip = false;
+            for(int j = index; j < i; j++) {
+                if(num[j] == num[i]) {
+                    skip = true;
+                    break;
+                }
+            }
+            if (skip) continue;
+            
+            swap(num, i, index);
+            collect(num, index+1, ret);
+            swap(num, i, index);
+        }
+    }
+    
+    private void swap(int[] num, int i , int j) {
+        int tmp = num[i];
+        num[i] = num[j];
+        num[j] = tmp;
+    }
+    
     /*
      * This solution does not depend on NextPermutation, but use a direct recursive way.
      * 
@@ -45,9 +86,12 @@ public class PermutationsII {
     }
     */
     
-    public static ArrayList<ArrayList<Integer>> permuteUnique(int[] num) {
+    /**
+     * Solution based on @link NextPermutation
+     * 
+    public static List<List<Integer>> permuteUnique(int[] num) {
         int length = num.length;
-        ArrayList<ArrayList<Integer>> ret = new ArrayList<ArrayList<Integer>>();
+        List<List<Integer>> ret = new LinkedList<List<Integer>>();
         if (length == 0) return ret;
         Arrays.sort(num);
         while (true) {
@@ -66,15 +110,16 @@ public class PermutationsII {
                 return false;
         return true;
     }
+    */
     
     public static void main(String[] args) {
         int[] num = {2, 1, 2, 4};
-        ArrayList<ArrayList<Integer>> uniquePermutations = permuteUnique(num);
+        List<List<Integer>> uniquePermutations = new PermutationsII().permuteUnique(num);
         System.out.println("number of permutations: " + uniquePermutations.size());
         for (int i = 0; i < uniquePermutations.size(); i++) {
-            ArrayList<Integer> item = uniquePermutations.get(i);
-            for (int j = 0; j < item.size(); j++)
-                System.out.print(item.get(j) + " ");
+            List<Integer> item = uniquePermutations.get(i);
+            for (int e : item)
+                System.out.print(e + " ");
             System.out.println();
         }
     }
