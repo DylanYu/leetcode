@@ -48,15 +48,15 @@ public class BinaryTreeLevelOrderTraversal {
         LinkedList<TreeNode> queue = new LinkedList<TreeNode>();
         if (root != null) queue.add(root);
         while (!queue.isEmpty()) {
-            TreeNode end = queue.getLast();
             List<Integer> level = new LinkedList<Integer>();
-            while (!queue.isEmpty()) {
-                TreeNode curr = queue.removeFirst();
+            TreeNode tail = queue.getLast();
+            TreeNode curr;
+            do {
+                curr = queue.removeFirst();
                 level.add(curr.val);
                 if (curr.left != null) queue.add(curr.left);
                 if (curr.right != null) queue.add(curr.right);
-                if (curr == end) break;
-            }
+            } while (curr != tail);
             ret.add(level);
         }
         return ret;
