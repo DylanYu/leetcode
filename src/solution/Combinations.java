@@ -30,20 +30,38 @@ public class Combinations {
         return ret;
     }
     
-    private void collect(ArrayList<Integer> list, int curr, int n, int k, List<List<Integer>> ret) {
-        if (list.size() == k) {
-            ret.add(new ArrayList<Integer>(list));
+    private void collect(ArrayList<Integer> curr, int index, int n, int k, List<List<Integer>> ret) {
+        if (curr.size() == k) {
+            ret.add(new ArrayList<Integer>(curr));
             return;
         }
-        //if (curr == n+1) return;
-        for (int i = curr; i <= n; i++) {
-            if (list.size() + n-i+1 < k) break;
-            list.add(i);
-            collect(list, i+1, n, k, ret);
-            list.remove(list.size()-1);
+        if (index > n) return;
+        if (n-index+1+curr.size() < k) return; // early stop
+        
+        collect(curr, index+1, n, k, ret);
+        curr.add(index);
+        collect(curr, index+1, n, k, ret);
+        curr.remove(curr.size()-1);
+    }
+    
+    /**
+     * another solution
+     * 
+    private void collect(ArrayList<Integer> curr, int index, int n, int k, List<List<Integer>> ret) {
+        if (curr.size() == k) {
+            ret.add(new ArrayList<Integer>(curr));
+            return;
+        }
+        //if (index == n+1) return;
+        for (int i = index; i <= n; i++) {
+            if (curr.size() + n-i+1 < k) break;
+            curr.add(i);
+            collect(curr, i+1, n, k, ret);
+            curr.remove(curr.size()-1);
         }
         // no need to do the 'not choose anything' operation, possible result is already check at first
     }
+    */
     
     /*
      * different approach to proceed recursion, less efficient than above one
