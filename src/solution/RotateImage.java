@@ -53,12 +53,6 @@ public class RotateImage {
             y1--;
         }
     }
-    
-    private void swap(int[][] matrix, int x0, int y0, int x1, int y1) {
-        int tmp = matrix[x0][y0];
-        matrix[x0][y0] = matrix[x1][y1];
-        matrix[x1][y1] = tmp;
-    }
     */
     
     /*
@@ -77,13 +71,18 @@ public class RotateImage {
         int n = matrix.length;
         for (int i = 0; i < n; i++) {
             for (int j = i+1; j < n; j++) {
-                int tmp = matrix[i][j];
-                matrix[i][j] = matrix[j][i];
-                matrix[j][i] = tmp;
+                swap(i, j, j, i);
             }
         }
     }
     */
+    
+    private void swap(int[][] matrix, int i1, int j1, int i2, int j2) {
+        if (i1 == i2 && j1 == j2) return; // required
+        matrix[i1][j1] += matrix[i2][j2];
+        matrix[i2][j2] = matrix[i1][j1] - matrix[i2][j2];
+        matrix[i1][j1] -= matrix[i2][j2];
+    }
     
     public static void main(String[] args) {
         int[][] matrix = {{1,2},{3,4}};
