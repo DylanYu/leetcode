@@ -51,15 +51,17 @@ public class Subsets {
     
     /*
      * awesome solution using bit manipulation 
-     * 
-    public List<List<Integer>> subsets(int[] S) {
+     *
+    public static List<List<Integer>> subsets(int[] S) {
         List<List<Integer>> ret = new LinkedList<List<Integer>>();
-        int total = 1 << S.length;
-        Arrays.sort(S);
+        int len = S.length;
+        int total = 1 << len;
+        Arrays.sort(S); //
         for (int i = 0; i < total; i++) {
             LinkedList<Integer> list = new LinkedList<Integer>();
-            for (int j = 0; j < S.length; j++) {
-                if (((i >> j) & 1) == 1)
+            for (int j = 0; j < len; j++) {
+                if ((i >> (len-1-j) & 1) == 1)
+                //if (((i >> j) & 1) == 1) // just result in different order 
                     list.add(S[j]);
             }
             ret.add(list);
