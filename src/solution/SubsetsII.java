@@ -24,7 +24,25 @@ public class SubsetsII {
         return ret;
     }
     
-    // makes more sense
+    private void collect(List<Integer> curr, int index, int[] num, List<List<Integer>> ret) {
+        if (index == num.length) {
+            ret.add(new ArrayList<Integer>(curr));
+            return;
+        }
+        
+        curr.add(num[index]); // include current element
+        collect(curr, index+1, num, ret);
+        curr.remove(curr.size()-1);
+        
+        do { // skip current element (and consecutive identical elements)
+            index++;
+        } while (index < num.length && num[index] == num[index-1]);
+        collect(curr, index, num, ret);
+    }
+    
+    /**
+     * another solution 
+     * 
     private void collect(ArrayList<Integer> list, int idx, int[] num, List<List<Integer>> ret) {
         if (idx == num.length) {
             ret.add(new ArrayList<Integer>(list));
@@ -40,6 +58,7 @@ public class SubsetsII {
         }
         collect(list, num.length, num, ret); // choose nothing
     }
+    */
     
     /**
      * same as the above one

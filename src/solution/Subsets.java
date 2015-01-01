@@ -24,6 +24,20 @@ public class Subsets {
         return ret;
     }
     
+    private static void collect(List<Integer> list, int[] S, int idx, List<List<Integer>> ret) {
+        if (idx == S.length) {
+            ret.add(new ArrayList<Integer>(list));
+            return;
+        }
+        
+        collect(list, S, idx+1, ret); // skip current element
+        
+        list.add(S[idx]); // include current element
+        collect(list, S, idx+1, ret);
+        list.remove(list.size()-1);
+    }
+    
+    /*
     private static void collect(ArrayList<Integer> list, int[] S, int idx, List<List<Integer>> ret) {
         ret.add(new ArrayList<Integer>(list)); // will include an empty list in final result
         if (idx == S.length) return;
@@ -32,18 +46,6 @@ public class Subsets {
             collect(list, S, i+1, ret);
             list.remove(list.size()-1); //
         }
-    }
-    
-    /*
-    private void collect(List<Integer> list, int idx, int[] S, List<List<Integer>> ret) {
-        if (idx == S.length) {
-            ret.add(new ArrayList<Integer>(list));
-            return;
-        }
-        generate(list, idx+1, S, ret);
-        list.add(S[idx]);
-        generate(list, idx+1, S, ret);
-        list.remove(list.size()-1);
     }
     */
     
