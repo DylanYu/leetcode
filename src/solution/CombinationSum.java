@@ -37,14 +37,14 @@ public class CombinationSum {
             ret.add(new ArrayList<Integer>(list));
             return;
         }
-        for (int i = idx; i < candidates.length; i++) {
-            int newTarget = target-candidates[i];
-            if (newTarget < 0) break; // improvement
-            list.add(candidates[i]);
-            collect(list, i, newTarget, candidates, ret);
-            list.remove(list.size()-1);
-        }
-        // no need to do the 'not choose anything' operation
+        if (idx == candidates.length) return; 
+        
+        collect(list, idx+1, target, candidates, ret);
+        int newTarget = target-candidates[idx];
+        if (newTarget < 0) return; // improvement
+        list.add(candidates[idx]);
+        collect(list, idx, newTarget, candidates, ret); // same element can be chosen several times
+        list.remove(list.size()-1);
     }
     
     /**
@@ -55,14 +55,14 @@ public class CombinationSum {
             ret.add(new ArrayList<Integer>(list));
             return;
         }
-        if (idx == candidates.length) return; 
-        
-        collect(list, idx+1, target, candidates, ret);
-        int newTarget = target-candidates[idx];
-        if (newTarget < 0) return; // improvement
-        list.add(candidates[idx]);
-        collect(list, idx, newTarget, candidates, ret); // same element can be chosen several times
-        list.remove(list.size()-1);
+        for (int i = idx; i < candidates.length; i++) {
+            int newTarget = target-candidates[i];
+            if (newTarget < 0) break; // improvement
+            list.add(candidates[i]);
+            collect(list, i, newTarget, candidates, ret);
+            list.remove(list.size()-1);
+        }
+        // no need to do the 'not choose anything' operation
     }
     */
     

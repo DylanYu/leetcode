@@ -39,6 +39,29 @@ public class CombinationSumII {
         return ret;
     }
     
+    private void collect(ArrayList<Integer> list, int index, int target, int[] num, List<List<Integer>> ret) {
+        if (target == 0)  {
+            ret.add(new ArrayList<Integer>(list));
+            return;
+        }
+        if (index == num.length)
+            return;
+        int remaining = target - num[index];
+        if (remaining < 0) return;
+        list.add(num[index]);
+        collect(list, index+1, remaining, num, ret);
+        list.remove(list.size()-1);
+        
+        // skip current element (and consecutive identical elements)
+        do {
+            index++; 
+        } while (index < num.length && num[index] == num[index-1]);
+        collect(list, index, remaining, num, ret);
+    }
+    
+    /**
+     * another solution
+     * 
     private void collect(ArrayList<Integer> list, int idx, int target, int[] num, List<List<Integer>> ret) {
         if (target == 0) {
             ret.add(new ArrayList<Integer>(list));
@@ -55,6 +78,7 @@ public class CombinationSumII {
             list.remove(list.size()-1);
         }
     }
+    */
     
     /*
      * solution using Set to eliminate duplicates
