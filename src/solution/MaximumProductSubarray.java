@@ -12,6 +12,30 @@ package solution;
  */
 public class MaximumProductSubarray {
     public int maxProduct(int[] A) {
+        int maxTotal= A[0];
+        int max = A[0];
+        int min = A[0];
+        for (int i = 1; i < A.length; i++) {
+            int prevMax = max;
+            max = getMax(A[i], max*A[i], min*A[i]);
+            min = getMin(A[i], prevMax*A[i], min*A[i]);
+            maxTotal = Math.max(maxTotal, max);
+        }
+        return maxTotal;
+    }
+    
+    private int getMax(int a, int b, int c) {
+        return Math.max(a, Math.max(b, c));
+    }
+    
+    private int getMin(int a, int b, int c) {
+        return Math.min(a, Math.min(b, c));
+    }
+    
+    /**
+     * 
+     * 
+    public int maxProduct(int[] A) {
         if (A.length == 1) return A[0]; //
         int max = Integer.MIN_VALUE;
         int maxProduct = 0;
@@ -32,4 +56,5 @@ public class MaximumProductSubarray {
         }
         return max;
     }
+    */
 }
