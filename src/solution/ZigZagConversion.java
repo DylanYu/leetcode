@@ -39,6 +39,7 @@ public class ZigZagConversion {
         }
         /*
         while (i < len) {
+            // be careful about ("A", 1) case
             for (int idx = 0; idx < nRows && i < len; idx++) // vertically down
                 sarr[idx].append(s.charAt(i++));
             for (int idx = nRows-2; idx >= 1 && i < len; idx--) // obliquely up
