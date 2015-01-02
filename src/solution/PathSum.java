@@ -22,7 +22,17 @@ import java.util.Set;
  *
  */
 public class PathSum {
-    // decided by leaf
+    public boolean hasPathSum(TreeNode root, int sum) {
+        if (root == null) return false;
+        if (root.val == sum && root.left == null && root.right == null)
+            return true;
+        return hasPathSum(root.left, sum-root.val)
+                || hasPathSum(root.right, sum-root.val);
+    }
+    
+    /**
+     *  decided by leaf
+     *  
     public static boolean hasPathSum(TreeNode root, int sum) {
         return subroutine(root, 0, sum);
     }
@@ -33,6 +43,7 @@ public class PathSum {
         if (now == sum && node.left == null && node.right == null) return true;
         return subroutine(node.left, now, sum) || subroutine(node.right, now, sum);
     }
+    */
     
     /**
      * Another recursive approach, decided by root

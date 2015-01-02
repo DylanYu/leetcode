@@ -2,6 +2,7 @@ package solution;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedList;
 
 /**
  * Given a binary tree and a sum, find all root-to-leaf paths where each path's sum equals the given sum.
@@ -25,31 +26,29 @@ import java.util.List;
  *
  */
 public class PathSumII {
-    public static List<List<Integer>> pathSum(TreeNode root, int sum) {
-        List<List<Integer>> ret = new ArrayList<List<Integer>>();
-        //if (root == null) return result;
-        recurse(root, new ArrayList<Integer>(), 0, sum, ret);
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        List<List<Integer>> ret = new LinkedList<List<Integer>>();
+        traverse(root, new ArrayList<Integer>(), sum, ret);
         return ret;
     }
-   
-    private static void recurse(TreeNode node, ArrayList<Integer> curList, int curVal, int sum, List<List<Integer>> ret) {
+    
+    // sum - remaining sum to get
+    private void traverse(TreeNode node, List<Integer> path, int sum, List<List<Integer>> ret) {
         if (node == null) return;
-        curVal += node.val;
-        curList.add(node.val);
-        if (curVal == sum && node.left == null && node.right == null) {
-            ArrayList<Integer> copy = new ArrayList<Integer>(curList);
-            ret.add(copy);
-            curList.remove(curList.size()-1); //
-            return;
+        path.add(node.val); // add
+        if (node.left == null && node.right == null) { // leaf
+            if (node.val == sum)
+                ret.add(new ArrayList<Integer>(path));
+        } else {
+            traverse(node.left, path, sum-node.val, ret);
+            traverse(node.right, path, sum-node.val, ret);
         }
-        recurse(node.left, curList, curVal, sum, ret);
-        recurse(node.right, curList, curVal, sum, ret);
-        curList.remove(curList.size()-1); //
+        path.remove(path.size()-1); // remove (back trace)
     }
     
     public static void main(String[] args) {
         TreeNode root = new TreeNode(1);
-        List<List<Integer>> result = pathSum(root, 1);
+        List<List<Integer>> result = new PathSumII().pathSum(root, 1);
         for (List<Integer> list : result) {
             for (int e : list)
                 System.out.print(e);
