@@ -7,7 +7,7 @@ package solution;
  * the root node down to the farthest leaf node.
  * 
  * @author Dongliang Yu
- *
+ * @see MinimumDepthOfBinaryTree
  */
 public class MaximumDepthOfBinaryTree {
     public int maxDepth(TreeNode root) {

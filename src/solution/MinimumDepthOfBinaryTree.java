@@ -9,7 +9,7 @@ import java.util.LinkedList;
  * path from the root node down to the nearest leaf node.
  * 
  * @author Dongliang Yu
- *
+ * @see MaximumDepthOfBinaryTree
  */
 public class MinimumDepthOfBinaryTree {
     // BFS
