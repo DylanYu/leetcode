@@ -18,25 +18,25 @@ public class GenerateParentheses {
     public List<String> generateParenthesis(int n) {
         List<String> ret = new LinkedList<String>();
         if (n <= 0) return ret;
-        generate(new StringBuffer(), 0, 0, n, ret);
+        generate(new StringBuffer(), n, n, ret);
         return ret;
     }
     
-    private void generate(StringBuffer sb, int left, int right, int n, List<String> ret) {
-        //if (left > n || right > n) return;
-        if (left == n && right == n) {
+    private void generate(StringBuffer sb, int left, int right, List<String> ret) {
+        //if (left < 0 || right < 0) return;
+        if (left == 0 && right == 0) {
             ret.add(sb.toString());
             return;
         }
-        if (left < n) {
-            StringBuffer s = new StringBuffer(sb);
-            s.append('(');
-            generate(s, left+1, right, n, ret);
+        if (left > 0) {
+            sb.append('(');
+            generate(sb, left-1, right, ret);
+            sb.deleteCharAt(sb.length()-1);
         }
-        if (right < left) {
-            StringBuffer s = new StringBuffer(sb);
-            s.append(')');
-            generate(s, left, right+1, n, ret);
+        if (left < right) {
+            sb.append(')');
+            generate(sb, left, right-1, ret);
+            sb.deleteCharAt(sb.length()-1);
         }
     }
     
