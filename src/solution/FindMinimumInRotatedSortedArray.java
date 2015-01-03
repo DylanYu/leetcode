@@ -25,6 +25,10 @@ public class FindMinimumInRotatedSortedArray {
             int mid = lo + (hi-lo)/2;
             if (num[mid] > num[hi]) lo = mid+1;
             else hi = mid; // NOT mid-1. For [3,0,1,2] case, num[mid]=0 is the minimum
+            /*
+            if (num[mid] >= num[lo]) lo = mid+1; // = means mid==lo, it could happen and doesn't mean duplicates
+            else hi = mid; // not mid-1
+            */
         }
         return num[lo]; // one element case is also handled here
     }
