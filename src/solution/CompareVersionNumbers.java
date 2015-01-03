@@ -21,6 +21,29 @@ package solution;
  *
  */
 public class CompareVersionNumbers {
+    /**
+     * Cases: (1.0, 1), (1.0.0, 1), (1.2, 1), (.2, 0.2), (1..1, 1.0.1)
+     */
+    public int compareVersion(String version1, String version2) {
+        if (version1 == null || version2 == null) return 0;
+        char[] v1 = version1.toCharArray();
+        char[] v2 = version2.toCharArray();
+        int i = 0; int j = 0;
+        while (i < v1.length || j < v2.length) {
+            int n1 = 0; int n2 = 0;
+            while (i < v1.length && v1[i] != '.')
+                n1 = n1 * 10 + (v1[i++]-'0');
+            while (j < v2.length && v2[j] != '.')
+                n2 = n2 * 10 + (v2[j++]-'0');
+            if (n1 > n2) return 1;
+            else if (n1 < n2) return -1;
+            i++; // not bother when out of bound
+            j++; // not bother when out of bound
+        }
+        return 0;
+    }
+    
+    /*
     // scan and return current version segment, store start index of next
     // version segment to nxtIdx[0]
     private int getVersion(char[] c, int idx, int[] nxtIdx) {
@@ -33,13 +56,10 @@ public class CompareVersionNumbers {
         while (idx < c.length && c[idx] != '.')
             num = num * 10 + (c[idx++] - '0');
         if (idx >= c.length) nxtIdx[0] = idx;
-        else /* if (c[i] == '.') */nxtIdx[0] = idx + 1; // skip the '.'
+        else nxtIdx[0] = idx + 1; // skip the '.'
         return num;
     }
-
-    /**
-     * Cases: (1.0, 1), (1.0.0, 1), (1.2, 1), (.2, 0.2), (1..1, 1.0.1)
-     */
+    
     public int compareVersion(String version1, String version2) {
         if (version1 == null || version2 == null || 
                 version1.length() == 0 || version2.length() == 0)
@@ -59,4 +79,5 @@ public class CompareVersionNumbers {
         }
         return 0; // equals when both are finished and still no winner
     }
+    */
 }
