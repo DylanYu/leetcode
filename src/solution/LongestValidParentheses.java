@@ -10,15 +10,16 @@ public class LongestValidParentheses {
         Stack<Integer> stk = new Stack<Integer>();
         int max = 0;
         for (int i = 0; i < c.length; i++) {
-            if (c[i] == '(') stk.push(i);
+            if (c[i] == '(')
+                stk.push(i);
             else {
-                if (stk.isEmpty()) stk.push(i);
-                if (c[stk.peek()] == '(') {
+                if (stk.isEmpty() || c[stk.peek()] != '(') // not match
+                    stk.push(i);
+                else { // match
                     stk.pop();
                     int lastPos = stk.isEmpty() ? -1 : stk.peek();
                     max = Math.max(max, i-lastPos);
-                } else
-                    stk.push(i);
+                }
             }
         }
         return max;
@@ -51,62 +52,71 @@ public class LongestValidParentheses {
     }
     */
     
+    /**
+     * O(N^2) DP solution
+     * 
+    public int longestValidParentheses(String s) {
+        if (s == null || s.length() == 0) return 0;
+        int n = s.length();
+        boolean[][] A = new boolean[n][n];
+        int maxLen = 0;
+        for (int step = 1; step <= n-1; step += 2) { // += 2 is an optimization, skip all odd number length case
+            for (int i = 0; i+step < n; i++) {
+                if (step == 1)
+                    A[i][i+step] = match(s, i, i+step);
+                else
+                    A[i][i+step] = A[i+1][i+step-1] && match(s, i, i+step);
+                if (A[i][i+step])
+                    maxLen = Math.max(maxLen, step+1);
+            }
+        }
+        return maxLen;
+    }
+    
+    private boolean match(String s, int i, int j) {
+        return s.charAt(i) == '(' && s.charAt(j) == ')';
+    }
+    */
+    
     /*
      * Direct solution, too complex
      * 
+    // -1: (, -2: )
     public int longestValidParentheses(String s) {
-        if (s == null || s.length() <= 1) return 0;
-        char[] c = s.toCharArray();
         Stack<Integer> stk = new Stack<Integer>();
-        int state = 0; // 0 - char in s ; 1 - num in stack
-        int i = 0;
-        while (i < c.length || state == 1) {
-            if (state == 0) {
-                if (c[i] == '(') {
-                    stk.push(-2);
-                    state = 0;
-                } else { // ')'
-                    if (stk.isEmpty()) {
-                        stk.push(-1);
-                        state = 0;
-                    } else if (stk.peek() == -2) {
+        int maxLen = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '(')
+                stk.push(-1);
+            else { // ')'
+                if (stk.isEmpty()) continue;
+                int top = stk.peek();
+                if (top == -1) { // '(', match
+                    stk.pop();
+                    int len = 2;
+                    if (!stk.isEmpty() && stk.peek() > 0) // no consecutive positive numbers exist
+                        len += stk.pop();
+                    stk.push(len);
+                } else if (top > 0) { // positive number
+                    top = stk.pop();
+                    if (stk.isEmpty() || stk.peek() != -1) { // not match
+                        stk.push(top);
+                        stk.push(-2);
+                    } else {        // match
                         stk.pop();
-                        stk.push(2);
-                        state = 1;
-                    } else if (stk.peek() > 0) {
-                        int num = stk.pop();
-                        if (stk.isEmpty() || stk.peek() != -2) {
-                            stk.push(num);
-                            stk.push(-1);
-                            state = 0;
-                        } else { // ( num )
-                            stk.pop();
-                            stk.push(num+2);
-                            state = 1;
-                        }
-                    } else if (stk.peek() == -1) {
-                        stk.push(-1);
-                        state = 0;
+                        int len = top+2;
+                        if (!stk.isEmpty() && stk.peek() > 0) // no consecutive positive numbers exist
+                            len += stk.pop();
+                        stk.push(len);
                     }
-                }
-                i++;
-            } else if (state == 1) {
-                if (stk.isEmpty()) { // not possible
-                    state = 0;
-                    continue;
-                }
-                int num = stk.pop();
-                //while (!stk.isEmpty() && stk.peek() > 0) num += stk.pop();
-                if (!stk.isEmpty() && stk.peek() > 0) num += stk.pop();
-                stk.push(num);
-                state = 0;
+                } else // ')'
+                    ;//stk.push(-2); no need to push consecutive ')'
             }
         }
-        int max = 0;
         while (!stk.isEmpty())
-            max = Math.max(max, stk.pop());
-        return max;
-    }
+            maxLen = Math.max(maxLen, stk.pop()); // negative numbers are neglect
+        return maxLen;
     */
 
     public static void main(String[] args) {
