@@ -46,7 +46,7 @@ public class ReorderList {
             target = insertedNode.next;
         }
         if (target != head)
-            tail.next = null;
+            tail.next = null; // always remember to check the tail.next
     }
     
     public static void main(String[] args) {
