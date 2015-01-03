@@ -52,32 +52,6 @@ public class LongestValidParentheses {
     }
     */
     
-    /**
-     * O(N^2) DP solution
-     * 
-    public int longestValidParentheses(String s) {
-        if (s == null || s.length() == 0) return 0;
-        int n = s.length();
-        boolean[][] A = new boolean[n][n];
-        int maxLen = 0;
-        for (int step = 1; step <= n-1; step += 2) { // += 2 is an optimization, skip all odd number length case
-            for (int i = 0; i+step < n; i++) {
-                if (step == 1)
-                    A[i][i+step] = match(s, i, i+step);
-                else
-                    A[i][i+step] = A[i+1][i+step-1] && match(s, i, i+step);
-                if (A[i][i+step])
-                    maxLen = Math.max(maxLen, step+1);
-            }
-        }
-        return maxLen;
-    }
-    
-    private boolean match(String s, int i, int j) {
-        return s.charAt(i) == '(' && s.charAt(j) == ')';
-    }
-    */
-    
     /*
      * Direct solution, too complex
      * 
