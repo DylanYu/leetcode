@@ -45,10 +45,16 @@ public class InterleavingString {
             for (int j = 1; j <= len2; j++) {
                 char c2 = s2.charAt(j-1);
                 char c3 = s3.charAt(i+j-1);
+                if (A[i-1][j] && c1 == c3 || A[i][j-1] && c2 == c3) // more clear
+                    A[i][j] = true;
+                else
+                    A[i][j] = false;
+                /*
                 if (c1 != c3 && c2 != c3) A[i][j] = false;
                 else if (c1 == c3 && c2 != c3) A[i][j] = A[i-1][j];
                 else if (c1 != c3 && c2 == c3) A[i][j] = A[i][j-1];
                 else A[i][j] = A[i-1][j] || A[i][j-1];
+                */
             }
         }
         return A[len1][len2];
