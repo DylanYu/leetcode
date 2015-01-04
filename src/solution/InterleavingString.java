@@ -133,14 +133,31 @@ public class InterleavingString {
     */
     
     /*
-     * BFS, will TLE,
-     * each time we just move one step forward, much slower than DFS (recursive way)
+     * BFS
+     * Each time we just move one step forward.
+     * Use a set to record visited positions to avoid redundant search.
      * 
     class Pair {
         int a;
         int b;
-        int c;
-        Pair(int i, int j, int k) { a = i; b = j; c = k; }
+        Pair(int i, int j) { a = i; b = j; }
+        
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == null) return false;
+            if (obj == this) return true;
+            if (!(obj instanceof Pair)) return false;
+            Pair that = (Pair) obj;
+            return a == that.a && b == that.b;
+        }
+        
+        @Override
+        public int hashCode() {
+            int ret = 17;
+            ret = ret * 31 + a;
+            ret = ret * 31 + b;
+            return ret;
+        }
     }
     
     public boolean isInterleave(String s1, String s2, String s3) {
@@ -150,15 +167,28 @@ public class InterleavingString {
         int len3 = s3.length();
         if (len3 != len1+len2) return false;
         Queue<Pair> queue = new LinkedList<Pair>();
-        queue.add(new Pair(0, 0, 0));
+        queue.add(new Pair(0, 0));
+        Set<Pair> visited = new HashSet<Pair>();
+        visited.add(new Pair(0, 0));
         while (!queue.isEmpty()) {
             Pair curr = queue.poll();
             int a = curr.a;
             int b = curr.b;
-            int c = curr.c;
-            if (a == len1 && b == len2 && c == len3) return true;
-            if (a < len1 && s1.charAt(a) == s3.charAt(c)) queue.offer(new Pair(a+1, b, c+1));
-            if (b < len2 && s2.charAt(b) == s3.charAt(c)) queue.offer(new Pair(a, b+1, c+1));
+            if (a == len1 && b == len2) return true;
+            if (a < len1 && s1.charAt(a) == s3.charAt(a+b)) {
+                Pair p1 = new Pair(a+1, b);
+                if (!visited.contains(p1)) { //!
+                    queue.offer(p1);
+                    visited.add(p1);
+                }
+            }
+            if (b < len2 && s2.charAt(b) == s3.charAt(a+b)) {
+                Pair p2 = new Pair(a, b+1);
+                if (!visited.contains(p2)) { //!
+                    queue.offer(p2);
+                    visited.add(p2);
+                }
+            }
         }
         return false;
     }
