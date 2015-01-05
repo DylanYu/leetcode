@@ -19,42 +19,43 @@ import java.util.Map;
  *
  */
 public class FractionToRecurringDecimal {
-    // (-1, -2147483648), (-2147483648, 1)
+    // (-1, -2147483648), (-2147483648, 1), (-2147483648, -1)
     public String fractionToDecimal(int numerator, int denominator) {
+        //if (numerator == 0) return "0";
         if (denominator == 0) return "";
-        long dividend = (long) numerator; // overflow
-        long divisor = (long) denominator; // overflow
-        long intPart = dividend / divisor;
-        long remainder = dividend % divisor;
-        if (remainder == 0) {
-            return intPart + "";
+        long dividend = (long) numerator;
+        long divisor = (long) denominator;
+        long intPart = dividend / divisor; // Integer.MIN_VALUE / -1
+        if (intPart * divisor == dividend)
+            return intPart+"";
+        boolean positive = dividend * divisor >= 0 ? true : false;
+        dividend -= intPart * divisor;
+        dividend = Math.abs(dividend);
+        divisor = Math.abs(divisor);
+        Map<Long, Integer> map = new HashMap<Long, Integer>();
+        StringBuffer sb = new StringBuffer(); // fractional part
+        int i = 0;
+        while (dividend != 0 && !map.containsKey(dividend)) {
+            map.put(dividend, i);
+            dividend *= 10;
+            long quotient = dividend / divisor;
+            sb.append(quotient);
+            dividend -= quotient * divisor;
+            i++;
+        }
+        intPart = Math.abs(intPart);
+        if (dividend == 0) { // no repeat
+            return String.format("%s%d.%s",
+                positive ? "" : "-",
+                Math.abs(intPart),
+                sb.toString());
         } else {
-            dividend = Math.abs(remainder) * 10;
-            divisor = Math.abs(divisor);
-            StringBuffer sb = new StringBuffer();
-            Map<Long, Integer> map = new HashMap<Long, Integer>();
-            boolean repeat = true;
-            int i = 0;
-            while (!map.containsKey(dividend)) {
-                map.put(dividend, i);
-                long quotient = dividend / divisor;
-                sb.append(quotient);
-                remainder = dividend % divisor;
-                if (remainder == 0) {
-                    repeat = false;
-                    break;
-                } else
-                    dividend = remainder * 10;
-                i++;
-            }
-            boolean positive = (numerator >= 0 && denominator >= 0) || (numerator <= 0 && denominator <= 0); // for negative no integer part case
-            intPart = Math.abs(intPart);
-            if (repeat) {
-                int repeatStart = map.get(dividend);
-                return String.format("%s%d.%s(%s)", positive ? "" : "-", intPart, sb.substring(0, repeatStart), sb.substring(repeatStart));
-            } else {
-                return String.format("%s%d.%s", positive ? "" : "-", intPart, sb.toString());
-            }
+            int repeatStartIndex = map.get(dividend);
+            return String.format("%s%d.%s(%s)",
+                positive ? "" : "-",
+                Math.abs(intPart),
+                sb.substring(0, repeatStartIndex),
+                sb.substring(repeatStartIndex));
         }
     }
 }
