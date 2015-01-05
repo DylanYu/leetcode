@@ -18,8 +18,10 @@ public class ContainerWithMostWater {
         int hi = height.length-1;
         while (lo < hi) {
             max = Math.max(max, Math.min(height[lo], height[hi]) * (hi-lo));
-            if (height[lo] < height[hi]) lo++;
-            else hi--;
+            if (height[lo] < height[hi])
+                do { lo++; } while (lo < height.length && height[lo-1] == height[lo]);
+            else
+                do { hi--; } while (hi >= 0 && height[hi] == height[hi+1]);
         }
         return max;
     }
