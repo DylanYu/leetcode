@@ -23,7 +23,7 @@ public class CloneGraph {
     private UndirectedGraphNode clone(UndirectedGraphNode node) {
         if (map.containsKey(node.label)) return map.get(node.label);
         UndirectedGraphNode newNode = new UndirectedGraphNode(node.label);
-        map.put(newNode.label, newNode);
+        map.put(newNode.label, newNode); // put first to avoid self loop problem
         for (UndirectedGraphNode neighbor : node.neighbors)
             newNode.neighbors.add(clone(neighbor));
         return newNode;
