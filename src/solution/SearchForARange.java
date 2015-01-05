@@ -17,6 +17,35 @@ package solution;
  */
 public class SearchForARange {
     public int[] searchRange(int[] A, int target) {
+        int len = A.length;
+        int[] ret = new int[2];
+        int i = search(A, target);
+        if (/*i >= 0 && */i < len && A[i] == target) { // 
+            int left = search(A, target-0.5);
+            int right = search(A, target+0.5);
+            ret[0] = left;
+            ret[1] = right-1;
+        } else {
+            ret[0] = -1;
+            ret[1] = -1;
+        }
+        return ret;
+    }
+    
+    private int search(int[] A, double target) {
+        int lo = 0;
+        int hi = A.length-1;
+        while (lo <= hi) {
+            int mid = lo + (hi-lo) /  2;
+            if (A[mid] == target) return mid;
+            else if (A[mid] < target) lo = mid+1;
+            else hi = mid-1;
+        }
+        return lo; // (possible) index of element which is >= target
+    }
+    
+    /*
+    public int[] searchRange(int[] A, int target) {
         int[] ret = new int[2];
         int idx = binarySearch(A, target);
         if (idx == -1) {
@@ -51,5 +80,14 @@ public class SearchForARange {
             else if (A[mid] > target) hi = mid-1;
         }
         return lo;
+    }
+    */
+    
+    public static void main(String[] args) {
+        int[] num = {5, 7, 7, 8, 8, 10};
+        int[] ret = new SearchForARange().searchRange(num, 7);
+        //int[] ret = new SearchForARange().searchRange(num, 4);
+        //int[] ret = new SearchForARange().searchRange(num, 11);
+        System.out.println(String.format("[%d, %d]", ret[0], ret[1]));
     }
 }
