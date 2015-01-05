@@ -17,11 +17,12 @@ package solution;
  */
 public class SearchForARange {
     public int[] searchRange(int[] A, int target) {
+        int len = A.length;
         int[] ret = new int[2];
-        int i = search(A, target);
-        if (i < A.length && A[i] == target) { // i >= 0 is not necessary 
-            int left = search(A, target-0.5);
-            int right = search(A, target+0.5);
+        int i = search(A, 0, len-1, target);
+        if (i < len && A[i] == target) { // i >= 0 is not necessary
+            int left = search(A, 0, i-1, target-0.5);
+            int right = search(A, i+1, len-1, target+0.5);
             ret[0] = left;
             ret[1] = right-1;
         } else {
@@ -31,29 +32,28 @@ public class SearchForARange {
         return ret;
     }
     
-    private int search(int[] A, double target) {
-        int lo = 0;
-        int hi = A.length-1;
+    private int search(int[] A, int lo, int hi, double target) {
         while (lo <= hi) {
             int mid = lo + (hi-lo) /  2;
             if (A[mid] == target) return mid;
             else if (A[mid] < target) lo = mid+1;
             else hi = mid-1;
         }
-        return lo; // (possible) index of element which is >= target
+        return lo; // index of the smallest element which is >= target
     }
     
     /**
      * same as the above one, thinking about the difference between "return lo" and "return hi"
      * 
     public int[] searchRange(int[] A, int target) {
+        int len = A.length;
         int[] ret = new int[2];
-        int i = search(A, target);
-        if (i >= 0 && A[i] == target) { // i < A.length is not necessary 
-            int left = search(A, target-0.5);
-            int right = search(A, target+0.5);
-            ret[0] = left+1;
-            ret[1] = right;
+        int i = search(A, 0, len-1, target);
+        if (i >= 0  && i < len && A[i] == target) {
+            int left = search(A, 0, i-1, target-0.5);
+            int right = search(A, i+1, len-1, target+0.5);
+            ret[0] = left;
+            ret[1] = right-1;
         } else {
             ret[0] = -1;
             ret[1] = -1;
@@ -61,16 +61,14 @@ public class SearchForARange {
         return ret;
     }
     
-    private int search(int[] A, double target) {
-        int lo = 0;
-        int hi = A.length-1;
+    private int search(int[] A, int lo, int hi, double target) {
         while (lo <= hi) {
             int mid = lo + (hi-lo) /  2;
             if (A[mid] == target) return mid;
             else if (A[mid] < target) lo = mid+1;
             else hi = mid-1;
         }
-        return hi; // (possible) index of element which is <= target
+        return hi; // index of the largest element which is <= target
     }
     */
     
