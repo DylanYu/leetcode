@@ -18,7 +18,14 @@ public class PalindromeNumber {
             tmp /= 10;
         }
         int divisor = (int) Math.pow(10, len-1);
-        while(x > 0) {
+        /* or
+        long divisor = 1;
+        while (divisor <= x)
+            divisor *= 10;
+        divisor /= 10;
+         */
+        while(x > 0) { // not x >= 10 (case 1000021)
+        //while (divisor >= 10) {
             if (x / divisor != x % 10) return false;
             x = (x - x / divisor * divisor) / 10;
             divisor /= 100; // 100 not 10
