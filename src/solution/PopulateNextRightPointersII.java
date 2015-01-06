@@ -1,7 +1,11 @@
 package solution;
 
+import java.util.LinkedList;
+
 public class PopulateNextRightPointersII {
-    // neat solution
+    /**
+     * neat solution
+     * 
     public void connect(TreeLinkNode root) {
         if (root == null) return;
         TreeLinkNode curr = root;
@@ -27,6 +31,27 @@ public class PopulateNextRightPointersII {
             curr = nextLevel;
             prev = null;
             nextLevel = null;
+        }
+    }
+    */
+    
+    // level order
+    public void connect(TreeLinkNode root) {
+        if (root == null) return;
+        LinkedList<TreeLinkNode> queue = new LinkedList<TreeLinkNode>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            TreeLinkNode tail = queue.getLast();
+            TreeLinkNode prev = null;
+            TreeLinkNode curr = null;
+            do {
+                curr = queue.removeFirst();
+                if (prev != null)
+                    prev.next = curr;
+                if (curr.left != null) queue.add(curr.left);
+                if (curr.right != null) queue.add(curr.right);
+                prev = curr;
+            } while (curr != tail);
         }
     }
     
