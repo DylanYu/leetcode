@@ -10,8 +10,8 @@ package solution;
  *
  */
 public class StrStr {
-    public String strStr(String haystack, String needle) {
-        if (haystack == null || needle == null) return null;
+    public int strStr(String haystack, String needle) {
+        if (haystack == null || needle == null) return -1;
         //if (needle.equals("")) return haystack; // later logic could handle this case
         int lenM = haystack.length();
         int lenN = needle.length();
@@ -22,8 +22,8 @@ public class StrStr {
                 j++;
             }
             if (j == lenN) // if lenN == 0, return entire haystack at i = 0
-                return haystack.substring(i);
+                return i;
         }
-        return null;
+        return -1;
     }
 }
