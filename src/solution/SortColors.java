@@ -21,7 +21,7 @@ public class SortColors {
         int lt = 0;
         int gt = A.length - 1;
         int i = 0;
-        while (i <= gt) {
+        while (i <= gt) { // (i < gt) wrong for [1, 0] case
             if (A[i] < 1)
                 swap(A, i++, lt++);
             else if (A[i] > 1)
