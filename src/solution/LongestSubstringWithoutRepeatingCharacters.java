@@ -9,7 +9,7 @@ import java.util.Set;
  * length is 3. For "bbbbb" the longest substring is "b", with the length of 1.
  * 
  * @author Dongliang Yu
- *
+ * @see SubstringWithConcatenationOfAllWords
  */
 public class LongestSubstringWithoutRepeatingCharacters {
     // Almost same as the below one 

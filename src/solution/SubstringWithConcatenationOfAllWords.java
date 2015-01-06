@@ -18,7 +18,7 @@ import java.util.Map;
  * (order does not matter).
  * 
  * @author Dongliang Yu
- *
+ * @LongestSubstringWithoutRepeatingCharacters
  */
 public class SubstringWithConcatenationOfAllWords {
     // The idea is from https://oj.leetcode.com/discuss/366/better-solution-than-brute-force?show=479#a479
