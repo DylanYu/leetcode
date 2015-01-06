@@ -27,4 +27,30 @@ public class BalancedBinaryTree {
         if (Math.abs(leftH-rightH) > 1) balance = false;
         return 1 + Math.max(leftH, rightH);
     }
+    
+    /**
+     * cannot beat the above solution
+     * 
+    private Map<TreeNode, Integer> map;
+    
+    public boolean isBalanced(TreeNode root) {
+        map = new HashMap<TreeNode, Integer>();
+        return balanced(root);
+    }
+    
+    private boolean balanced(TreeNode node) {
+        if (node == null) return true;
+        if (Math.abs(height(node.left) - height(node.right)) > 1)
+            return false;
+        return balanced(node.left) && balanced(node.right);
+    }
+    
+    private int height(TreeNode node) {
+        if (node == null) return 0;
+        if (map.containsKey(node)) return map.get(node);
+        int height = 1 + Math.max(height(node.left), height(node.right));
+        map.put(node, height);
+        return height;
+    }
+    */
 }
