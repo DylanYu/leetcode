@@ -35,12 +35,9 @@ public class ConvertSortedListToBST {
      * 
     public TreeNode sortedListToBST(ListNode head) {
         //if (head == null) return null
-        ListNode p = head;
         int n = 0;
-        while (p != null) {
+        for (ListNode p = head; p != null; p = p.next)
             n++;
-            p = p.next;
-        }
         return generate(head, 1, n);
     }
     
