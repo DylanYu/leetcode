@@ -21,22 +21,19 @@ public class SudokuSolver {
     private boolean solve(char[][] board, int x, int y) {
         if (x == 9 && y == 0)
             return true;
+        if (y == 9)
+            return solve(board, x+1, 0);
         if (board[x][y] != '.')
-            return solveNext(board, x, y);
+            return solve(board, x, y+1);
         
         Set<Character> set = getCandidates(board, x, y);
-        if (set.size() == 0) return false;
+        //if (set.size() == 0) return false;
         for (char c : set) {
             board[x][y] = c;
-            if (solveNext(board, x, y)) return true;
+            if (solve(board, x, y+1)) return true;
         }
         board[x][y] = '.'; // current attempt failed, set back and try more attempts
         return false;
-    }
-    
-    private boolean solveNext(char[][] board, int x, int y) {
-        if (y == 8) return solve(board, x+1, 0);
-        else return solve(board, x, y+1);
     }
     
     // must NOT use a 'shared' boolean array to represent the set, data will be poisoned
