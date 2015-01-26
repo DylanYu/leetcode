@@ -31,20 +31,20 @@ public class BinaryTreeZigzagLevelOrderTraversal {
         if (root == null) return ret;
         LinkedList<TreeNode> queue = new LinkedList<TreeNode>();
         queue.add(root);
-        boolean lr = true;
+        boolean leftToRight = true;
         while (!queue.isEmpty()) {
             LinkedList<Integer> level = new LinkedList<Integer>();
             TreeNode tail = queue.getLast();
             TreeNode curr;
             do {
                 curr = queue.removeFirst();
-                if (lr) level.add(curr.val);
+                if (leftToRight) level.add(curr.val);
                 else level.addFirst(curr.val);
                 if (curr.left != null) queue.add(curr.left);
                 if (curr.right != null) queue.add(curr.right);
             } while (curr != tail);
             ret.add(level);
-            lr = !lr;
+            leftToRight = !leftToRight;
         }
         return ret;
     }
