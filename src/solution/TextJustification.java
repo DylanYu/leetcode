@@ -46,11 +46,11 @@ public class TextJustification {
         List<String> ret = new LinkedList<String>();
         int i = 0;
         while (i < words.length) {
-            int lastI = i;
-            int minLen = words[i++].length();
+            int j = i;
+            int minLen = words[j++].length();
             int n = 1;
-            while (i < words.length && minLen+words[i].length()+1 <= L) {
-                minLen += words[i++].length()+1;
+            while (j < words.length && minLen+words[j].length()+1 <= L) {
+                minLen += words[j++].length()+1;
                 n++;
             }
             
@@ -58,18 +58,18 @@ public class TextJustification {
             int space = L - wordLen;
             int perSpace = (n == 1) ? 0 : space / (n-1); // space between each word
             int extraSpace = (n == 1) ? 0 : space % (n-1); // extra space added for front words
-            if (i == words.length) { // just for last line
+            if (j == words.length) { // just for last line
                 perSpace = 1;
                 extraSpace = 0;
             }
             
             StringBuffer sb = new StringBuffer();
-            sb.append(words[lastI++]);
-            while (lastI < i) {
+            sb.append(words[i++]);
+            while (i < j) {
                 for (int k = 0; k < perSpace; k++) sb.append(' ');
                 if (extraSpace-- > 0)
                     sb.append(' ');
-                sb.append(words[lastI++]);
+                sb.append(words[i++]);
             }
             while (sb.length() < L) sb.append(' '); // one word and last line case
             
