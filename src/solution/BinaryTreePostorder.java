@@ -81,6 +81,24 @@ public class BinaryTreePostorder {
         return ret;
     }
     
+    /**
+     * same as above, but use a LinkedList to collect results
+     * 
+    public List<Integer> postorderTraversal(TreeNode root) {
+        LinkedList<Integer> ret = new LinkedList<Integer>();
+        if (root == null) return ret;
+        Stack<TreeNode> stk = new Stack<TreeNode>();
+        stk.push(root);
+        while (!stk.isEmpty()) {
+            TreeNode node = stk.pop();
+            ret.addFirst(node.val);
+            if (node.left != null) stk.push(node.left);
+            if (node.right != null) stk.push(node.right);
+        }
+        return ret;
+    }
+    */
+    
     /* use a set to record node's touched time, add to result when second touch (or leaf node) */
     public List<Integer> postorderTraversalWithSet(TreeNode root) {
         List<Integer> ret = new LinkedList<Integer>();
