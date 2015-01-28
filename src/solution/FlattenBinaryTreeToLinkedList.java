@@ -45,6 +45,27 @@ public class FlattenBinaryTreeToLinkedList {
         }
     }
     
+    /**
+     * iterative preorder solution
+     * 
+    public void flatten(TreeNode root) {
+        if (root == null) return;
+        TreeNode prev = null;
+        Stack<TreeNode> stk = new Stack<TreeNode>();
+        stk.push(root);
+        while (!stk.isEmpty()) {
+            TreeNode curr = stk.pop();
+            if (prev != null) {
+                prev.left = null;
+                prev.right = curr;
+            }
+            if (curr.right != null) stk.push(curr.right);
+            if (curr.left != null) stk.push(curr.left);
+            prev = curr;
+        }
+    }
+    */
+    
     /*
      * more 'stack-like' stack solution
      * 
