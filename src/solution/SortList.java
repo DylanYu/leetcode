@@ -19,17 +19,14 @@ package solution;
 public class SortList {
     public ListNode sortList(ListNode head) {
         if (head == null) return null;
-        int N = 0;
-        ListNode p = head;
-        while (p != null) {
-            p = p.next;
-            N++;
-        }
+        int L = 0;
+        for (ListNode p = head; p != null; p = p.next)
+            L++;
         ListNode dummy = new ListNode(-1);
         dummy.next = head;
         
-        for (int listLen = 1; listLen < N; listLen *= 2) {
-            p = dummy;
+        for (int listLen = 1; listLen < L; listLen *= 2) {
+            ListNode p = dummy;
             while (p.next != null) {
                 merge(p, listLen);
                 for (int i = 0; i < 2*listLen && p.next != null; i++)

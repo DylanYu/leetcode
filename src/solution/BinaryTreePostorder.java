@@ -1,8 +1,10 @@
 package solution;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Set;
 import java.util.Stack;
 
 /**
@@ -76,6 +78,51 @@ public class BinaryTreePostorder {
         }
         while (!output.isEmpty())
             ret.add(output.pop());
+        return ret;
+    }
+    
+    /**
+     * same as above, but use a LinkedList to collect results
+     * 
+    public List<Integer> postorderTraversal(TreeNode root) {
+        LinkedList<Integer> ret = new LinkedList<Integer>();
+        if (root == null) return ret;
+        Stack<TreeNode> stk = new Stack<TreeNode>();
+        stk.push(root);
+        while (!stk.isEmpty()) {
+            TreeNode node = stk.pop();
+            ret.addFirst(node.val);
+            if (node.left != null) stk.push(node.left);
+            if (node.right != null) stk.push(node.right);
+        }
+        return ret;
+    }
+    */
+    
+    /* use a set to record node's touched time, add to result when second touch (or leaf node) */
+    public List<Integer> postorderTraversalWithSet(TreeNode root) {
+        List<Integer> ret = new LinkedList<Integer>();
+        if (root == null) return ret;
+        Stack<TreeNode> stk = new Stack<TreeNode>();
+        stk.push(root); // init
+        Set<TreeNode> set = new HashSet<TreeNode>();
+        while (!stk.isEmpty()) {
+            TreeNode curr = stk.pop();
+            // leaf node could be added immediately
+            //if (curr.left == null && curr.right == null) {
+            //    ret.add(curr.val);
+            //    continue;
+            //}
+            if (set.contains(curr)) {
+                ret.add(curr.val);
+                set.remove(curr);
+            } else {
+                set.add(curr);
+                stk.push(curr);
+                if (curr.right != null) stk.push(curr.right);
+                if (curr.left != null) stk.push(curr.left);
+            }
+        }
         return ret;
     }
     
