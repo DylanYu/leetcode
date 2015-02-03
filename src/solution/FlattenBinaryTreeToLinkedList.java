@@ -32,6 +32,7 @@ import java.util.Stack;
  */
 public class FlattenBinaryTreeToLinkedList {
     // awesome non-recursive solution
+    /*
     public void flatten(TreeNode root) {
         while (root != null) {
             if (root.left != null) {
@@ -42,6 +43,32 @@ public class FlattenBinaryTreeToLinkedList {
                 root.left = null;
             }
             root = root.right;
+        }
+    }
+    */
+    
+    // straight-forward recursive solution
+    public void flatten(TreeNode root) {
+        recurse(root);
+    }
+    
+    private TreeNode recurse(TreeNode node) {
+        if (node == null) return null;
+        TreeNode leftMostRight = recurse(node.left);
+        TreeNode rightMostRight = recurse(node.right);
+        if (leftMostRight == null && rightMostRight == null)
+            return node;
+        else if (leftMostRight == null && rightMostRight != null)
+            return rightMostRight;
+        else if (leftMostRight != null && rightMostRight == null) {
+            node.right = node.left;
+            node.left = null;
+            return leftMostRight;
+        } else { // left != null && right != null
+            leftMostRight.right = node.right;
+            node.right = node.left;
+            node.left = null;
+            return rightMostRight;
         }
     }
     
