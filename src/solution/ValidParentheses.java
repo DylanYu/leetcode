@@ -23,16 +23,14 @@ public class ValidParentheses {
             char curr = c[i];
             if (curr == l[0] || curr == l[1] || curr == l[2]) {
                 stk.push(curr);
+            } else if (stk.isEmpty()) {
+                return false;
             } else {
-                if (stk.isEmpty()) {
-                        return false;
-                } else {
-                    char last = stk.pop();
-                    if (!(last == l[0] && curr == r[0] 
-                            || last == l[1] && curr == r[1] 
-                            || last == l[2] && curr == r[2]))
-                        return false;
-                }
+                char last = stk.pop();
+                if (!(last == l[0] && curr == r[0] 
+                        || last == l[1] && curr == r[1] 
+                        || last == l[2] && curr == r[2]))
+                    return false;
             }
         }
         return stk.isEmpty(); //
