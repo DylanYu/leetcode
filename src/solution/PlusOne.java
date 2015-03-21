@@ -10,15 +10,20 @@ package solution;
  */
 public class PlusOne {
     public static int[] plusOne(int[] digits) {
+        // handle error inputs
+        if (digits == null || digits.length == 0) {
+            int[] ret = new int[1];
+            ret[0] = 1;
+            return ret;
+        }
         int len = digits.length;
-        if (len == 0) return digits;
         int carry = 1;
         for (int i = len-1; i >= 0; i--) {
             digits[i] += carry;
             if (digits[i] >= 10) carry = 1;
             else carry = 0;
             digits[i] %= 10;
-            if (carry == 0) break;
+            if (carry == 0) break; //
         }
         if (carry == 1) {
             int[] arr = new int[len+1];
