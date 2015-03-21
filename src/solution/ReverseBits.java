@@ -1,5 +1,8 @@
 package solution;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Reverse bits of a given 32 bits unsigned integer.
  *
@@ -13,6 +16,32 @@ package solution;
  */
 public class ReverseBits {
     // you need treat n as an unsigned value
+    private final Map<Byte, Integer> cache = new HashMap<Byte, Integer>();;
+    
+    public int reverseBits(int n) {
+        int ret = 0;
+        for (int i = 0; i < 4; i++) {
+            int b =reverseByte((byte) (n & 0xFF)); // use Integer to avoid casting problem
+            ret += b;
+            n >>>= 8;
+            if (i < 3) ret <<= 8;
+        }
+        return ret;
+    }
+    
+    private int reverseByte(byte b) {
+        if (cache.containsKey(b))
+            return cache.get(b);
+        int ret = 0;
+        for (int i = 0; i < 8; i++) {
+            ret |= ((b >>> i) & 1);
+            if (i < 7) ret <<= 1;
+        }
+        cache.put(b, ret);
+        return ret;
+    }
+    
+    /**
     public int reverseBits(int n) {
         int ret = 0;
         for (int i = 0; i < 32; i++) {
@@ -21,6 +50,7 @@ public class ReverseBits {
         }
         return ret;
     }
+    */
     
     /**
     public int reverseBits(int n) {
@@ -45,4 +75,9 @@ public class ReverseBits {
         return n;
     }
     */
+    
+    public static void main(String[] args) {
+        int a = 256;
+        new ReverseBits().reverseBits(a);
+    }
 }
