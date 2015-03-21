@@ -58,15 +58,13 @@ public class UniquePathsII {
                 while (i < n) A[i++] = 0;
         }
         for (int i = 1; i < m; i++) {
-            for (int j = 0; j < n; j++) { // have to start from 0 to detect obstacle
-                if (obstacleGrid[i][j] == 1) A[j] = 0;
-                else {
-                    if (j == 0) {
-                        if (A[j] == 0) A[j] = 0; //
-                        else A[j] = 1;
-                    } else
-                        A[j] = A[j] + A[j-1];
-                }
+            if (obstacleGrid[i][0] == 1) // special treat for the first column
+                A[0] = 0; // will then always be 0
+            for (int j = 1; j < n; j++) {
+                if (obstacleGrid[i][j] == 1)
+                    A[j] = 0;
+                else
+                    A[j] += A[j-1];
             }
         }
         return A[n-1];
