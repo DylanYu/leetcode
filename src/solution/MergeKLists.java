@@ -12,7 +12,7 @@ import java.util.PriorityQueue;
  */
 public class MergeKLists {
     public ListNode mergeKLists(List<ListNode> lists) {
-        PriorityQueue<ListNode> heap = new PriorityQueue<ListNode>(100, new Comparator<ListNode>() {
+        PriorityQueue<ListNode> heap = new PriorityQueue<ListNode>(new Comparator<ListNode>() {
             public int compare(ListNode l1, ListNode l2) {
                 return l1.val - l2.val;
             }
