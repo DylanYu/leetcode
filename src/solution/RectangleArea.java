@@ -13,6 +13,23 @@ import java.util.*;
  *
  */
 public class RectangleArea {
+	// simple solution
+	public int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+        int left = Math.max(A, E);
+        int right = Math.min(C, G);
+        int bottom = Math.max(B, F);
+        int top = Math.min(D, H);
+        int overlap = 0;
+        if ( left < right && bottom < top)
+           overlap = area(left, bottom, right, top);
+       return area(A, B, C, D) + area(E, F, G, H) - overlap;
+    }
+    
+    private int area(int A, int B, int C, int D) {
+        return (C - A) * (D - B);
+    }
+    
+	/*
 	class Position {
         int x;
         int y;
@@ -112,4 +129,5 @@ public class RectangleArea {
         	}
         return length * width;
     }
+    */
 }
