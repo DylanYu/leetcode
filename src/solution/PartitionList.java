@@ -118,11 +118,11 @@ public class PartitionList {
     
     public static void main(String[] args) {
 //        ListNode head = LinkedList.createCertainList(new int[]{60,52,65,68,26,93,85,69,62,4});
-        ListNode head = LinkedList.createRandomValueList(10);
-        LinkedList.show(head);
+        ListNode head = LinkedListUtil.createRandomValueList(10);
+        LinkedListUtil.show(head);
         head = new PartitionList().partition(head, 40);
 //        System.out.println(new LinkedListCycle().hasCycle(head));
-        LinkedList.show(head);
+        LinkedListUtil.show(head);
     }
 
 }

@@ -50,9 +50,9 @@ public class ReorderList {
     }
     
     public static void main(String[] args) {
-        ListNode head = LinkedList.createIncreasingList(10);
-        LinkedList.show(head);
+        ListNode head = LinkedListUtil.createIncreasingList(10);
+        LinkedListUtil.show(head);
         new ReorderList().reorderList(head);
-        LinkedList.show(head);
+        LinkedListUtil.show(head);
     }
 }

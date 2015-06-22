@@ -2,7 +2,7 @@ package solution;
 
 import java.util.Random;
 
-public class LinkedList {
+public class LinkedListUtil {
     
     public static ListNode createCertainList(int[] list) {
         ListNode dummyNode = new ListNode(-1);

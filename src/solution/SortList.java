@@ -124,9 +124,9 @@ public class SortList {
     */
     
     public static void main(String[] args) {
-        ListNode head = LinkedList.createRandomValueList(10);
-        LinkedList.show(head);
+        ListNode head = LinkedListUtil.createRandomValueList(10);
+        LinkedListUtil.show(head);
         head = new SortList().sortList(head);
-        LinkedList.show(head);
+        LinkedListUtil.show(head);
     }
 }

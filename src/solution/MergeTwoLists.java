@@ -35,11 +35,11 @@ public class MergeTwoLists {
     }
     
     public static void main(String[] args) {
-        ListNode l1 = LinkedList.createIncreasingList(3, 4, 2);
-        LinkedList.show(l1);
-        ListNode l2 = LinkedList.createIncreasingList(2, 7, 1);
-        LinkedList.show(l2);
-        LinkedList.show(new MergeTwoLists().mergeTwoLists(l1, l2));
+        ListNode l1 = LinkedListUtil.createIncreasingList(3, 4, 2);
+        LinkedListUtil.show(l1);
+        ListNode l2 = LinkedListUtil.createIncreasingList(2, 7, 1);
+        LinkedListUtil.show(l2);
+        LinkedListUtil.show(new MergeTwoLists().mergeTwoLists(l1, l2));
     }
 
 }
